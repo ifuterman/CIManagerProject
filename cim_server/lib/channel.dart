@@ -56,8 +56,17 @@ class CheckConnectionController extends Controller{
   CheckConnectionController(this.context);
   @override
   FutureOr<RequestOrResponse> handle(Request request) {
-    final userQuery = Query<CIMUser>(context);
-    final user = userQuery.fetch();
+    bool f;
+    /*Future<dynamic> result = context.persistentStore.execute("select f_check_connection();");
+    result.then((value) {
+      f = true;
+      });*/
+
+    final res = Future.sync(() => context.persistentStore.execute("select 1;"));
+    res.then((value) => foo);
     return Response.ok(null);
+  }
+  void foo(var val){
+    int x = 0;
   }
 }
