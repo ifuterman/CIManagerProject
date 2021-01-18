@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  buffer:
+    dependency: transitive
+    description:
+      name: buffer
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   charcode:
     dependency: transitive
     description:
@@ -275,12 +282,12 @@ packages:
     source: hosted
     version: "1.4.0"
   postgres:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: postgres
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "2.2.0"
   pub_cache:
     dependency: transitive
     description:

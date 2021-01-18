@@ -1,4 +1,7 @@
+import 'package:postgres/postgres.dart';
+
 import 'cim_server.dart';
+import 'dart:core';
 import 'package:cim_model/src/CIMUser.dart';
 
 
@@ -55,15 +58,21 @@ class CheckConnectionController extends Controller{
   final ManagedContext context;
   CheckConnectionController(this.context);
   @override
-  FutureOr<RequestOrResponse> handle(Request request) {
-    bool f;
+  FutureOr<RequestOrResponse> handle(Request request)  async {
+    var res = await context.persistentStore.execute("select f_check_connection();");
+/*    final connection = PostgreSQLConnection("45.86.183.142", 5432, "cim_database",password: "cimtestserver", username: "cimserver");
+    await connection.open();
+    var res = await connection.query("SELECT 1");
+
+  //  final ps = PostgreSQLPersistentStore.fromConnectionInfo("cimserver","cimtestserver", "45.86.183.142", 5432, "cim_database");
+    //final res = Future.sync(() => ps.execute("SELECT 1"));
     /*Future<dynamic> result = context.persistentStore.execute("select f_check_connection();");
     result.then((value) {
       f = true;
       });*/
-
-    final res = Future.sync(() => context.persistentStore.execute("select 1;"));
-    res.then((value) => foo);
+*/
+//    final res = Future.sync(() => context.persistentStore.execute("SELECT 1"));
+//    res.then((value) => foo);
     return Response.ok(null);
   }
   void foo(var val){
