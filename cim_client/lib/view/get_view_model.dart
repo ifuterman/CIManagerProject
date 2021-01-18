@@ -8,12 +8,13 @@ class AuthorisationViewModel{
 
 class ConnectionViewModel{
   String address = "";
+  String port = "";
   RxBool connected = RxBool(false);
   bool isConnected()=> connected.value;
-  bool checkConnection(){
+  /*bool checkConnection(){
     //TODO:Implement connection check
     connected.value = true;
-  }
+  }*/
 }
 
 class PatientsScreenModel{

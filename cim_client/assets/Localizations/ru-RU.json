@@ -23,6 +23,7 @@
   "NO" : "Нет",
   "CONNECTION_OPTIONS": "Настройка подключения",
   "SERVER_ADDRESS": "Сервер:",
+  "SERVER_PORT": "Порт:",
   "TEST_CONNECTION" : "Провека соединения",
   "OK" : "ОК",
   "CANCEL" : "Отмена"

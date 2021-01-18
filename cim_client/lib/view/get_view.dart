@@ -1,5 +1,6 @@
 import 'package:cim_client/CIMPatient.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cim_client/CIMUser.dart';
@@ -113,6 +114,7 @@ class AuthorisationView extends StatelessWidget {
 class ConnectionView extends StatelessWidget{
   final Controller controller = Get.find();
   TextEditingController _controllerAddress = TextEditingController();
+  TextEditingController _controllerPort = TextEditingController();
   Icon getConnectionIcon(bool connected)
   {
     return Icon(
@@ -139,17 +141,36 @@ class ConnectionView extends StatelessWidget{
                 child: TextField(
                   controller: _controllerAddress,
                   textAlignVertical: TextAlignVertical.top,
-                  obscureText: true,
+                  obscureText: false,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                   ),
                   onChanged: (value){ controller.connectionViewModel.address = value;},
                 ),
               ),
+              Text("SERVER_PORT".tr(),
+                style: Theme.of(context).textTheme.bodyText1,),
+              Container(
+                constraints: BoxConstraints.expand(
+                    height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
+                    width: Theme.of(context).textTheme.bodyText1.fontSize * 8),
+                child: TextField(
+                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp("[0-9]"))],
+                  controller: _controllerPort,
+                  textAlignVertical: TextAlignVertical.top,
+                  maxLines: 1,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                  ),
+
+                  onChanged: (value){ controller.connectionViewModel.port = value;},
+                ),
+              ),
               Obx(()=>getConnectionIcon(controller.connectionViewModel.connected.value)),
               ElevatedButton(
                 child: Text("TEST_CONNECTION".tr()),
-                onPressed: ()=>controller.connectionViewModel.checkConnection(),
+                onPressed: ()=>controller.checkConnection(),
               ),
             ],
           ),

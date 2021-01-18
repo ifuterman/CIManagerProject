@@ -1,5 +1,6 @@
 import 'package:cim_client/CIMDataProvider.dart';
 import 'package:cim_client/CIMUser.dart';
+import 'package:cim_client/view/cim_connection.dart';
 import 'package:cim_client/view/get_view_model.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +18,7 @@ enum MainMenuItems{
 }
 
 class Controller extends GetxController{
+  CIMConnection connection = CIMConnection();
   CIMDataProvider dataProvider = CIMDataProvider();
   Rx<MainMenuItems> selectedItem = Rx(MainMenuItems.item_patients);
   Rx<CIMViews> currentView = Rx(CIMViews.authorisation_view);
@@ -39,4 +41,9 @@ class Controller extends GetxController{
       return;
     selectedItem.value = item;
   }
+
+  void checkConnection(){
+    connectionViewModel.connected.value = connection.connect();
+  }
+
 }
