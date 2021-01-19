@@ -21,9 +21,10 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  get: ^3.23.1
+  http: 0.12.2
+  get: ^3.24.0
   filepicker_windows: ^1.0.0
-  rxdart: ^0.22.2
+  rxdart: ^0.25.0
   easy_localization: ^2.3.3
   singleton: ^0.0.2
   flutter:

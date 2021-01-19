@@ -18,7 +18,7 @@ enum MainMenuItems{
 }
 
 class Controller extends GetxController{
-  CIMConnection connection = CIMConnection();
+  CIMConnection connection = Get.put(CIMConnection());
   CIMDataProvider dataProvider = CIMDataProvider();
   Rx<MainMenuItems> selectedItem = Rx(MainMenuItems.item_patients);
   Rx<CIMViews> currentView = Rx(CIMViews.authorisation_view);

@@ -9,6 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/cim_model/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/cim_model/build" />
       <excludeFolder url="file://$MODULE_DIR$/cim_model/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_client/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_client/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_client/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

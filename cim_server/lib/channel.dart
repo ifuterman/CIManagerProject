@@ -73,7 +73,7 @@ class CheckConnectionController extends Controller{
 */
 //    final res = Future.sync(() => context.persistentStore.execute("SELECT 1"));
 //    res.then((value) => foo);
-    return Response.ok(null);
+    return Response.ok("true");
   }
   void foo(var val){
     int x = 0;
