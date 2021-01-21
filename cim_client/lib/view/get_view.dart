@@ -115,15 +115,17 @@ class ConnectionView extends StatelessWidget{
   final Controller controller = Get.find();
   TextEditingController _controllerAddress = TextEditingController();
   TextEditingController _controllerPort = TextEditingController();
-  Icon getConnectionIcon(bool connected)
+  Icon getConnectionIcon(bool flag)
   {
     return Icon(
-        connected ? Icons.check_circle_rounded : Icons.cancel,
-        color: connected ? Colors.green :Colors.red,
+        controller.connectionViewModel.connected ? Icons.check_circle_rounded : Icons.cancel,
+        color: controller.connectionViewModel.connected ? Colors.green :Colors.red,
     );
   }
   @override
   Widget build(BuildContext context) {
+    _controllerPort.text = controller.connectionViewModel.port.toString();
+    _controllerAddress.text = controller.connectionViewModel.address;
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,10 +166,10 @@ class ConnectionView extends StatelessWidget{
                     border: const OutlineInputBorder(),
                   ),
 
-                  onChanged: (value){ controller.connectionViewModel.port = value;},
+                  onChanged: (value){ controller.connectionViewModel.port = int.parse(value);},
                 ),
               ),
-              Obx(()=>getConnectionIcon(controller.connectionViewModel.connected.value)),
+              Obx(()=>getConnectionIcon(controller.connectionViewModel.updateScreen.value)),
               ElevatedButton(
                 child: Text("TEST_CONNECTION".tr()),
                 onPressed: ()=>controller.checkConnection(),

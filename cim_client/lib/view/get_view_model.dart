@@ -7,11 +7,17 @@ class AuthorisationViewModel{
 }
 
 class ConnectionViewModel{
-  String address = "";
-  String port = "";
-  RxBool connected = RxBool(false);
-  bool isConnected()=> connected.value;
-  /*bool checkConnection(){
+  String address;
+  int port;
+  RxBool updateScreen = RxBool(false);
+  bool _connected = false;
+
+  bool get connected => _connected;
+
+  set connected(bool value) {
+    _connected = value;
+  }
+/*bool checkConnection(){
     //TODO:Implement connection check
     connected.value = true;
   }*/

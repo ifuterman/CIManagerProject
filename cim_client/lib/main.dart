@@ -6,6 +6,7 @@ import 'view/get_view.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 void main() {
+  int x = 0;
   //runApp(MyApp());
   //Model model = new Model();
   //Controller.initialize(model);

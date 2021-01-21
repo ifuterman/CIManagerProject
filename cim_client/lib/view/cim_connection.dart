@@ -1,9 +1,7 @@
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:cim_protocol/cim_protocol.dart';
+import 'package:get/get_connect/http/src/status/http_status.dart';
 
-/*enum CIMRESTAPI{
-
-}*/
 
 
 
@@ -11,31 +9,26 @@ class CIMConnection extends GetConnect{
   String address = "127.0.0.1";
   int port = 8888;
   bool _connected = false;
-
   bool get isConnected => _connected;
-  bool connect() {
-    var res = checkConnection();
-//    Response<bool> r = await client.get("checkConnection");
-//    _connected = ;
-    return isConnected;
-  }
-
-  void x(Response<dynamic> val){
-    int i = 0;
-    i++;
-  }
-
-  Future<Response> checkConnection () async {
-
-   var res = await get("/checkConnection");
-//    GetSocket my_socket = GetSocket("http://$address:$port");
-//    await my_socket.connect();
-
-//    final res = await get("/checkConnection");
-//    var url = "http://127.0.0.1:8888/checkConnection";
-//    var response = await http.get(url);
-
+  Future<int> connect() async {
+    int res = await checkConnection();
+    _connected = res == 0 ? true : false;
     return res;
+  }
+
+  Future<int> checkConnection () async {
+    try {
+      var res = await get(CIMRestApi.prepareCheckConnection());
+      switch(res.status.code) {
+        case HttpStatus.ok:
+          return 0;
+        case HttpStatus.internalServerError:
+          return 101;
+      }
+    }catch(e){
+      return 100;
+    }
+    return 100;
   }
 
 

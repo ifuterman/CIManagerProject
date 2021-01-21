@@ -27,6 +27,11 @@ dependencies:
   rxdart: ^0.25.0
   easy_localization: ^2.3.3
   singleton: ^0.0.2
+#  cim_model:
+#   path: ../cim_model/
+  cim_protocol:
+    path: ../cim_protocol/
+
   flutter:
     sdk: flutter
 

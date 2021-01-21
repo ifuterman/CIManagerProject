@@ -26,5 +26,8 @@
   "SERVER_PORT": "Порт:",
   "TEST_CONNECTION" : "Провека соединения",
   "OK" : "ОК",
-  "CANCEL" : "Отмена"
+  "CANCEL" : "Отмена",
+  "connection_error_server_not_found" : "Сервер не найден",
+  "connection_error_server_db_fault" : "Нет доступа к БД",
+  "error": "Ошибка!"
 }
