@@ -37,7 +37,7 @@ class Controller extends GetxController{
     //TODO: Implement authorisation procedure
     authorised.value = true;
   }
-  void onConnectionChanged(bool connectionOk, String newServer){
+  void onConnectionChanged(){
     currentView.value = CIMViews.authorisation_view;
     //TODO: Implement connection
   }
@@ -51,12 +51,13 @@ class Controller extends GetxController{
   void checkConnection(){
     connection.address = connectionViewModel.address;
     connection.port = connectionViewModel.port;
+    connectionViewModel.connectionState = ConnectionStates.checking;
     connection.connect().then((value){
       if(value == 0){
-        connectionViewModel.connected = true;
+        connectionViewModel.connectionState = ConnectionStates.connected;
       }
       else{
-        connectionViewModel.connected = false;
+        connectionViewModel.connectionState = ConnectionStates.disconnected;
         String message = mapError[value].tr();
         Get.defaultDialog(
             title: "error".tr(),
@@ -66,7 +67,6 @@ class Controller extends GetxController{
               onPressed: ()=>Get.back(),
             ),
         );
-        connectionViewModel.updateScreen.value = true;
       }
     });
   }
@@ -78,7 +78,8 @@ class Controller extends GetxController{
     selectedItem = Rx(MainMenuItems.item_patients);
     currentView = Rx(CIMViews.authorisation_view);
     authViewModel = AuthorisationViewModel();
-    connection = Get.put(CIMConnection());
+//    connection = Get.put(CIMConnection());
+    connection = CIMConnection();
     connectionViewModel = ConnectionViewModel();
     connectionViewModel.address = connection.address;
     connectionViewModel.port = connection.port;
