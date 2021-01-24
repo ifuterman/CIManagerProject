@@ -1,4 +1,5 @@
 import 'package:cim_client/CIMPatient.dart';
+import 'package:cim_client/cim_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
@@ -6,16 +7,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:cim_client/CIMUser.dart';
 import 'get_controller.dart';
 import 'get_view_model.dart';
+import 'ConnectionView.dart';
 
 class CIManagerApp extends StatelessWidget {
   final Controller c = Get.put(Controller());
+  final CIMService service = Get.put(CIMService());
 
   @override
   Widget build(BuildContext context) {
 //    return Scaffold(body: AuthorisationView());
     return Scaffold(
 //      body: Obx(() => c.authorised.value ? MainView() : AuthorisationView())
-      body: Obx(() => getView(c.currentView.value)),
+      body: Obx(() => getView(service.currentView.value)),
     );
   }
 
@@ -40,9 +43,10 @@ class CIManagerApp extends StatelessWidget {
 }
 
 class AuthorisationView extends StatelessWidget {
-  TextEditingController _controllerLogin = TextEditingController();
-  TextEditingController _controllerPassword = TextEditingController();
+  final TextEditingController _controllerLogin = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
   final Controller controller = Get.find();
+  final CIMService service = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +104,7 @@ class AuthorisationView extends StatelessWidget {
                   CIMUser(_controllerLogin.text, _controllerPassword.text);
               controller.authorise(user);
               if (controller.isAuthorised())
-                controller.currentView.value = CIMViews.main_view;
+                service.currentView.value = CIMViews.main_view;
             },
 //              onPressed: () => viewModel.authorizeUser(),
           ),
@@ -110,7 +114,7 @@ class AuthorisationView extends StatelessWidget {
               style: TextStyle(color: Colors.blue),
             ),
             onPressed: () {
-              controller.currentView.value = CIMViews.connection_view;
+              service.currentView.value = CIMViews.connection_view;
             },
           )
         ],
@@ -119,173 +123,7 @@ class AuthorisationView extends StatelessWidget {
   }
 }
 
-class ConnectionView extends StatelessWidget {
-  final Controller controller = Get.find();
-  TextEditingController _controllerAddress = TextEditingController();
-  TextEditingController _controllerPort = TextEditingController();
 
-  Widget getConnectionIcon() {
-    switch (controller.connectionViewModel.connectionState) {
-      case ConnectionStates.unknown:
-        {
-          return Icon(
-            Icons.contact_support_outlined,
-            color: Colors.amberAccent,
-          );
-        }
-      case ConnectionStates.connected:
-        {
-          return Icon(
-            Icons.check_circle_rounded,
-            color: Colors.green,
-          );
-        }
-      case ConnectionStates.disconnected:
-        {
-          return Icon(
-              Icons.cancel,
-              color: Colors.red
-          );
-        }
-      case ConnectionStates.checking:
-        {
-          return Container(
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(
-              backgroundColor: Colors.grey,
-            ),
-          );
-        }
-    }
-    return null;
-  }
-
-  Widget getUpdatedView(BuildContext context, bool trigger) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "SERVER_ADDRESS".tr(),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1,
-            ),
-            Container(
-              constraints: BoxConstraints.expand(
-                  height: Theme
-                      .of(context)
-                      .textTheme
-                      .headline6
-                      .fontSize *
-                      1.2,
-                  width: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .fontSize *
-                      15),
-              child: TextField(
-                controller: _controllerAddress,
-                textAlignVertical: TextAlignVertical.top,
-                obscureText: false,
-                enabled: controller.connectionViewModel.connectionState ==
-                    ConnectionStates.checking ? false : true,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  controller.connectionViewModel.address = value;
-                },
-              ),
-            ),
-            Text(
-              "SERVER_PORT".tr(),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1,
-            ),
-            Container(
-              constraints: BoxConstraints.expand(
-                  height: Theme
-                      .of(context)
-                      .textTheme
-                      .headline6
-                      .fontSize *
-                      1.2,
-                  width:
-                  Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .fontSize * 8),
-              child: TextField(
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
-                ],
-                controller: _controllerPort,
-                enabled: controller.connectionViewModel.connectionState ==
-                    ConnectionStates.checking ? false : true,
-                textAlignVertical: TextAlignVertical.top,
-                maxLines: 1,
-                obscureText: false,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  controller.connectionViewModel.port = int.parse(value);
-                },
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 3.0),
-              child: ElevatedButton(
-                child: Text("TEST_CONNECTION".tr()),
-                onPressed: controller.connectionViewModel.connectionState == ConnectionStates.checking ? null : controller.checkConnection,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 3.0),
-              child: getConnectionIcon(),
-            ),
-          ],
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              child: Text("OK".tr()),
-              onPressed: controller.connectionViewModel.connectionState == ConnectionStates.checking ? null : controller.onConnectionChanged,
-            ),
-          ),
-          ElevatedButton(
-            child: Text("CANCEL".tr()),
-            onPressed: controller.connectionViewModel.connectionState == ConnectionStates.checking ? null : controller.onConnectionChanged,
-          ),
-        ]),
-      ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _controllerPort.text = controller.connectionViewModel.port.toString();
-    _controllerAddress.text = controller.connectionViewModel.address;
-    return Container(
-      child: Obx(
-              () =>
-              getUpdatedView(context, controller.connectionViewModel.updateScreenTrigger.value)
-
-      ),
-    );
-  }
-}
 
 class MainView extends StatelessWidget {
   @override

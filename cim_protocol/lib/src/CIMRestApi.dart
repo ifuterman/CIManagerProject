@@ -1,3 +1,3 @@
 class CIMRestApi{
-  static String prepareCheckConnection() => "/checkConnection";
+  static String prepareCheckConnection() => '/checkConnection';
 }

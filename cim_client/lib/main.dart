@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'view/get_view.dart';
+import 'views/get_view.dart';
 
 
 import 'package:easy_localization/easy_localization.dart';

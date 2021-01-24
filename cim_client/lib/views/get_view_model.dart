@@ -2,32 +2,12 @@ import 'package:cim_client/CIMDataProvider.dart';
 import 'package:cim_client/CIMPatient.dart';
 import 'package:get/get.dart';
 
-enum ConnectionStates{
-  checking,
-  connected,
-  disconnected,
-  unknown
-}
+
 
 class AuthorisationViewModel{
   String user = "";
 }
 
-class ConnectionViewModel{
-  ConnectionStates _connectionState = ConnectionStates.unknown;
-
-  ConnectionStates get connectionState => _connectionState;
-
-  set connectionState(ConnectionStates value) {
-    _connectionState = value;
-    updateScreen();
-  }
-
-  String address;
-  int port;
-  RxBool updateScreenTrigger = RxBool(false);
-  void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;
-}
 
 class PatientsScreenModel{
   RxBool updateScreen = RxBool(false);
