@@ -2,7 +2,7 @@ import 'package:cim_client/cim_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
-import 'package:cim_client/views/cim_connection.dart';
+import 'package:cim_client/cim_connection.dart';
 import 'package:cim_client/globals.dart';
 
 enum ConnectionStates{
@@ -56,7 +56,7 @@ class ConnectionViewController extends GetxController{
 
     connectionState = ConnectionStates.checking;
     connection.checkConnection().then((value){
-      if(value == 0){
+      if(value == CIMErrors.ok){
         connectionState = ConnectionStates.connected;
       }
       else{

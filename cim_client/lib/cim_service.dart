@@ -1,7 +1,8 @@
 import 'package:get/get.dart' hide Trans;
 //import 'package:easy_localization/easy_localization.dart';
-import 'views/cim_connection.dart';
-import 'CIMDataProvider.dart';
+import 'cim_connection.dart';
+import 'cim_data_provider.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 
 enum CIMViews{
   authorisation_view,
@@ -11,6 +12,7 @@ enum CIMViews{
 
 class CIMService extends GetxService{
   CIMConnection connection;
+  CIMUser user;
   Rx<CIMViews> currentView;
 
   @override
@@ -18,6 +20,7 @@ class CIMService extends GetxService{
     super.onInit();
     connection = Get.put(CIMConnection("127.0.0.1", 8888));
     currentView = Rx(CIMViews.authorisation_view);
+    user = CIMUser("", "");
   }
 
   CIMDataProvider dataProvider;

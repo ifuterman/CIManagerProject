@@ -1,5 +1,5 @@
-//import 'package:ci_manager/CIMPatient.dart';
-import 'CIMPatient.dart';
+//import 'package:ci_manager/cim_patient.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 
 class CIMDataProvider{
   List<CIMPatient> listPatients;

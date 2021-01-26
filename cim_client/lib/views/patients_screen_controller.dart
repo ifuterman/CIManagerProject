@@ -1,20 +1,18 @@
-import 'package:cim_client/CIMDataProvider.dart';
-import 'package:cim_client/CIMPatient.dart';
-import 'package:get/get.dart';
+import 'package:cim_client/cim_data_provider.dart';
+import 'package:cim_protocol/cim_protocol.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 
 
 
-class AuthorisationViewModel{
-  String user = "";
-}
 
 
-class PatientsScreenModel{
+class PatientsScreenController extends GetxController{
   RxBool updateScreen = RxBool(false);
   void needUpdate() => updateScreen.value = !updateScreen.value;
   final CIMDataProvider provider = CIMDataProvider();
   List<PatientItem> patientItems = List();
-  PatientsScreenModel(){
+  PatientsScreenController(){
     for(CIMPatient p in provider.listPatients)
       patientItems.add(PatientItem(p));
   }

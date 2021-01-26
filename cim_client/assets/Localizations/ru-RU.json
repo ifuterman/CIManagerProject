@@ -29,5 +29,7 @@
   "CANCEL" : "Отмена",
   "connection_error_server_not_found" : "Сервер не найден",
   "connection_error_server_db_fault" : "Нет доступа к БД",
+  "unexpected_server_response" : "Неожиданный ответ сервера",
+  "wrong_user_credentials": "Неверный логин или пароль",
   "error": "Ошибка!"
 }

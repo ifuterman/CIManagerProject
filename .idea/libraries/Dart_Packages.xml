@@ -675,8 +675,8 @@
         <entry key="web_socket_channel">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dev/web_socket_channel-1.1.0/lib" />
               <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dev/web_socket_channel-1.2.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../../flutter/.pub-cache/hosted/pub.dev/web_socket_channel-1.1.0/lib" />
             </list>
           </value>
         </entry>

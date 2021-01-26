@@ -3,6 +3,8 @@
 /// More dartdocs go here.
 library cim_protocol;
 
-export 'src/CIMRestApi.dart';
+export 'src/cim_rest_api.dart';
+export 'src/cim_user.dart';
+export 'src/cim_patient.dart';
 
 // TODO: Export any libraries intended for clients of this package.
