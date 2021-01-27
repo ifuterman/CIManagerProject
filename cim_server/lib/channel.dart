@@ -1,7 +1,8 @@
-import 'dart:core';
+import 'package:cim_model/cim_model.dart';
 import 'package:postgres/postgres.dart';
+import 'dart:core';
+
 import 'cim_server.dart';
-import 'package:cim_model/src/CIMUser.dart';
 
 
 //////////////////////////////////cim_appuser2021
