@@ -12,9 +12,9 @@ import 'package:cim_protocol/cim_protocol.dart';
 class CIMConnection extends GetConnect{
 //class CIMConnection{
 //  GetConnect _connection = GetConnect();
-  String _address = "127.0.0.1";
+  var _address = "127.0.0.1";
   String get address => _address;
-  int _port = 8888;
+  var _port = 8888;
   int get port => _port;
 
   CIMConnection(this._address, this._port);
@@ -27,14 +27,14 @@ class CIMConnection extends GetConnect{
         case HttpStatus.ok:
           return CIMErrors.ok;
         case HttpStatus.internalServerError:
-          return CIMErrors.connection_error_server_db_fault;
+          return CIMErrors.connectionErrorServerDbFault;
       }
     }catch(e){
-      return CIMErrors.connection_error_server_not_found;
+      return CIMErrors.connectionErrorServerNotFound;
     }
     if(res.status.connectionError)
-      return CIMErrors.connection_error_server_not_found;
-    return CIMErrors.unexpected_server_response;
+      return CIMErrors.connectionErrorServerNotFound;
+    return CIMErrors.unexpectedServerResponse;
   }
 
   void init(){
@@ -48,14 +48,14 @@ class CIMConnection extends GetConnect{
         case HttpStatus.ok:
           return CIMErrors.ok;
         case HttpStatus.internalServerError:
-          return CIMErrors.connection_error_server_db_fault;
+          return CIMErrors.connectionErrorServerDbFault;
         case HttpStatus.unauthorized:
-          return CIMErrors.wrong_user_credentials;
+          return CIMErrors.wrongUserCredentials;
       }
     } catch(e){
-      return CIMErrors.connection_error_server_not_found;
+      return CIMErrors.connectionErrorServerNotFound;
     }
-    return CIMErrors.unexpected_server_response;
+    return CIMErrors.unexpectedServerResponse;
   }
 
   @override

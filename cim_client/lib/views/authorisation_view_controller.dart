@@ -7,7 +7,9 @@ import 'package:cim_client/globals.dart';
 import 'package:flutter/material.dart';
 
 class AuthorisationViewController extends GetxController{
-  CIMUser user = CIMUser("", "");
+
+  final user = CIMUser("", "");
+
   void authoriseUser()
   {
     CIMConnection connection = Get.find();
@@ -15,7 +17,7 @@ class AuthorisationViewController extends GetxController{
     res.then((value) {
       if(value == 0){
         CIMService service = Get.find();
-        service.currentView.value =  CIMViews.main_view;
+        service.currentView.value =  CIMViews.mainView;
         return;
       }
       String message = mapError[value].tr();

@@ -21,15 +21,15 @@ class CIMApp extends StatelessWidget {
 
   Widget getView(CIMViews view) {
     switch (view) {
-      case CIMViews.authorisation_view:
+      case CIMViews.authorisationView:
         {
           return AuthorisationView();
         }
-      case CIMViews.main_view:
+      case CIMViews.mainView:
         {
           return MainView();
         }
-      case CIMViews.connection_view:
+      case CIMViews.connectionView:
         {
           return ConnectionView();
         }

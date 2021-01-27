@@ -17,9 +17,9 @@ class ConnectionViewController extends GetxController{
   CIMService service = Get.find();
   String address;
   int port;
-  RxBool updateScreenTrigger = RxBool(false);
+  final updateScreenTrigger = RxBool(false);
   void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;
-  ConnectionStates _connectionState = ConnectionStates.unknown;
+  var _connectionState = ConnectionStates.unknown;
 
   ConnectionStates get connectionState => _connectionState;
 
@@ -31,12 +31,12 @@ class ConnectionViewController extends GetxController{
   void applyConnection() {
     Get.delete<CIMConnection>();
     Get.put(connection);
-    service.currentView.value = CIMViews.authorisation_view;
+    service.currentView.value = CIMViews.authorisationView;
   }
 
   void cancelConnection(){
     connection.dispose();
-    service.currentView.value = CIMViews.authorisation_view;
+    service.currentView.value = CIMViews.authorisationView;
   }
 
   void init(){

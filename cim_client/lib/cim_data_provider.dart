@@ -4,7 +4,7 @@ import 'package:cim_protocol/cim_protocol.dart';
 class CIMDataProvider{
   List<CIMPatient> listPatients;
   CIMDataProvider(){
-    MockData mockData = MockData();
+    final mockData = MockData();
     listPatients = mockData.patientsList;
   }
 }

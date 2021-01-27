@@ -11,7 +11,10 @@ void main() {
         supportedLocales: [Locale('ru', 'RU')/*, Locale('de', 'DE')*/],
         path: 'assets/Localizations', // <-- change patch to your
         fallbackLocale: Locale('ru', 'RU'),
-        child: GetMaterialApp(home: CIMApp()),
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: CIMApp(),
+        ),
     ),
   );
 }

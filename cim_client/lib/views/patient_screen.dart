@@ -9,7 +9,7 @@ import 'patients_screen_controller.dart';
 
 class PatientScreen extends StatelessWidget {
   final PatientsScreenController controller = Get.find();
-  final scrollController = new ScrollController();
+  final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {

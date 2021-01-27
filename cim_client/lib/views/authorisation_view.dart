@@ -77,7 +77,7 @@ class AuthorisationView extends StatelessWidget {
               style: TextStyle(color: Colors.blue),
             ),
             onPressed: () {
-              service.currentView.value = CIMViews.connection_view;
+              service.currentView.value = CIMViews.connectionView;
             },
           )
         ],

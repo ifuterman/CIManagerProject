@@ -6,9 +6,9 @@ import 'package:get/get.dart' hide Trans;
 import 'package:easy_localization/easy_localization.dart';
 
 class ConnectionView extends StatelessWidget {
-  final ConnectionViewController controller = Get.put(ConnectionViewController());
-  final TextEditingController _controllerAddress = TextEditingController();
-  final TextEditingController _controllerPort = TextEditingController();
+  final controller = Get.put(ConnectionViewController());
+  final _controllerAddress = TextEditingController();
+  final _controllerPort = TextEditingController();
 
   ConnectionView(){
     controller.init();
