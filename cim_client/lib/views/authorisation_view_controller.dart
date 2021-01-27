@@ -1,23 +1,21 @@
-import 'package:cim_client/cim_service.dart';
-import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_client/cim_connection.dart';
-import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/globals.dart';
+import 'package:cim_protocol/cim_protocol.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart' hide Trans;
 
-class AuthorisationViewController extends GetxController{
-
+class AuthorisationViewController extends GetxController {
   final user = CIMUser("", "");
 
-  void authoriseUser()
-  {
+  void authoriseUser() {
     CIMConnection connection = Get.find();
     var res = connection.authoriseUser(user);
     res.then((value) {
-      if(value == 0){
+      if (value == 0) {
         CIMService service = Get.find();
-        service.currentView.value =  CIMViews.mainView;
+        service.currentView.value = CIMViews.mainView;
         return;
       }
       String message = mapError[value].tr();
@@ -26,7 +24,7 @@ class AuthorisationViewController extends GetxController{
         middleText: message,
         confirm: RaisedButton(
           child: Text("OK".tr()),
-          onPressed: ()=>Get.back(),
+          onPressed: () => Get.back(),
         ),
       );
       return;

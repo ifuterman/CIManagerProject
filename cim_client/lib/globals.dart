@@ -1,4 +1,4 @@
-enum CIMErrors{
+enum CIMErrors {
   ok,
   connectionErrorServerNotFound,
   connectionErrorServerDbFault,

@@ -1,23 +1,19 @@
+import 'package:cim_client/cim_connection.dart';
 import 'package:cim_client/cim_service.dart';
+import 'package:cim_client/globals.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
-import 'package:cim_client/cim_connection.dart';
-import 'package:cim_client/globals.dart';
 
-enum ConnectionStates{
-  checking,
-  connected,
-  disconnected,
-  unknown
-}
+enum ConnectionStates { checking, connected, disconnected, unknown }
 
-class ConnectionViewController extends GetxController{
+class ConnectionViewController extends GetxController {
   CIMConnection connection;
   CIMService service = Get.find();
   String address;
   int port;
   final updateScreenTrigger = RxBool(false);
+
   void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;
   var _connectionState = ConnectionStates.unknown;
 
@@ -34,12 +30,12 @@ class ConnectionViewController extends GetxController{
     service.currentView.value = CIMViews.authorisationView;
   }
 
-  void cancelConnection(){
+  void cancelConnection() {
     connection.dispose();
     service.currentView.value = CIMViews.authorisationView;
   }
 
-  void init(){
+  void init() {
     connection = Get.find();
     address = connection.address;
     port = connection.port;
@@ -50,16 +46,16 @@ class ConnectionViewController extends GetxController{
     super.onInit();
     init();
   }
-  void onCheckConnection(){
+
+  void onCheckConnection() {
     connection = CIMConnection(address, port);
     connection.init();
 
     connectionState = ConnectionStates.checking;
-    connection.checkConnection().then((value){
-      if(value == CIMErrors.ok){
+    connection.checkConnection().then((value) {
+      if (value == CIMErrors.ok) {
         connectionState = ConnectionStates.connected;
-      }
-      else{
+      } else {
         connectionState = ConnectionStates.disconnected;
         String message = mapError[value].tr();
         Get.defaultDialog(
@@ -67,7 +63,7 @@ class ConnectionViewController extends GetxController{
           middleText: message,
           confirm: RaisedButton(
             child: Text("OK".tr()),
-            onPressed: ()=>Get.back(),
+            onPressed: () => Get.back(),
           ),
         );
       }

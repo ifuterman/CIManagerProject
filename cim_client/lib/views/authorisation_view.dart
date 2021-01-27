@@ -1,21 +1,20 @@
+import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/views/authorisation_view_controller.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
-import 'package:cim_client/cim_service.dart';
 
 class AuthorisationView extends StatelessWidget {
   final _controllerLogin = TextEditingController();
   final _controllerPassword = TextEditingController();
   final controller = Get.put(AuthorisationViewController());
-//  final Controller controller = Get.find();
+
   final CIMService service = Get.find();
 
   @override
   Widget build(BuildContext context) {
     _controllerLogin.text = controller.user.login;
     return Align(
-//          alignment: Alignment.topLeft,
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

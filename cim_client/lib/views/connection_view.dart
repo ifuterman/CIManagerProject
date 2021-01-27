@@ -1,16 +1,16 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'connection_view_controller.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:easy_localization/easy_localization.dart';
+
+import 'connection_view_controller.dart';
 
 class ConnectionView extends StatelessWidget {
   final controller = Get.put(ConnectionViewController());
   final _controllerAddress = TextEditingController();
   final _controllerPort = TextEditingController();
 
-  ConnectionView(){
+  ConnectionView() {
     controller.init();
   }
 
@@ -32,10 +32,7 @@ class ConnectionView extends StatelessWidget {
         }
       case ConnectionStates.disconnected:
         {
-          return Icon(
-              Icons.cancel,
-              color: Colors.red
-          );
+          return Icon(Icons.cancel, color: Colors.red);
         }
       case ConnectionStates.checking:
         {
@@ -61,31 +58,19 @@ class ConnectionView extends StatelessWidget {
           children: [
             Text(
               "SERVER_ADDRESS".tr(),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             Container(
               constraints: BoxConstraints.expand(
-                  height: Theme
-                      .of(context)
-                      .textTheme
-                      .headline6
-                      .fontSize *
-                      1.2,
-                  width: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .fontSize *
-                      15),
+                  height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
+                  width: Theme.of(context).textTheme.bodyText1.fontSize * 15),
               child: TextField(
                 controller: _controllerAddress,
                 textAlignVertical: TextAlignVertical.top,
                 obscureText: false,
-                enabled: controller.connectionState ==
-                    ConnectionStates.checking ? false : true,
+                enabled: controller.connectionState == ConnectionStates.checking
+                    ? false
+                    : true,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                 ),
@@ -96,32 +81,20 @@ class ConnectionView extends StatelessWidget {
             ),
             Text(
               "SERVER_PORT".tr(),
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .bodyText1,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
             Container(
               constraints: BoxConstraints.expand(
-                  height: Theme
-                      .of(context)
-                      .textTheme
-                      .headline6
-                      .fontSize *
-                      1.2,
-                  width:
-                  Theme
-                      .of(context)
-                      .textTheme
-                      .bodyText1
-                      .fontSize * 8),
+                  height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
+                  width: Theme.of(context).textTheme.bodyText1.fontSize * 8),
               child: TextField(
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                 ],
                 controller: _controllerPort,
-                enabled: controller.connectionState ==
-                    ConnectionStates.checking ? false : true,
+                enabled: controller.connectionState == ConnectionStates.checking
+                    ? false
+                    : true,
                 textAlignVertical: TextAlignVertical.top,
                 maxLines: 1,
                 obscureText: false,
@@ -137,7 +110,10 @@ class ConnectionView extends StatelessWidget {
               padding: EdgeInsets.only(left: 3.0),
               child: ElevatedButton(
                 child: Text("TEST_CONNECTION".tr()),
-                onPressed: controller.connectionState == ConnectionStates.checking ? null : controller.onCheckConnection,
+                onPressed:
+                    controller.connectionState == ConnectionStates.checking
+                        ? null
+                        : controller.onCheckConnection,
               ),
             ),
             Padding(
@@ -151,12 +127,16 @@ class ConnectionView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               child: Text("OK".tr()),
-              onPressed: controller.connectionState == ConnectionStates.checking ? null : controller.applyConnection,
+              onPressed: controller.connectionState == ConnectionStates.checking
+                  ? null
+                  : controller.applyConnection,
             ),
           ),
           ElevatedButton(
             child: Text("CANCEL".tr()),
-            onPressed: controller.connectionState == ConnectionStates.checking ? null : controller.cancelConnection,
+            onPressed: controller.connectionState == ConnectionStates.checking
+                ? null
+                : controller.cancelConnection,
           ),
         ]),
       ],
@@ -169,11 +149,7 @@ class ConnectionView extends StatelessWidget {
     _controllerAddress.text = controller.address;
     return Container(
       child: Obx(
-              () =>
-              getUpdatedView(context, controller.updateScreenTrigger.value)
-
-      ),
+          () => getUpdatedView(context, controller.updateScreenTrigger.value)),
     );
   }
 }
-
