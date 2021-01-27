@@ -66,7 +66,7 @@ class ConnectionViewController extends GetxController{
           title: "error".tr(),
           middleText: message,
           confirm: RaisedButton(
-            child: Text("OK".tr()),
+            child: Text("ok".tr()),
             onPressed: ()=>Get.back(),
           ),
         );

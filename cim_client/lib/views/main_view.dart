@@ -53,7 +53,7 @@ class MainMenu extends StatelessWidget {
             textStyle: TextStyle(color: Colors.white),
             child: ListTile(
                 title: Text(
-                  'MAINVIEWLEFTLIST_ITEM_PATIENTSLIST_TITLE'.tr(),
+                  'patients_list_title'.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
                 hoverColor: Colors.blue,
@@ -69,7 +69,7 @@ class MainMenu extends StatelessWidget {
             textStyle: TextStyle(color: Colors.white),
             child: ListTile(
                 title: Text(
-                  'MAINVIEWLEFTLIST_ITEM_SCHEDULE_TITLE'.tr(),
+                  'schedule_title'.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
                 hoverColor: Colors.blue,
@@ -85,7 +85,7 @@ class MainMenu extends StatelessWidget {
             textStyle: TextStyle(color: Colors.white),
             child: ListTile(
                 title: Text(
-                  'MAINVIEWLEFTLIST_ITEM_PROTOCOLS_TITLE'.tr(),
+                  'protocols_title'.tr(),
                   style: TextStyle(color: Colors.white),
                 ),
                 hoverColor: Colors.blue,

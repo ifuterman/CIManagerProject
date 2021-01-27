@@ -60,7 +60,7 @@ class ConnectionView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "SERVER_ADDRESS".tr(),
+              "server_address".tr(),
               style: Theme
                   .of(context)
                   .textTheme
@@ -95,7 +95,7 @@ class ConnectionView extends StatelessWidget {
               ),
             ),
             Text(
-              "SERVER_PORT".tr(),
+              "server_port".tr(),
               style: Theme
                   .of(context)
                   .textTheme
@@ -136,7 +136,7 @@ class ConnectionView extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 3.0),
               child: ElevatedButton(
-                child: Text("TEST_CONNECTION".tr()),
+                child: Text("test_connection".tr()),
                 onPressed: controller.connectionState == ConnectionStates.checking ? null : controller.onCheckConnection,
               ),
             ),
@@ -150,12 +150,12 @@ class ConnectionView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              child: Text("OK".tr()),
+              child: Text("ok".tr()),
               onPressed: controller.connectionState == ConnectionStates.checking ? null : controller.applyConnection,
             ),
           ),
           ElevatedButton(
-            child: Text("CANCEL".tr()),
+            child: Text("cancel".tr()),
             onPressed: controller.connectionState == ConnectionStates.checking ? null : controller.cancelConnection,
           ),
         ]),

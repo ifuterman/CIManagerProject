@@ -22,7 +22,7 @@ class AuthorisationView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'USERAUTHORIZATIONSCREEN_USERNAME_TITLE'.tr(),
+            'username_title'.tr(),
             style: Theme.of(context).textTheme.bodyText1,
             textAlign: TextAlign.right,
           ),
@@ -42,7 +42,7 @@ class AuthorisationView extends StatelessWidget {
             ),
           ),
           Text(
-            'USERAUTHORIZATIONSCREEN_PASSWORD_TITLE'.tr(),
+            'password_title'.tr(),
             style: Theme.of(context).textTheme.bodyText1,
             textAlign: TextAlign.right,
           ),
@@ -61,7 +61,7 @@ class AuthorisationView extends StatelessWidget {
           ),
           SizedBox(height: 5),
           ElevatedButton(
-            child: Text("USERAUTHORIZATIONSCREEN_BUTTON_AUTHORIZE_TITLE".tr()),
+            child: Text("authorize_title".tr()),
             onPressed: () {
               controller.user.password = _controllerPassword.text;
               controller.user.login = _controllerLogin.text;
@@ -73,7 +73,7 @@ class AuthorisationView extends StatelessWidget {
           ),
           TextButton(
             child: Text(
-              "CONNECTION_OPTIONS".tr(),
+              "connection_options".tr(),
               style: TextStyle(color: Colors.blue),
             ),
             onPressed: () {

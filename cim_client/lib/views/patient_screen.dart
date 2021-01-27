@@ -80,16 +80,16 @@ class PatientExpansionPanel implements ExpansionPanel {
         Expanded(
           flex: 1,
           child: Container(
-            child: Text("USERINFO_AGE".tr() + ": ${item.patient.age}"),
+            child: Text("age".tr() + ": ${item.patient.age}"),
             margin: EdgeInsets.only(right: 2.0),
           ),
         ),
         Expanded(
           flex: 1,
           child: Container(
-            child: Text("USERINFO_SEX".tr() +
+            child: Text("sex".tr() +
                 ": " +
-                (item.patient.sex == Sex.male ? "MALE".tr() : "FEMALE".tr())),
+                (item.patient.sex == Sex.male ? "male".tr() : "female".tr())),
             margin: EdgeInsets.only(right: 2.0),
           ),
         ),
