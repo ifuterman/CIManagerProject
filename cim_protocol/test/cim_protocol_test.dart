@@ -1,5 +1,6 @@
-import 'package:cim_protocol/cim_protocol.dart';
 import 'package:test/test.dart';
+
+import '../lib/cim_protocol.dart';
 
 void main() {
   group('A group of tests', () {
@@ -8,6 +9,8 @@ void main() {
     });
 
     test('First Test', () {
+      CIMUser user = CIMUser("test_login", "test_password");
+
     });
   });
 }

@@ -1,6 +1,6 @@
+import 'dart:core';
 import 'package:cim_model/cim_model.dart';
 import 'package:postgres/postgres.dart';
-import 'dart:core';
 
 import 'cim_server.dart';
 
@@ -50,13 +50,17 @@ class CimServerChannel extends ApplicationChannel {
       .route("checkConnection")
       .link(() => CheckConnectionController(context));
 
+    router
+        .route("auth/token")
+    .link(() => GetAuthToken(context));
+
     return router;
   }
 }
 
 class CheckConnectionController extends Controller{
-  final ManagedContext context;
   CheckConnectionController(this.context);
+  final ManagedContext context;
   @override
   FutureOr<RequestOrResponse> handle(Request request)  async {
     try {
@@ -70,5 +74,16 @@ class CheckConnectionController extends Controller{
     /*var func = context.persistentStore.execute("select f_check_connection();");
     var res = Future.sync(() => func);
     res.then((value) => Response.ok(""));*/
+  }
+}
+
+class GetAuthToken extends Controller{
+  GetAuthToken(this.context);
+  final ManagedContext context;
+
+  @override
+  FutureOr<RequestOrResponse> handle(Request request) async {
+    var x = request.body;
+    return Response.ok("token");
   }
 }
