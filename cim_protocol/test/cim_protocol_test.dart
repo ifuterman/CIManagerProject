@@ -9,7 +9,6 @@ void main() {
 
     setUp(() {
     });
-
     test('test userToMap and userFromMap', () {
       var map = <String, String>{};
       var mapper = CIMJsonMapper.getMapper();
@@ -19,6 +18,18 @@ void main() {
       expect(user2, isNotNull);
       expect(user, equals(user2));
     });
+    test('test to CIMPacket from CIMPacket', () {
+      var packet = CIMPacket.makePacket();
+      expect(packet, isNotNull);
+      packet.addInstance(user);
+      var map = packet.map;
+      packet = CIMPacket.makePacketFromMap(map);
+      var list = packet.getInstances();
+      var user2 = list[0];
+      expect(user, equals(user2));
+    });
+
+    /*
     test('test toMap and fromMap', () {
       var mapper = CIMJsonMapper.getMapper();
       var map = mapper.toMap(user);
@@ -27,6 +38,6 @@ void main() {
       expect(user2, isNotNull);
       expect(user2 is CIMUser, true);
       expect(user, equals(user2));
-    });
+    });*/
   });
 }

@@ -9,18 +9,22 @@ class CIMJsonMapper{
   static const String lastVersion = '0.0.1';
   static const versionKey = 'version';
   static const instanceKey = 'instance';
+  static const instancesKey = 'instances';
   static const cimUserKey = 'CIMUser';
   static final _mapperVersions = <String, CIMJsonMapper>{
     '0.0.1' : CIMJsonMapper_0_0_1()
   };
   String getVersion() => throw UnimplementedError();
-  void userToMap(CIMUser user, Map<String, String> map) => throw UnimplementedError();
-  CIMUser userFromMap(Map<String, String> map) => throw UnimplementedError();
+  void userToMap(CIMUser user, Map<String, dynamic> map) => throw UnimplementedError();
+  CIMUser userFromMap(Map<String, dynamic> map) => throw UnimplementedError();
+
 
   static CIMJsonMapper getMapper([String version = lastVersion]) => _mapperVersions[version];
 
-    Map<String,String> toMap<T>(T instance){
-    final map = {versionKey : getVersion()};
+  Map<String, String> getInitialHeaders() => {versionKey : getVersion()};
+
+  Map<String,dynamic> instanceToMap<T>(T instance){
+    var map = <String, dynamic>{};
     if(instance is CIMUser){
       map[instanceKey] = cimUserKey;
       userToMap(instance, map);
@@ -31,21 +35,19 @@ class CIMJsonMapper{
     return map;
   }
 
-  static dynamic fromMap(Map<String, String> map){
+  static String getVersionFromMap(Map<String,dynamic> map){
+    return map[versionKey];
+  }
+
+  dynamic fromMap(Map<String, dynamic> map){
     try {
-      final version = map[versionKey];
-      if(version == null){
-        return null;
-      }
-      var mapper = getMapper(version);
-      mapper ??= getMapper();
       final instance = map[instanceKey];
       if(instance == null) {
         return null;
       }
       switch(instance){
         case cimUserKey:{
-          return mapper.userFromMap(map);
+          return userFromMap(map);
         }
       }
     }catch (e){

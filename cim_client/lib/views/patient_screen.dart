@@ -29,7 +29,7 @@ class PatientScreen extends StatelessWidget {
   }
 
   List<ExpansionPanel> getExpansionPanelList() {
-    List<ExpansionPanel> list = List();
+    List<ExpansionPanel> list = List.empty(growable: true);
     for (PatientItem item in controller.patientItems)
       list.add(PatientExpansionPanel.patient(item));
     return list;

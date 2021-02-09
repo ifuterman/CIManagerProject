@@ -12,7 +12,7 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   String getVersion() => '0.0.1';
 
   @override
-  CIMUser userFromMap(Map<String, String> map) {
+  CIMUser userFromMap(Map<String, dynamic> map) {
     var login = map[loginKey];
     var id = int.tryParse(map[idKey]);
     if(login == null || id == null){
@@ -22,7 +22,7 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   }
 
   @override
-  void userToMap(CIMUser user, Map<String, String> map) {
+  void userToMap(CIMUser user, Map<String, dynamic> map) {
     map[loginKey] = user.login;
     map[passwordKey] = user.password;
     map[idKey] = user.id.toString();

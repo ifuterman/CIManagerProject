@@ -10,7 +10,7 @@ class CIMDataProvider {
 }
 
 class MockData {
-  List<CIMPatient> patientsList = List();
+  List<CIMPatient> patientsList = List.empty(growable: true);
 
   MockData() {
     patientsList.add(CIMPatient("Петрова", "Надежда", "Ивановна",
