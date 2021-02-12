@@ -37,7 +37,9 @@ class CIMConnection extends GetConnect {
 
   Future<CIMErrors> authoriseUser(CIMUser user) async {
     try {
-      var res = await post(CIMRestApi.prepareAuthToken(), user);
+      var packet = CIMPacket.makePacket();
+      packet.addInstance(user);
+      var res = await post(CIMRestApi.prepareAuthToken(), packet.map);
       switch (res.status.code) {
         case HttpStatus.ok:
           return CIMErrors.ok;

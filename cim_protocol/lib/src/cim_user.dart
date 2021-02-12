@@ -1,5 +1,5 @@
 class CIMUser{
-  int _id;
+  int _id = 0;
   int get id => _id;
 
   String _login;
@@ -30,4 +30,5 @@ class CIMUser{
 
   @override
   int get hashCode => _id.hashCode ^ _login.hashCode;
+  int role;
 }

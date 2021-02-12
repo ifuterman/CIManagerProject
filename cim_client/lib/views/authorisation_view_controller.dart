@@ -13,7 +13,7 @@ class AuthorisationViewController extends GetxController {
     CIMConnection connection = Get.find();
     var res = connection.authoriseUser(user);
     res.then((value) {
-      if (value == 0) {
+      if (value == CIMErrors.ok) {
         CIMService service = Get.find();
         service.currentView.value = CIMViews.mainView;
         return;

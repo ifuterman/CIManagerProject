@@ -42,8 +42,8 @@ class CIMPacket {
     return packet;
   }
 
-  List<dynamic> getInstances(){
-    List <Map<String, dynamic>> list = _map[CIMJsonMapper.instancesKey];
+  List<dynamic> getInstances() {
+    var list = _map[CIMJsonMapper.instancesKey];
     if(list == null) {
       return null;
     }

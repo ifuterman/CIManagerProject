@@ -3,7 +3,10 @@ import 'package:cim_server/cim_server.dart';
 Future main() async {
   final app = Application<CimServerChannel>()
       ..options.configurationFilePath = "config.yaml"
-      ..options.port = 8888;
+      ..options.port = 8888
+//      ..options.certificateFilePath = "assets\\certificate\\cimcert.pem"
+//      ..options.privateKeyFilePath = "assets\\certificate\\cimkey.pem"
+  ;
 
   final count = Platform.numberOfProcessors ~/ 2;
   await app.start(numberOfInstances: count > 0 ? count : 1);

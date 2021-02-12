@@ -12,3 +12,5 @@ const Map<CIMErrors, String> mapError = {
   CIMErrors.unexpectedServerResponse: "unexpected_server_response",
   CIMErrors.wrongUserCredentials: "wrong_user_credentials"
 };
+
+final salt = 'cim_project_salt';
