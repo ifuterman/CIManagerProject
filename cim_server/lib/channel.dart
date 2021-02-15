@@ -1,8 +1,8 @@
 import 'dart:core';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_server/model/cim_token.dart';
 import 'cim_server.dart';
-import 'controllers/get_auth_token_controller.dart';
-import 'controllers/check_connection_controller.dart';
+import 'controllers/controllers.dart';
 import 'model/cim_user_db.dart';
 
 
@@ -38,7 +38,6 @@ class CimServerChannel extends ApplicationChannel {
     var dataModel = ManagedDataModel.fromCurrentMirrorSystem();
     var psc = PostgreSQLPersistentStore.fromConnectionInfo("cimserver","cimtestserver", "45.86.183.142", 5432, "cim_database");
     context = ManagedContext(dataModel, psc);
-//    int x = await context.persistentStore.schemaVersion;
   }
 
   /// Construct the request channel.
@@ -90,34 +89,6 @@ class CimServerChannel extends ApplicationChannel {
   }
 }
 
-class AuthorisationController extends Controller{
-  AuthorisationController(this.context);
-  final ManagedContext context;
-
-  @override
-  FutureOr<RequestOrResponse> handle(Request request) async{
-    await request.body.decode();
-    try {
-      var packet = CIMPacket.makePacketFromMap(request.body.as());
-      var list = packet.getInstances();
-      if(list == null || list.isEmpty) {
-        return Response.unauthorized();
-      }
-      if(!(list[0] is CIMUser)){
-        return Response.unauthorized();
-      }
-      var user = list[0] as CIMUser;
-      var query = Query<CIMUserDB>(context)..where((x) => x.username).equalTo(user.login)..where((x) => x.pwrd).equalTo(user.password);
-      final users = await query.fetch();
-      if(users.isEmpty)
-        return Response.unauthorized();
-      return request;
-    }catch(e){
-      print("AuthorisationController.handle $e");
-      return Response.serverError();
-    }
-  }
-}
 
 
 class RefreshTokenController extends Controller{
@@ -137,7 +108,36 @@ class NewUserController extends Controller{
   NewUserController(this.context);
 
   @override
-  FutureOr<RequestOrResponse> handle(Request request) {
+  FutureOr<RequestOrResponse> handle(Request request) async {
+    try {
+      await request.body.decode();
+      var packet = CIMPacket.makePacketFromMap(request.body.as());
+      final list = packet.getInstances();
+      if(list == null || list.isEmpty){
+        return Response.badRequest(headers: {"reason" : "No instances found"});
+      }
+      var user = list[0] as CIMUser;
+      var query = Query<CIMUserDB>(context)
+        ..where((x) => x.username).equalTo(user.login);
+      var userDB = query.fetchOne();
+      if(userDB != null){
+        return Response.conflict();
+      }
+      query = Query<CIMUserDB>(context)
+        ..values.username = user.login
+        ..values.pwrd = user.password;
+      var newDBUser = await query.insert();
+      if(newDBUser == null) {
+        return Response.conflict();
+      }
+      user = CIMUser(newDBUser.username, newDBUser.pwrd);
+      user.id = newDBUser.id;
+      packet = CIMPacket.makePacket();
+      if(!packet.addInstance(user)){
+        return Response.serverError(body : {"message" : "add instance problem"});
+      }
+      return Response.ok(packet.map);
+    }catch(e) { return Response.serverError(body : {"message" : e.toString()});}
     return Response.serverError(body : {"message" : "Unimplemented error"});
   }
 }

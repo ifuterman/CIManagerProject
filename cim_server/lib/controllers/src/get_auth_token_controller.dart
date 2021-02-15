@@ -41,7 +41,7 @@ class GetAuthTokenController extends Controller{
         return Response.unauthorized();
       }
       var tokenQuery = Query<CIMToken>(context)
-        ..where((x) => x.users_id).equalTo( userDB.id);
+        ..where((x) => x.users_id).equalTo(userDB.id);
       var token = await tokenQuery.fetchOne();
       var info = null;
       if(token != null){

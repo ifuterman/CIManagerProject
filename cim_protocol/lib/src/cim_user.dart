@@ -2,6 +2,10 @@ class CIMUser{
   int _id = 0;
   int get id => _id;
 
+  set id(int value) {
+    _id = value;
+  }
+
   String _login;
   String get login => _login;
 
