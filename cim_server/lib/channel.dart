@@ -1,8 +1,10 @@
 import 'dart:core';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'cim_server.dart';
+import 'controllers/get_auth_token_controller.dart';
+import 'controllers/check_connection_controller.dart';
 import 'model/cim_user_db.dart';
 
-import 'cim_server.dart';
 
 
 //////////////////////////////////cim_appuser2021
@@ -117,67 +119,6 @@ class AuthorisationController extends Controller{
   }
 }
 
-class CheckConnectionController extends Controller{
-  CheckConnectionController(this.context);
-  final ManagedContext context;
-  @override
-  FutureOr<RequestOrResponse> handle(Request request)  async {
-    try {
-      await context.persistentStore.execute(
-          "select f_check_connection();");
-      return Response.ok("true");
-    }catch(e){
-      return Response.serverError();
-    }
-
-    /*var func = context.persistentStore.execute("select f_check_connection();");
-    var res = Future.sync(() => func);
-    res.then((value) => Response.ok(""));*/
-  }
-}
-
-class GetAuthTokenController extends Controller{
-  GetAuthTokenController(this.context);
-  final ManagedContext context;
-
-  @override
-  FutureOr<RequestOrResponse> handle(Request request) async {
-    await request.body.decode();
-    try {
-      final packet = CIMPacket.makePacketFromMap(request.body.as());
-      if(packet == null){
-        return Response.badRequest();
-      }
-      final list = packet.getInstances();
-      if(list == null || list.isEmpty){
-        return Response.badRequest();
-      }
-
-      if(list[0] is! CIMUser){
-        return Response.badRequest();
-      }
-      final user = list[0] as CIMUser;
-      var query = Query<CIMUserDB>(context)
-        ..where((x) => x.username).equalTo(user.login)
-        ..where((x) => x.pwrd).equalTo(user.password);
-      final userDB = await query.fetchOne();
-      if(userDB == null ){
-        print("if(userDB == null )");
-        query = Query<CIMUserDB>(context);
-        final list = await query.fetch();
-        if(list.isEmpty) {
-          return Response.noContent();
-        }
-        return Response.unauthorized();
-      }
-      return Response.ok("token");
-      return Response.ok("");
-    }catch(e){
-      print("GetAuthToken.handle $e");
-      return Response.serverError();
-    }
-  }
-}
 
 class RefreshTokenController extends Controller{
   RefreshTokenController(this.context);

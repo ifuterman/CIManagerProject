@@ -6,8 +6,8 @@ class CIMAuthorisationInfo{
   static const passwordKey = 'password';
   static const refreshTokenKey = 'refresh_token';
   static const accessTokenKey = 'access_token';
-  static DateTime expiresInKey = DateTime.now();
-  CIMAuthorisationInfo(CIMUser user){
+  static const expiresInKey = "expires_in";
+/*  CIMAuthorisationInfo(CIMUser user){
     _username = user.login;
     _pwrd_hash = user.password;
   }
@@ -33,5 +33,25 @@ class CIMAuthorisationInfo{
   String _pwrd_hash = '';
   String _token = '';
   String _refreshToken = '';
-  int _expiresIn;
+  int _expiresIn;*/
+  String username = '';
+  String token = '';
+  String refreshToken = '';
+  DateTime expiresIn;
+  Map<String, String> toMap(){
+    return {
+      usernameKey : username,
+      accessTokenKey : token,
+      refreshTokenKey : refreshToken,
+      expiresInKey : expiresIn.toString()
+    };
+  }
+  static CIMAuthorisationInfo fromMap(Map<String, String> map){
+    var info = CIMAuthorisationInfo();
+    info.username = map[usernameKey];
+    info.token = map[accessTokenKey];
+    info.refreshToken = map[refreshTokenKey];
+    info.expiresIn = DateTime.tryParse(map[expiresInKey]);
+    return info;
+  }
 }

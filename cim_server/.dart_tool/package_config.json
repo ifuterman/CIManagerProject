@@ -368,6 +368,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "uuid",
+      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/uuid-2.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.2"
+    },
+    {
       "name": "vm_service",
       "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/vm_service-6.0.1",
       "packageUri": "lib/",
@@ -404,7 +410,7 @@
       "languageVersion": "2.0"
     }
   ],
-  "generated": "2021-02-11T11:53:54.444406Z",
+  "generated": "2021-02-15T10:56:00.700295Z",
   "generator": "pub",
   "generatorVersion": "2.12.0-179.0.dev"
 }

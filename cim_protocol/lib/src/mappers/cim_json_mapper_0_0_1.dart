@@ -15,10 +15,12 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   CIMUser userFromMap(Map<String, dynamic> map) {
     var login = map[loginKey];
     var id = int.tryParse(map[idKey]);
-    if(login == null || id == null){
+    var pwrd = map[passwordKey];
+    if(login == null || pwrd == null){
       return null;
     }
-    return CIMUser.fromJson(id, login, '');
+    id ??= 0;
+    return CIMUser.fromJson(id, login, pwrd);
   }
 
   @override
