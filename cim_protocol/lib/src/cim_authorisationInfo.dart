@@ -6,7 +6,7 @@ class CIMAuthorisationInfo{
   static const passwordKey = 'password';
   static const refreshTokenKey = 'refresh_token';
   static const accessTokenKey = 'access_token';
-  static const String expiresInKey = 'expires_in';
+  static DateTime expiresInKey = DateTime.now();
   CIMAuthorisationInfo(CIMUser user){
     _username = user.login;
     _pwrd_hash = user.password;

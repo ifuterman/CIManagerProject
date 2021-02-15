@@ -168,7 +168,9 @@ class GetAuthTokenController extends Controller{
         if(list.isEmpty) {
           return Response.noContent();
         }
+        return Response.unauthorized();
       }
+      return Response.ok("token");
       return Response.ok("");
     }catch(e){
       print("GetAuthToken.handle $e");
