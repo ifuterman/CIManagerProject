@@ -20,11 +20,8 @@ class AuthorisationController extends Controller{
       authString = list[1];
       authString = authString.replaceAll(']', '');
       final query =  Query<CIMToken>(context)
-//        ..where((x) => x.token).equalTo(authString)
-          ;
-//      var token = await query.fetchOne();
-      var x = await query.fetch();
-      var token = x[0];
+        ..where((x) => x.token).equalTo(authString);
+      final token = await query.fetchOne();
       if(token == null){
         return Response.unauthorized();
       }
