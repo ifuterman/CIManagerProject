@@ -67,9 +67,18 @@ class CimServerChannel extends ApplicationChannel {
         .link(() => RefreshTokenController(context));
 
     router
+        .route("debug/clean_db")
+        .link(() => AuthorisationController(context))
+        .link(() => DebugCleanDBController(context));
+
+    router
     .route("user/new")
     .link(() => AuthorisationController(context))
     .link(() => NewUserController(context));
+
+    router
+        .route("user/first")
+        .link(() => FirstUserController(context));
 
     router
         .route("user/update")
@@ -89,7 +98,6 @@ class CimServerChannel extends ApplicationChannel {
     return router;
   }
 }
-
 
 
 

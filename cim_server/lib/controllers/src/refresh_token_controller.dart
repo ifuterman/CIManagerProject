@@ -13,7 +13,7 @@ class RefreshTokenController extends Controller{
     try {
       var authString = request.raw.headers[HttpHeaders.authorizationHeader].toString();
       authString = authString.toLowerCase();
-      var list = authString.split(' ');
+      final list = authString.split(' ');
       if(list == null || list.length != 2){
         return Response.badRequest();
       }
