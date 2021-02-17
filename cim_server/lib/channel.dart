@@ -104,16 +104,7 @@ class CimServerChannel extends ApplicationChannel {
 
 
 
-class UpdateUserController extends Controller{
-  final ManagedContext context;
 
-  UpdateUserController(this.context);
-
-  @override
-  FutureOr<RequestOrResponse> handle(Request request) {
-    return Response.serverError(body : {"message" : "Unimplemented error"});
-  }
-}
 
 class DeleteUserController extends Controller{
 
@@ -126,12 +117,3 @@ class DeleteUserController extends Controller{
   }
 }
 
-class GetUserController extends Controller{
-  GetUserController(this.context);
-  final ManagedContext context;
-
-  @override
-  FutureOr<RequestOrResponse> handle(Request request) {
-    return Response.serverError(body : {"message" : "Unimplemented error"});
-  }
-}
