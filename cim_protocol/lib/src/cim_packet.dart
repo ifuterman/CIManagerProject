@@ -56,5 +56,6 @@ class CIMPacket {
     }
     return res;
   }
+  String getVersion() => _mapper.getVersion();
 
 }

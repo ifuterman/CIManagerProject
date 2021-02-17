@@ -5,9 +5,8 @@ import 'package:cim_protocol/cim_protocol.dart';
 
 class NewUserController extends Controller{
 
-  final ManagedContext context;
-
   NewUserController(this.context);
+  final ManagedContext context;
 
   @override
   FutureOr<RequestOrResponse> handle(Request request) async {
