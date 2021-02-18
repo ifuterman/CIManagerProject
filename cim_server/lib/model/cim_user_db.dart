@@ -2,7 +2,12 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 
 
-class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{}
+class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{
+  CIMUser toUser(){
+    final user = CIMUser(username, pwrd);
+    return user;
+  }
+}
 @Table(name: 'users')
 class _CIMUserDB{
   @primaryKey
@@ -21,8 +26,4 @@ class _CIMUserDB{
   @Column()
   String mail;
 
-  CIMUser toUser(){
-    final user = CIMUser(username, pwrd);
-    return user;
-  }
 }
