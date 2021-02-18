@@ -1,14 +1,12 @@
-import 'dart:async';
-
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server/cim_server.dart';
 import 'package:cim_server/model/cim_user_db.dart';
 
-class FirstUserController extends Controller{
-  FirstUserController(this.context);
+class UpdateUserController extends Controller{
+  UpdateUserController(this.context);
   final ManagedContext context;
   @override
-  FutureOr<RequestOrResponse> handle (Request request) async{
+  FutureOr<RequestOrResponse> handle(Request request) async{
     try{
       await request.body.decode();
       var packet = CIMPacket.makePacketFromMap(request.body.as());
@@ -20,26 +18,22 @@ class FirstUserController extends Controller{
         return Response.badRequest();
       }
       var user = list[0] as CIMUser;
-      var query = Query<CIMUserDB>(context);
-      final test = await query.fetch();
-      if(test != null && test.isNotEmpty){
-        return Response.forbidden();
-      }
-      query = Query<CIMUserDB>(context)
+      final query = Query<CIMUserDB>(context)
         ..values.username = user.login
-        ..values.pwrd = user.password;
-      final userDB = await query.insert();
+        ..values.pwrd = user.password
+        ..where((x) => x.username).equalTo(user.login);
+      final userDB = await query.updateOne();
+      if(userDB == null){
+        return Response.conflict();
+      }
       user = userDB.toUser();
       packet = CIMPacket.makePacket();
       if(!packet.addInstance(user)){
-        return Response.serverError();
+        return Response.serverError(body: {"message" : "Instance not created"});
       }
       return Response.ok(packet.map);
-    }
-    catch(e){
-      print("AuthorisationController.handle $e");
-      return Response.serverError();
+    }catch(e) {
+      return Response.serverError(body: {"message": e});
     }
   }
-
 }

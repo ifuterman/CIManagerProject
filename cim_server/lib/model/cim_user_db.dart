@@ -1,4 +1,5 @@
 import 'package:aqueduct/aqueduct.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 
 
 class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{}
@@ -19,4 +20,9 @@ class _CIMUserDB{
   String last_name;
   @Column()
   String mail;
+
+  CIMUser toUser(){
+    final user = CIMUser(username, pwrd);
+    return user;
+  }
 }

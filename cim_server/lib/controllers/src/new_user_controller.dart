@@ -20,8 +20,8 @@ class NewUserController extends Controller{
       var user = list[0] as CIMUser;
       var query = Query<CIMUserDB>(context)
         ..where((x) => x.username).equalTo(user.login);
-      var userDB = query.fetchOne();
-      if(userDB != null){
+      var userDBlist = await query.fetch();
+      if(userDBlist != null && userDBlist.isNotEmpty){
         return Response.conflict();
       }
       query = Query<CIMUserDB>(context)
@@ -31,7 +31,7 @@ class NewUserController extends Controller{
       if(newDBUser == null) {
         return Response.conflict();
       }
-      user = CIMUser(newDBUser.username, newDBUser.pwrd);
+      user = newDBUser.toUser();
       user.id = newDBUser.id;
       packet = CIMPacket.makePacket();
       if(!packet.addInstance(user)){
