@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
 import 'auth/authorisation_view.dart';
-import 'connection_view.dart';
+import 'connect/connection_view.dart';
 import 'main/main_view.dart';
 
 class CIMApp extends StatelessWidget {

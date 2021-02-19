@@ -5,8 +5,7 @@ import 'package:get/get.dart' hide Trans;
 
 import 'connection_view_controller.dart';
 
-class ConnectionView extends StatelessWidget {
-  final controller = Get.put(ConnectionViewController());
+class ConnectionView extends GetView<ConnectionViewController> {
   final _controllerAddress = TextEditingController();
   final _controllerPort = TextEditingController();
 
@@ -147,9 +146,13 @@ class ConnectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     _controllerPort.text = controller.port.toString();
     _controllerAddress.text = controller.address;
-    return Container(
-      child: Obx(
-          () => getUpdatedView(context, controller.updateScreenTrigger.value)),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          child: Obx(
+              () => getUpdatedView(context, controller.updateScreenTrigger.value)),
+        ),
+      ),
     );
   }
 }
