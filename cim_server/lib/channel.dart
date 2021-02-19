@@ -60,7 +60,7 @@ class CimServerChannel extends ApplicationChannel {
 
     router//Request token
         .route("auth/token")
-    .link(() => GetAuthTokenController(context));
+        .link(() => GetAuthTokenController(context));
 
     router//Refresh token
         .route("auth/refresh_token")
@@ -69,12 +69,14 @@ class CimServerChannel extends ApplicationChannel {
     router
         .route("debug/clean_db")
         .link(() => AuthorisationController(context))
+        .link(() => RoleCheckController(context))
         .link(() => DebugCleanDBController(context));
 
     router
-    .route("user/new")
-    .link(() => AuthorisationController(context))
-    .link(() => NewUserController(context));
+        .route("user/new")
+        .link(() => AuthorisationController(context))
+        .link(() => RoleCheckController(context))
+        .link(() => NewUserController(context));
 
     router
         .route("user/first")
@@ -83,16 +85,19 @@ class CimServerChannel extends ApplicationChannel {
     router
         .route("user/update")
         .link(() => AuthorisationController(context))
+        .link(() => RoleCheckController(context))
         .link(() => UpdateUserController(context));
 
     router
         .route("user/delete")
         .link(() => AuthorisationController(context))
+        .link(() => RoleCheckController(context))
         .link(() => DeleteUserController(context));
 
     router
         .route("user/get")
         .link(() => AuthorisationController(context))
+        .link(() => RoleCheckController(context))
         .link(() => GetUserController(context));
 
     return router;
