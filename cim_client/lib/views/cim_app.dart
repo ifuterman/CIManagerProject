@@ -1,16 +1,18 @@
 import 'package:cim_client/cim_service.dart';
+import 'package:cim_client/shared/funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
-import 'authorisation_view.dart';
+import 'auth/authorisation_view.dart';
 import 'connection_view.dart';
-import 'main_view.dart';
+import 'main/main_view.dart';
 
 class CIMApp extends StatelessWidget {
-  final service = Get.put(CIMService());
+  final service = Get.find<CIMService>();
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('$now: CIMApp.build');
     return Scaffold(
       body: Obx(() => getView(service.currentView.value)),
     );
@@ -19,17 +21,11 @@ class CIMApp extends StatelessWidget {
   Widget getView(CIMViews view) {
     switch (view) {
       case CIMViews.authorisationView:
-        {
-          return AuthorisationView();
-        }
+        return AuthorisationView();
       case CIMViews.mainView:
-        {
-          return MainView();
-        }
+        return MainView();
       case CIMViews.connectionView:
-        {
-          return ConnectionView();
-        }
+        return ConnectionView();
       default:
         return Container();
     }

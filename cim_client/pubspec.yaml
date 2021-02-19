@@ -21,11 +21,14 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  http: 0.12.2
-  get: ^3.24.0
+  intl: ^0.17.0
+  equatable: ^1.2.6
+  http: ^0.13.0
+  get: ^3.25.4
+  get_storage: ^1.4.0
   filepicker_windows: ^1.0.0
   rxdart: ^0.25.0
-  easy_localization: ^2.3.3
+  easy_localization: ^2.3.3+1
   singleton: ^0.0.2
 #  cim_model:
 #   path: ../cim_model/

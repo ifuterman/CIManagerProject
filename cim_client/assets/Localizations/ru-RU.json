@@ -5,7 +5,7 @@
   "MAINVIEWLEFTLIST_ITEM_PROTOCOLS_TITLE" : "Протоколы",
   "MAINVIEWLEFTLIST_ITEM_SCHEDULE_TITLE" : "Расписание",
   "MAINVIEWLEFTLIST_ITEM_SETTINGS_TITLE" : "Настройки",
-  "USERAUTHORIZATIONSCREEN_USERNAME_TITLE" : "Пользователь",
+  "user_name_title" : "Пользователь",
   "USERAUTHORIZATIONSCREEN_PASSWORD_TITLE" : "Пароль",
   "USERAUTHORIZATIONSCREEN_BUTTON_AUTHORIZE_TITLE" : "Авторизация",
   "USERINFO_FIRSTNAME" : "Имя",
@@ -31,5 +31,6 @@
   "connection_error_server_db_fault" : "Нет доступа к БД",
   "unexpected_server_response" : "Неожиданный ответ сервера",
   "wrong_user_credentials": "Неверный логин или пароль",
-  "error": "Ошибка!"
+  "error": "Ошибка!",
+  "welcome_admin": "Назначьте логин и пароль администратора\nи сохраните их в надежном месте.\nНикакой возможности восстановить потерянный доступ не предусмотрено!!!"
 }

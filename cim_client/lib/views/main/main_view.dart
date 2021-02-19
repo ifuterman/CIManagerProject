@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
 import 'main_view_controller.dart';
-import 'patient_screen.dart';
+import '../patient_screen.dart';
 
 class MainView extends StatelessWidget {
   final controller = Get.put(MainViewController());

@@ -1,13 +1,32 @@
 import 'package:cim_client/cim_service.dart';
-import 'package:cim_client/views/authorisation_view_controller.dart';
+import 'package:cim_client/views/auth/authorisation_view_controller.dart';
+import 'package:cim_client/views/shared/ui_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
-class AuthorisationView extends StatelessWidget {
+class AuthorisationView extends GetView<AuthorisationViewController> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: DebuggableWidget(
+          mainWidget: _MainWidget(),
+          debugItems: {
+            'DEBUG MENU #1': () {},
+          },
+          top: 5,
+        ),
+      ),
+    );
+  }
+}
+
+class _MainWidget extends GetView<AuthorisationViewController> {
   final _controllerLogin = TextEditingController();
   final _controllerPassword = TextEditingController();
-  final controller = Get.put(AuthorisationViewController());
+
+  // final controller = Get.put(AuthorisationViewController());
 
   final CIMService service = Get.find();
 
@@ -20,11 +39,24 @@ class AuthorisationView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'USERAUTHORIZATIONSCREEN_USERNAME_TITLE'.tr(),
-            style: Theme.of(context).textTheme.bodyText1,
-            textAlign: TextAlign.right,
-          ),
+          Obx((){
+            if(service.userMode$.value == UserMode.first){
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Text('welcome_admin'.tr()),
+              );
+            }else{
+              return Container();
+            }
+          }),
+          Obx((){
+            return Text(
+              '${'user_name_title'.tr()} '
+                  '(${service.userMode$})',
+              style: Theme.of(context).textTheme.bodyText1,
+              textAlign: TextAlign.right,
+            );
+          }),
           Container(
             constraints: BoxConstraints.expand(
                 height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
@@ -66,7 +98,7 @@ class AuthorisationView extends StatelessWidget {
               controller.user.login = _controllerLogin.text;
               controller.authoriseUser();
 /*              if (controller.isAuthorised())
-                service.currentView.value = CIMViews.main_view;*/
+                  service.currentView.value = CIMViews.main_view;*/
             },
 //              onPressed: () => viewModel.authorizeUser(),
           ),

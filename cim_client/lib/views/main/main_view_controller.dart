@@ -1,4 +1,6 @@
 import 'package:cim_client/cim_data_provider.dart';
+import 'package:cim_client/views/main/main_view.dart';
+import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:get/get.dart' hide Trans;
 
@@ -9,13 +11,17 @@ enum MainMenuItems {
   item_messages
 }
 
-class MainViewController extends GetxController {
+class MainViewController extends GetxController with SmartNavigationMixin {
   CIMDataProvider dataProvider;
   Rx<MainMenuItems> selectedItem;
 
   RxBool authorised;
 
   bool isAuthorised() => authorised.value;
+
+  @override
+  PageBuilder get defaultPageBuilder => () =>
+      Get.off(() => MainView(), binding: BindingsBuilder(() => this));
 
   void authorise(CIMUser user) {
     //TODO: Implement authorisation procedure
