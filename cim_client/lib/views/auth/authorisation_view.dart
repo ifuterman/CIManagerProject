@@ -1,4 +1,5 @@
 import 'package:cim_client/cim_service.dart';
+import 'package:cim_client/pref_model.dart';
 import 'package:cim_client/views/auth/authorisation_view_controller.dart';
 import 'package:cim_client/views/shared/ui_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -13,6 +14,7 @@ class AuthorisationView extends GetView<AuthorisationViewController> {
         body: DebuggableWidget(
           mainWidget: _MainWidget(),
           debugItems: {
+            'change theme': ThePref.switchDarkMode,
             'DEBUG MENU #1': () {},
           },
           top: 5,

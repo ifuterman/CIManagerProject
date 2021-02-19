@@ -10,10 +10,7 @@ import 'package:get/get.dart' hide Trans;
 class GlobalViewService extends GetxService {
   static const initialRoute = AppRoutes.splash;
 
-
-  GlobalViewService(){
-    debugPrint('$now: GlobalViewService.GlobalViewService');
-  }
+  final isDark$ = false.obs;
 
   Future init() async => this;
 
