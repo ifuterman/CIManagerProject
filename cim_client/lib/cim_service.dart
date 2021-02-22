@@ -21,10 +21,11 @@ class CIMService extends GetxService {
 
   CIMConnection connection;
   CIMUser user;
-  final userMode$ = Rx(UserMode.first);
+  final userMode$ = Rx<UserMode>(UserMode.first);
   Rx<CIMViews> currentView;
   CIMDataProvider dataProvider;
 
+  Future<CIMService> init() async => this;
 
   @override
   void onInit() {

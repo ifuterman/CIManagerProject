@@ -7,34 +7,45 @@ typedef SmartNavigationClose = Function(SmartNavigationMixin, {dynamic args});
 
 typedef PageBuilder<T> = Future<T> Function();
 
-typedef WidgetBuilder = Widget Function();
+typedef SubWidgetBuilder = Widget Function();
 
+/// Simple and effective mixin for [GetxController] and [GetxService]
+/// to make navigation
 mixin SmartNavigationMixin<T> {
   SmartNavigationClose closeCallback;
   bool autoDelete;
-  var widgetPlacer = Rx<Widget>();
+  var subWidgetPlacer = Rx<Widget>();
 
   PageBuilder get defaultPageBuilder => null;
 
-  WidgetBuilder get defaultWidgetBuilder => null;
+  SubWidgetBuilder get defaultSubWidgetBuilder => null;
 
-  void subNavigate({
-    @required Rx<Widget> widgetPlacer,
+  Future<dynamic> to(GetPageBuilder builder) => Get.to(builder, binding: BindingsBuilder(()=>this));
+  Future<dynamic> off(GetPageBuilder builder) => Get.off(builder, binding: BindingsBuilder(()=>this));
+  // Future<dynamic> off(dynamic page) => Get.off(page, binding: BindingsBuilder(()=>this));
+  // Future<dynamic> offAll(dynamic page) => Get.offAll(page, binding: BindingsBuilder(()=>this));
+
+  void subWidgetNavigate({
+    @required Rx<Widget> subWidgetPlacer,
     @required SmartNavigationClose onClose,
-    WidgetBuilder widgetBuilder,
+    SubWidgetBuilder subWidgetBuilder,
     bool autoDelete = true,
     dynamic args,
   }) {
-    if(widgetPlacer == null){
-      throw Exception('widgetPlacer == null');
+    if (subWidgetPlacer == null) {
+      throw Exception(
+          'when one do subWidgetNavigate(), '
+              'subWidgetPlacer must not be null');
     }
-    if((widgetBuilder ?? defaultWidgetBuilder) == null){
-      throw Exception('widgetBuilder ?? defaultWidgetBuilder == null');
+    if ((subWidgetBuilder ?? defaultSubWidgetBuilder) == null) {
+      throw Exception('when one do subWidgetNavigate(), '
+          'subWidgetBuilder or defaultSubWidgetBuilder '
+          'must not be null');
     }
     closeCallback = onClose;
     this.autoDelete = autoDelete;
-    this.widgetPlacer = widgetPlacer;
-    this.widgetPlacer((widgetBuilder ?? defaultWidgetBuilder).call());
+    this.subWidgetPlacer = subWidgetPlacer;
+    this.subWidgetPlacer((subWidgetBuilder ?? defaultSubWidgetBuilder).call());
   }
 
   ///
@@ -44,24 +55,22 @@ mixin SmartNavigationMixin<T> {
     bool autoDelete = true,
     dynamic args,
   }) {
-    if((pageBuilder ?? defaultPageBuilder) == null){
-      throw Exception('pageBuilder ?? defaultPageBuilder == null');
+    if ((pageBuilder ?? defaultPageBuilder) == null) {
+      throw Exception('when one do pageNavigate, pageBuilder '
+          'or defaultPageBuilder must not be null');
     }
     closeCallback = onClose;
     this.autoDelete = autoDelete;
-    // debugPrint('$now: SmartNavigationMixin2.pageNavigate: '
-    //     'pageBuilder = $pageBuilder, '
-    //     'defaultPageBuilder = $defaultPageBuilder');
     (pageBuilder ?? defaultPageBuilder)?.call();
   }
 
   ///
-  void close({dynamic args}) {
+  Future<bool> close({bool result = true, dynamic args}) async {
     closeCallback?.call(this, args: args);
-    if(autoDelete){
-      debugPrint('$now: SmartNavigationController.close.2: $runtimeType');
+    if (autoDelete && result) {
+      // no way to delete when result is false!
       Get.delete<T>();
     }
+    return result;
   }
 }
-

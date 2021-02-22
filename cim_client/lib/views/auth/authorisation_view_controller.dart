@@ -12,9 +12,7 @@ class AuthorisationViewController extends GetxController with SmartNavigationMix
   final user = CIMUser("", "");
 
   @override
-  PageBuilder get defaultPageBuilder => () =>
-      Get.off(() => AuthorisationView(), binding: BindingsBuilder(() => this));
-
+  PageBuilder get defaultPageBuilder => () => off(() => AuthorisationView());
 
   void authoriseUser() {
     CIMConnection connection = Get.find();

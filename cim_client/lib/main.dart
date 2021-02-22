@@ -1,5 +1,5 @@
 import 'package:cim_client/cim_service.dart';
-import 'package:cim_client/pref_model.dart';
+import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/shared/routes.dart';
@@ -15,7 +15,7 @@ void main() async {
   EquatableConfig.stringify = true;
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
-
+  final pref = Get.find<PreferenceService>();
   runApp(
     EasyLocalization(
       supportedLocales: [
@@ -24,22 +24,21 @@ void main() async {
       path: 'assets/Localizations', // <-- change patch to your
       fallbackLocale: Locale('ru', 'RU'),
       child: StreamBuilder<bool>(
-        initialData: ThePref.onDarkModeSwitched.value,
-        stream: ThePref.onDarkModeSwitched.stream,
-        builder: (context, snapshot) {
-          final isDark = snapshot.data;
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              brightness: isDark ? Brightness.dark : Brightness.light,
-            ),
-            // home: CIMApp(),
-            navigatorKey: Get.key,
-            initialRoute: GlobalViewService.initialRoute,
-            getPages: routes,
-          );
-        }
-      ),
+          initialData: pref.isDarkMode$.value,
+          stream: pref.isDarkMode$.stream,
+          builder: (context, snapshot) {
+            final isDark = snapshot.data;
+            return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                brightness: isDark ? Brightness.dark : Brightness.light,
+              ),
+              // home: CIMApp(),
+              navigatorKey: Get.key,
+              initialRoute: GlobalViewService.initialRoute,
+              getPages: routes,
+            );
+          }),
     ),
   );
 }
@@ -47,7 +46,8 @@ void main() async {
 Future initServices() async {
   print('starting services ...');
   await GetStorage.init();
-  Get.lazyPut(() => CIMService());
+  Get.putAsync(() => PreferenceService().init());
+  Get.putAsync(() => CIMService().init());
   await Get.putAsync(() => GlobalViewService().init());
   await delayMilli(1000);
   print('All services started...');
