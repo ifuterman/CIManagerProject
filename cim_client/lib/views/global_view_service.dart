@@ -48,7 +48,7 @@ class GlobalViewService extends GetxService {
             title: "error".tr(),
             middleText: message,
             confirm: RaisedButton(
-              child: Text("OK".tr()),
+              child: Text("close".tr()),
               onPressed: () {
                 Get.back();
                 _toConnectForm();
@@ -64,7 +64,7 @@ class GlobalViewService extends GetxService {
   void _toAuthForm() {
     final pref = Get.find<PreferenceService>();
     final user = pref.getUser();
-    if(user != null){
+    if(user == null){
       Get.put<AuthorisationViewController>(AuthorisationViewController()
         ..pageNavigate(
             onClose: (c, {args}){
