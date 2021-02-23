@@ -7,3 +7,4 @@ export 'src/get_user_controller.dart';
 export 'src/new_user_controller.dart';
 export 'src/refresh_token_controller.dart';
 export 'src/update_user_controller.dart';
+export 'src/role_check_controller.dart';

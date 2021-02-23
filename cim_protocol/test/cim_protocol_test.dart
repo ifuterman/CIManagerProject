@@ -5,7 +5,7 @@ import 'package:cim_protocol/cim_protocol.dart';
 
 void main() {
   group('tests for CIMJsonMapper_0_0_1', () {
-    CIMUser user = CIMUser.fromJson(0, 'test_login', 'test_password');
+    CIMUser user = CIMUser.fromJson(0, 'test_login', 'test_password', UserRoles.administrator);
 
     setUp(() {
     });

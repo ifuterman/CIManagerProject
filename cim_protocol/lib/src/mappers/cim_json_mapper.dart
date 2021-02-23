@@ -11,12 +11,15 @@ class CIMJsonMapper{
   static const instanceKey = 'instance';
   static const instancesKey = 'instances';
   static const cimUserKey = 'CIMUser';
+  static const cimDoctorKey = 'CIMDoctor';
   static final _mapperVersions = <String, CIMJsonMapper>{
     '0.0.1' : CIMJsonMapper_0_0_1()
   };
   String getVersion() => throw UnimplementedError();
   void userToMap(CIMUser user, Map<String, dynamic> map) => throw UnimplementedError();
   CIMUser userFromMap(Map<String, dynamic> map) => throw UnimplementedError();
+  void doctorToMap(CIMDoctor doctor, Map<String, dynamic> map) => throw UnimplementedError();
+  CIMDoctor doctorFromMap(Map<String, dynamic> map) => throw UnimplementedError();
 
 
   static CIMJsonMapper getMapper([String version = lastVersion]) => _mapperVersions[version];
@@ -28,6 +31,10 @@ class CIMJsonMapper{
     if(instance is CIMUser){
       map[instanceKey] = cimUserKey;
       userToMap(instance, map);
+    }
+    else if(instance is CIMDoctor){
+      map[instanceKey] = cimDoctorKey;
+      doctorToMap(instance, map);
     }
     else{
       return null;
@@ -48,6 +55,9 @@ class CIMJsonMapper{
       switch(instance){
         case cimUserKey:{
           return userFromMap(map);
+        }
+        case cimDoctorKey:{
+          return doctorFromMap(map);
         }
       }
     }catch (e){

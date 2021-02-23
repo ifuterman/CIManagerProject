@@ -1,4 +1,11 @@
+enum UserRoles{
+  administrator,
+  doctor,
+  patient
+}
+
 class CIMUser{
+  UserRoles role;
   int _id = 0;
   int get id => _id;
 
@@ -22,7 +29,7 @@ class CIMUser{
   String _password;
 
   CIMUser (this._login, this._password);
-  CIMUser.fromJson (this._id, this._login, this._password);
+  CIMUser.fromJson (this._id, this._login, this._password, this.role);
 
   @override
   bool operator ==(Object other) =>
@@ -30,9 +37,9 @@ class CIMUser{
       other is CIMUser &&
           runtimeType == other.runtimeType &&
           _id == other._id &&
-          _login == other._login;
+          _login == other._login &&
+          role == other.role;
 
   @override
   int get hashCode => _id.hashCode ^ _login.hashCode;
-  int role;
 }
