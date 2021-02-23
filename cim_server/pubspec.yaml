@@ -19,6 +19,8 @@ dev_dependencies:
 
 dependency_overrides:
   postgres: ^2.2.0
+  analyzer: 0.40.5
+
 
 assets:
     - assets/certificate/
