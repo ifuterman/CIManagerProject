@@ -10,8 +10,14 @@ class RoleCheckController extends Controller{
   @override
   FutureOr<RequestOrResponse> handle(Request request) async{
     try {
-      final token = request.raw.headers[HttpHeaders.authorizationHeader]
+      var token = request.raw.headers[HttpHeaders.authorizationHeader]
           .toString();
+      final list = token.split(' ');
+      if(list == null || list.length != 2){
+        return Response.badRequest();
+      }
+      token = list[1];
+      token = token.replaceAll(']', '');
       final queryToken = Query<CIMToken>(context)
         ..where((x) => x.token).equalTo(token);
       final tokenObj = await queryToken.fetchOne();
