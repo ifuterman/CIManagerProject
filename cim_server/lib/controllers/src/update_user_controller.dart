@@ -11,11 +11,11 @@ class UpdateUserController extends Controller{
       await request.body.decode();
       var packet = CIMPacket.makePacketFromMap(request.body.as());
       if(packet == null){
-        return Response.badRequest();
+        return Response.badRequest(body: request.body);
       }
       final list = packet.getInstances();
       if(list == null || list.isEmpty || list[0] is! CIMUser){
-        return Response.badRequest();
+        return Response.badRequest(body: request.body);
       }
       var user = list[0] as CIMUser;
       final query = Query<CIMUserDB>(context)

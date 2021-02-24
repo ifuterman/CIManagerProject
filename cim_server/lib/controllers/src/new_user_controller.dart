@@ -26,13 +26,13 @@ class NewUserController extends Controller{
       }
       query = Query<CIMUserDB>(context)
         ..values.username = user.login
-        ..values.pwrd = user.password;
+        ..values.pwrd = user.password
+        ..values.role = user.role.index;
       var newDBUser = await query.insert();
       if(newDBUser == null) {
         return Response.conflict();
       }
       user = newDBUser.toUser();
-      user.id = newDBUser.id;
       packet = CIMPacket.makePacket();
       if(!packet.addInstance(user)){
         return Response.serverError(body : {"message" : "add instance problem"});

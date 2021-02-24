@@ -3,7 +3,7 @@ import 'package:cim_server/cim_server.dart';
 class CIMDoctorDB extends ManagedObject<_CIMDoctorDB> implements _CIMDoctorDB{}
 @Table(name: 'doctors')
 class _CIMDoctorDB{
-  @primaryKey
+  @Column(primaryKey: true, databaseType: ManagedPropertyType.bigInteger)
   int id;
   @Column()
   String name;

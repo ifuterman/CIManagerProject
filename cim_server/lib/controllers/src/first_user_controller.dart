@@ -13,32 +13,33 @@ class FirstUserController extends Controller{
       await request.body.decode();
       var packet = CIMPacket.makePacketFromMap(request.body.as());
       if(packet == null){
-        return Response.badRequest();
+        return Response.badRequest(body: request.body);
       }
       final list = packet.getInstances();
       if(list == null || list.isEmpty || list[0] is! CIMUser){
-        return Response.badRequest();
+        return Response.badRequest(body: request.body);
       }
       var user = list[0] as CIMUser;
       var query = Query<CIMUserDB>(context);
       final test = await query.fetch();
       if(test != null && test.isNotEmpty){
-        return Response.forbidden();
+        return Response.forbidden(body: request.body);
       }
       query = Query<CIMUserDB>(context)
         ..values.username = user.login
-        ..values.pwrd = user.password;
+        ..values.pwrd = user.password
+        ..values.role = user.role.index;
       final userDB = await query.insert();
       user = userDB.toUser();
       packet = CIMPacket.makePacket();
       if(!packet.addInstance(user)){
-        return Response.serverError();
+        return Response.serverError(body: request.body);
       }
       return Response.ok(packet.map);
     }
     catch(e){
       print("AuthorisationController.handle $e");
-      return Response.serverError();
+      return Response.serverError(body: request.body);
     }
   }
 

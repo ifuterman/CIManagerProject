@@ -6,12 +6,14 @@ class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{
   CIMUser toUser(){
     final user = CIMUser(username, pwrd);
     user.role = UserRoles.values[role];
+    user.id = id;
     return user;
   }
 }
 @Table(name: 'users')
 class _CIMUserDB{
-  @primaryKey
+//  @primaryKey
+  @Column(primaryKey: true, databaseType: ManagedPropertyType.bigInteger)
   int id;
 
   @Column(unique: true)
