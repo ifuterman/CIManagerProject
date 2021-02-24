@@ -67,7 +67,7 @@ class GetAuthTokenController extends Controller{
       return Response.ok(info.toMap());
     }catch(e){
       print("GetAuthToken.handle $e");
-      return Response.serverError(body: request.body);
+      return Response.serverError(body: {"message :" : e});
     }
   }
 }

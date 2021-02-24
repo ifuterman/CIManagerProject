@@ -39,7 +39,7 @@ class UserFirstController extends Controller{
     }
     catch(e){
       print("AuthorisationController.handle $e");
-      return Response.serverError(body: request.body);
+      return Response.serverError(body: {"message :" : e});
     }
   }
 

@@ -68,8 +68,8 @@ class CimServerChannel extends ApplicationChannel {
 
     router
         .route("debug/clean_db")
-        .link(() => AuthorisationController(context))
-        .link(() => CheckRoleController(context))
+//        .link(() => AuthorisationController(context))
+//        .link(() => CheckRoleController(context))
         .link(() => DebugCleanDBController(context));
 
     router
@@ -92,7 +92,7 @@ class CimServerChannel extends ApplicationChannel {
         .route("user/delete")
         .link(() => AuthorisationController(context))
         .link(() => CheckRoleController(context))
-        .link(() => DeleteUserController(context));
+        .link(() => UserDeleteController(context));
 
     router
         .route("user/get")
@@ -111,14 +111,5 @@ class CimServerChannel extends ApplicationChannel {
 
 
 
-class DeleteUserController extends Controller{
 
-  DeleteUserController(this.context);
-  final ManagedContext context;
-
-  @override
-  FutureOr<RequestOrResponse> handle(Request request) {
-    return Response.serverError(body : {"message" : "Unimplemented error"});
-  }
-}
 
