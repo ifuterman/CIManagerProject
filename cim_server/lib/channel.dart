@@ -69,36 +69,36 @@ class CimServerChannel extends ApplicationChannel {
     router
         .route("debug/clean_db")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
+        .link(() => CheckRoleController(context))
         .link(() => DebugCleanDBController(context));
 
     router
         .route("user/new")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => NewUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserNewController(context));
 
     router
         .route("user/first")
-        .link(() => FirstUserController(context));
+        .link(() => UserFirstController(context));
 
     router
         .route("user/update")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => UpdateUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserUpdateController(context));
 
     router
         .route("user/delete")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
+        .link(() => CheckRoleController(context))
         .link(() => DeleteUserController(context));
 
     router
         .route("user/get")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => GetUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserGetController(context));
 
     return router;
   }

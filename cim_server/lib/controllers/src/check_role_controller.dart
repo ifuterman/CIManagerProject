@@ -3,8 +3,8 @@ import 'package:cim_server/model/cim_token.dart';
 import 'package:cim_server/model/cim_user_db.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 
-class RoleCheckController extends Controller{
-  RoleCheckController(this.context);
+class CheckRoleController extends Controller{
+  CheckRoleController(this.context);
   final ManagedContext context;
 
   @override

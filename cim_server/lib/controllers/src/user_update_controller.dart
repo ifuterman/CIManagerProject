@@ -2,8 +2,8 @@ import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server/cim_server.dart';
 import 'package:cim_server/model/cim_user_db.dart';
 
-class UpdateUserController extends Controller{
-  UpdateUserController(this.context);
+class UserUpdateController extends Controller{
+  UserUpdateController(this.context);
   final ManagedContext context;
   @override
   FutureOr<RequestOrResponse> handle(Request request) async{
