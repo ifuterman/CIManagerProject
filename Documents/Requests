@@ -1,0 +1,43 @@
+http://localhost:8888/auth/token
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMUser",
+            "login" : "admin",
+            "password" : "admin",
+            "id" : "0",
+            "role" : "0"
+        }
+    ]
+}
+
+http://localhost:8888/user/new
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMUser",
+            "login" : "admin1",
+            "password" : "admin",
+            "id" : "0",
+            "role" : "0"
+        }
+    ]
+}
+
+http://localhost:8888/debug/clean_db
+
+http://localhost:8888/user/first
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMUser",
+            "login" : "admin",
+            "password" : "admin",
+            "id" : "0",
+            "role" : "0"
+        }
+    ]
+}
