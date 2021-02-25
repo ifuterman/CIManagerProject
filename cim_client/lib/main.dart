@@ -1,6 +1,7 @@
 import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
+import 'package:cim_client/shared/logger_utils.dart';
 import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/shared/routes.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -37,6 +38,10 @@ void main() async {
               navigatorKey: Get.key,
               initialRoute: GlobalViewService.initialRoute,
               getPages: routes,
+
+              // enableLog: true,
+              // logWriterCallback: Logger.write,
+
             );
           }),
     ),

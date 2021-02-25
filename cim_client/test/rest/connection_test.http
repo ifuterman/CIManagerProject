@@ -13,7 +13,8 @@ Content-Type: application/json
       "instance" : "CIMUser",
       "login" : "admin_again",
       "password" : "admin_again",
-      "id" : "0"
+      "id" : "0",
+      "role" : "0"
     }
   ]
 }
@@ -21,14 +22,14 @@ Content-Type: application/json
 ###
 
 GET http://127.0.0.1:8888/user/get
-Authorization: Token 892b1035-5720-4325-8c45-cf410cad9a1d
+Authorization: Token 8b684b55-e034-4b37-a56d-5e998dcc1694
 Content-Type: application/json
 
 ###
 
 POST http://127.0.0.1:8888/user/update
 Content-Type: application/json
-Authorization: Token 892b1035-5720-4325-8c45-cf410cad9a1d
+Authorization: Token 8b684b55-e034-4b37-a56d-5e998dcc1694
 
 {
   "version" : "0.0.1",
@@ -46,7 +47,7 @@ Authorization: Token 892b1035-5720-4325-8c45-cf410cad9a1d
 
 POST http://127.0.0.1:8888/user/new
 Content-Type: application/json
-Authorization: Token 892b1035-5720-4325-8c45-cf410cad9a1d
+Authorization: Token 8b684b55-e034-4b37-a56d-5e998dcc1694
 
 {
   "version" : "0.0.1",
@@ -63,7 +64,7 @@ Authorization: Token 892b1035-5720-4325-8c45-cf410cad9a1d
 ###
 
 GET http://127.0.0.1:8888/debug/clean_db
-Authorization: Token 892b1035-5720-4325-8c45-cf410cad9a1d
+Authorization: Token 8b684b55-e034-4b37-a56d-5e998dcc1694
 Content-Type: application/json
 
 ###
@@ -78,7 +79,8 @@ Content-Type: application/json
       "instance" : "CIMUser",
       "login" : "admin_again",
       "password" : "admin_again",
-      "id" : "0"
+      "id" : "0",
+      "role" : "0"
     }
   ]
 }
