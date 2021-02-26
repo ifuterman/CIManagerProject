@@ -27,9 +27,6 @@ class UserDeleteController extends Controller{
       if(userDB == null){
         return Response.notFound();
       }
-      final queryToken = Query<CIMToken>(context)
-        ..where((x) => x.users_id).equalTo(userDB.id);
-      await queryToken.delete();
       await queryUser.delete();
       return Response.ok({"message" : 'User deleted'});
     }catch(e) {

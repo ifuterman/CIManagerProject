@@ -1,6 +1,22 @@
 import 'package:cim_server/cim_server.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 
-class CIMDoctorDB extends ManagedObject<_CIMDoctorDB> implements _CIMDoctorDB{}
+
+
+class CIMDoctorDB extends ManagedObject<_CIMDoctorDB> implements _CIMDoctorDB{
+  CIMDoctor toDoctor(){
+    speciality ??= DoctorSpeciality.therapist.index;
+    final doctor = CIMDoctor(name, last_name,
+      DoctorSpeciality.values[speciality],
+      middleName: middle_name,
+      birthDate: birth_date,
+      email: email,
+      id: id,
+      phones: phones,
+      userId: users_id
+    );
+  }
+}
 @Table(name: 'doctors')
 class _CIMDoctorDB{
   @Column(primaryKey: true, databaseType: ManagedPropertyType.bigInteger)
@@ -20,5 +36,6 @@ class _CIMDoctorDB{
   @Column()
   int speciality;
   @Relate(#users)
+  @Column(databaseType: ManagedPropertyType.bigInteger)
   int users_id;
 }

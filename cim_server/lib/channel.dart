@@ -1,10 +1,6 @@
 import 'dart:core';
-import 'package:cim_protocol/cim_protocol.dart';
-import 'package:cim_server/model/cim_token.dart';
-import 'package:uuid/uuid.dart';
 import 'cim_server.dart';
 import 'controllers/controllers.dart';
-import 'model/cim_user_db.dart';
 
 
 
@@ -71,6 +67,18 @@ class CimServerChannel extends ApplicationChannel {
 //        .link(() => AuthorisationController(context))
 //        .link(() => CheckRoleController(context))
         .link(() => DebugCleanDBController(context));
+
+    router
+        .route("debug/delete_users")
+//        .link(() => AuthorisationController(context))
+//        .link(() => CheckRoleController(context))
+        .link(() => DebugDeleteUsersController(context));
+
+    router
+        .route("doctor/new")
+        .link(() => AuthorisationController(context))
+        .link(() => CheckRoleController(context))
+        .link(() => UserGetController(context));
 
     router
         .route("user/new")

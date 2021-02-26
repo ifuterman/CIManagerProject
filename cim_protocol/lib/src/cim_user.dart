@@ -28,7 +28,7 @@ class CIMUser{
 
   String _password;
 
-  CIMUser (this._login, this._password);
+  CIMUser (this._login, this._password,[this.role = UserRoles.administrator]);
   CIMUser.fromJson (this._id, this._login, this._password, this.role);
 
   @override
