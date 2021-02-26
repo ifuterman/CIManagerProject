@@ -8,15 +8,15 @@ import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 
 // ignore: one_member_abstracts
-abstract class ICacheProvider {
+abstract class DataProvider {
   Future<CIMErrors> checkConnection();
   Future<CIMErrors> cleanDb();
-  Future<Return<CIMErrors, Map<String, String>>> getToken(CIMUser candidate);
+  Future<Return<CIMErrors, Map<String, dynamic>>> getToken(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createNewUser(CIMUser candidate);
 }
 
-class CacheProvider extends GetConnect implements ICacheProvider {
+class DataProviderImpl extends GetConnect implements DataProvider {
   static const _address = "127.0.0.1";
   static const _port = 8888;
 
@@ -49,22 +49,15 @@ class CacheProvider extends GetConnect implements ICacheProvider {
     Response res;
     try {
       final packet = CIMPacket.makePacket();
-      print('$now: CacheProvider.createFirstUser: packet = ${packet}');
       packet.addInstance(candidate);
-      print('$now: CacheProvider.createFirstUser: packet.1 = ${packet}');
-      // final body = UserMapper.toJson(candidate);
-      print('$now: CacheProvider.createFirstUser: body = ${packet.map}');
       res = await post(CIMRestApi.prepareFirstUser(), packet.map);
       switch (res.status.code) {
         case HttpStatus.ok:
           final data = res.body;
-          print('$now: CacheProvider.createFirstUser: data = $data, ${data.runtimeType}');
           final packet = CIMPacket.makePacketFromMap(data);
-          print('$now: CacheProvider.createFirstUser: packetBack = $packet');
           final user = packet.getInstances()[0] as CIMUser;
           return Return(result: CIMErrors.ok, data: user);
         case HttpStatus.internalServerError:
-          print('$now: CacheProvider.createFirstUser: internalServerError');
           return Return(result: CIMErrors.connectionErrorServerDbFault);
         default:
           return Return(result: CIMErrors.unexpectedServerResponse);
@@ -75,12 +68,12 @@ class CacheProvider extends GetConnect implements ICacheProvider {
   }
 
   @override
-  Future<Return<CIMErrors, Map<String, String>>> getToken(CIMUser candidate) async {
+  Future<Return<CIMErrors, Map<String, dynamic>>> getToken(CIMUser candidate) async {
     Response res;
     try {
       final packet = CIMPacket.makePacket();
       packet.addInstance(candidate);
-      res = await post(CIMRestApi.prepareNewUser(), packet.map);
+      res = await post(CIMRestApi.prepareAuthToken(), packet.map);
       switch (res.status.code) {
         case HttpStatus.ok:
           final map = res.body as Map<String, dynamic>;
@@ -92,6 +85,7 @@ class CacheProvider extends GetConnect implements ICacheProvider {
       }
     } catch (e) {
       // TODO(vvk): сделать ошибку типа  unknownError(e)
+      print('$now: DataProviderImpl.getToken: ERROR $e');
       return Return(result: CIMErrors.unexpectedServerResponse, description: e.toString());
     }
   }

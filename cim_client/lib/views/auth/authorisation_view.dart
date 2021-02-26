@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:cim_client/cim_service.dart';
-import 'package:cim_client/data/cache_api_provider.dart';
+import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/auth/authorisation_view_controller.dart';
@@ -22,7 +22,7 @@ class AuthorisationView extends GetView<AuthorisationViewController> {
           mainWidget: _MainWidget(),
           debugItems: {
             'clean DB': () {
-              final provider = Get.find<ICacheProvider>();
+              final provider = Get.find<DataProvider>();
               provider.cleanDb().then((value) {
                 Get.snackbar('Clean DB', '$value');
               });

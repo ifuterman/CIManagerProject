@@ -1,4 +1,5 @@
-import 'package:cim_client/data/cache_api_provider.dart';
+import 'package:cim_client/data/cache_provider.dart';
+import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
@@ -15,7 +16,7 @@ import 'package:get/get.dart' hide Trans;
 class GlobalViewService extends GetxService {
   static const initialRoute = AppRoutes.splash;
 
-  ICacheProvider provider;
+  DataProvider provider;
 
   final connectionState$ = Rx<ConnectionStates>(ConnectionStates.unknown);
 
@@ -24,7 +25,7 @@ class GlobalViewService extends GetxService {
   @override
   void onInit() {
     super.onInit();
-    provider = Get.put(CacheProvider());
+    provider = Get.put(DataProviderImpl());
   }
 
   @override
@@ -62,9 +63,10 @@ class GlobalViewService extends GetxService {
   }
 
   void _toAuthForm() {
-    final pref = Get.find<PreferenceService>();
-    final user = pref.getUser();
-    if(user == null){
+    final cache = Get.find<CacheProvider>();
+    final token = cache.fetchToken();
+    print('$now: GlobalViewService._toAuthForm: token = $token');
+    if(token == null){
       Get.put<AuthorisationViewController>(AuthorisationViewController()
         ..pageNavigate(
             onClose: (c, {args}){

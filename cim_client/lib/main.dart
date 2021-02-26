@@ -1,4 +1,5 @@
 import 'package:cim_client/cim_service.dart';
+import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/shared/logger_utils.dart';
@@ -15,6 +16,7 @@ import 'views/cim_app.dart';
 void main() async {
   EquatableConfig.stringify = true;
   WidgetsFlutterBinding.ensureInitialized();
+
   await initServices();
   final pref = Get.find<PreferenceService>();
   runApp(
@@ -52,6 +54,7 @@ Future initServices() async {
   print('starting services ...');
   await GetStorage.init();
   Get.putAsync(() => PreferenceService().init());
+  Get.putAsync<CacheProvider>(() => CacheProviderService().init());
   Get.putAsync(() => CIMService().init());
   await Get.putAsync(() => GlobalViewService().init());
   await delayMilli(1000);

@@ -19,6 +19,7 @@ class MainViewController extends GetxController
     with SmartNavigationMixin<MainViewController> {
   MainViewController() {
     subWidgetPlacer$.value = Container();
+    print('$now: MainViewController.MainViewController');
   }
 
   CIMDataProvider dataProvider;
@@ -42,6 +43,7 @@ class MainViewController extends GetxController
     selectedItem(item);
     switch (item) {
       case MainMenuItems.item_patients:
+        print('$now: MainViewController.openSub');
         _lastSmartNavigation = Get.put<PatientsScreenController>(
             PatientsScreenController()
               ..subWidgetNavigate(
@@ -67,6 +69,11 @@ class MainViewController extends GetxController
     // smart?.destroy<T>();
   }
 
+  void beforeClose() {
+    subWidgetPlacer$.value = Container();
+    print('$now: MainViewController.beforeClose');
+  }
+
   void authorise(CIMUser user) {
     //TODO: Implement authorisation procedure
     authorised.value = true;
@@ -81,6 +88,7 @@ class MainViewController extends GetxController
   void onInit() {
     super.onInit();
     dataProvider = CIMDataProvider();
+    print('$now: MainViewController.onInit');
     selectedItem = Rx(MainMenuItems.item_patients);
     authorised = false.obs;
   }
@@ -88,7 +96,14 @@ class MainViewController extends GetxController
   @override
   void onReady() {
     super.onReady();
+    print('$now: MainViewController.onReady');
     openSub(MainMenuItems.item_patients);
+  }
+
+  @override
+  void onClose() {
+    print('$now: MainViewController.onClose');
+    super.onClose();
   }
 }
 
