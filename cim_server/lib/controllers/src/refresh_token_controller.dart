@@ -15,7 +15,7 @@ class RefreshTokenController extends Controller{
       authString = authString.toLowerCase();
       final list = authString.split(' ');
       if(list == null || list.length != 2){
-        return Response.badRequest();
+        return Response.badRequest(body: request.body);
       }
       authString = list[1];
       authString = authString.replaceAll(']', '');
@@ -23,7 +23,7 @@ class RefreshTokenController extends Controller{
         ..where((x) => x.refresh_token).equalTo(authString);
       var token = await query.fetchOne();
       if(token == null){
-        return Response.unauthorized();
+        return Response.unauthorized(body: request.body);
       }
       query = Query<CIMToken>(context)
         ..values.token = Uuid().v4()
@@ -32,7 +32,7 @@ class RefreshTokenController extends Controller{
       token = await query.updateOne();
       if(token == null){
         print("AuthorisationController.handle error in update");
-        return Response.serverError();
+        return Response.serverError(body: request.body);
       }
       final info = CIMAuthorisationInfo();
       info.token = token.token;
@@ -42,7 +42,7 @@ class RefreshTokenController extends Controller{
       return Response.ok(info.toMap());
     }catch(e){
       print("AuthorisationController.handle $e");
-      return Response.serverError();
+      return Response.serverError(body: request.body);
     }
   }
 }

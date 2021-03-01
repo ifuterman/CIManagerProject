@@ -4,7 +4,7 @@ import 'package:aqueduct/aqueduct.dart';
 class CIMToken extends ManagedObject<_CIMToken> implements _CIMToken{}
 @Table(name: 'tokens')
 class _CIMToken{
-  @primaryKey
+  @Column(primaryKey: true, databaseType: ManagedPropertyType.bigInteger)
   int id;
   @Column(unique: true)
   String token;
@@ -13,5 +13,6 @@ class _CIMToken{
   @Column(databaseType: ManagedPropertyType.datetime)
   DateTime expiration;
   @Relate(#users)
+  @Column(databaseType: ManagedPropertyType.bigInteger)
   int users_id;
 }

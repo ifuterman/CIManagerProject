@@ -15,7 +15,7 @@ class AuthorisationController extends Controller{
       authString = authString.toLowerCase();
       final list = authString.split(' ');
       if(list == null || list.length != 2){
-        return Response.badRequest();
+        return Response.badRequest(body: request.body);
       }
       authString = list[1];
       authString = authString.replaceAll(']', '');
@@ -23,15 +23,15 @@ class AuthorisationController extends Controller{
         ..where((x) => x.token).equalTo(authString);
       final token = await query.fetchOne();
       if(token == null){
-        return Response.unauthorized();
+        return Response.unauthorized(body: request.body);
       }
       if(token.expiration.isAfter(DateTime.now().add(Duration(days: 1)))){
-        return Response.forbidden();
+        return Response.forbidden(body: request.body);
       }
       return request;
     }catch(e){
       print("AuthorisationController.handle $e");
-      return Response.serverError();
+      return Response.serverError(body: request.body);
     }
   }
 }

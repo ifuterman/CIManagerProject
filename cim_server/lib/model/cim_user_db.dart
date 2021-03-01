@@ -5,25 +5,21 @@ import 'package:cim_protocol/cim_protocol.dart';
 class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{
   CIMUser toUser(){
     final user = CIMUser(username, pwrd);
+    user.role = UserRoles.values[role];
+    user.id = id;
     return user;
   }
 }
 @Table(name: 'users')
 class _CIMUserDB{
-  @primaryKey
+//  @primaryKey
+  @Column(primaryKey: true, databaseType: ManagedPropertyType.bigInteger)
   int id;
 
   @Column(unique: true)
   String username;
   @Column()
-  String phone;
-  @Column()
   String pwrd;
   @Column()
-  String name;
-  @Column()
-  String last_name;
-  @Column()
-  String mail;
-
+  int role;
 }

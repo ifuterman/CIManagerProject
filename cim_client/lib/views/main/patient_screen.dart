@@ -5,8 +5,7 @@ import 'package:get/get.dart' hide Trans;
 
 import 'patients_screen_controller.dart';
 
-class PatientScreen extends StatelessWidget {
-  final PatientsScreenController controller = Get.find();
+class PatientScreen extends GetView<PatientsScreenController> {
   final scrollController = ScrollController();
 
   @override
