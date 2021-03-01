@@ -68,8 +68,8 @@ class CimServerChannel extends ApplicationChannel {
 
     router
         .route("debug/clean_db")
-        .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
+        // .link(() => AuthorisationController(context))
+        // .link(() => RoleCheckController(context))
         .link(() => DebugCleanDBController(context));
 
     router
