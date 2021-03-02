@@ -7,7 +7,7 @@ enum DoctorSpeciality{
 }
 
 class CIMDoctor{
-  CIMDoctor(String name, String lastName, DoctorSpeciality speciality, {this.middleName, this.birthDate, this.email, this.phones, this.userId = 0, this.id = 0});
+  CIMDoctor(this.name, this.lastName, this.speciality, {this.middleName, this.birthDate, this.email, this.phones, this.userId = 0, this.id = 0});
   int id;
   String name;
   String middleName;

@@ -5,7 +5,7 @@ import 'package:cim_server/model/cim_doctor_db.dart';
 
 class DoctorNewController extends Controller{
   DoctorNewController(this.context);
-  ManagedContext context;
+  final ManagedContext context;
 
   @override
   FutureOr<RequestOrResponse> handle(Request request) async {
@@ -18,7 +18,7 @@ class DoctorNewController extends Controller{
       }
       var doctor = list[0] as CIMDoctor;
       final query = Query<CIMDoctorDB>(context)
-        ..values.speciality = doctor.speciality.index
+        ..values.speciality = doctor.speciality
         ..values.name = doctor.name
         ..values.last_name = doctor.lastName
         ..values.middle_name = doctor.middleName

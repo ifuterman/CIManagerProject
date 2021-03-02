@@ -51,29 +51,37 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
     map[nameKey] = doctor.name;
     map[middleNameKey] = doctor.middleName;
     map[lastNameKey] = doctor.lastName;
-    map[specialityKey] = doctor.speciality.index.toString();
+    map[specialityKey] = doctor.speciality.toString();
     map[userIdKey] = doctor.userId.toString();
+    map[phonesKey] = doctor.phones;
   }
   @override
   CIMDoctor doctorFromMap(Map<String, dynamic> map) {
-    var user = userFromMap(map[userKey]);
-    if(user == null){
-      return null;
-    }
     var name = map[nameKey];
     var lastName = map[lastNameKey];
-    var sx = int.tryParse(map[specialityKey]);
-    sx ??= 0;
-    var speciality = DoctorSpeciality.values[sx];
+    var specialityString = map[specialityKey];
+    specialityString ??= DoctorSpeciality.therapist.toString();
+    final speciality = DoctorSpeciality.values.firstWhere((element) => element.toString() == specialityString);
     var doctor = CIMDoctor(name, lastName, speciality);
     doctor.id = int.tryParse(map[idKey]);
     doctor.id ??= 0;
-    doctor.birthDate = DateTime.tryParse(map[birthDateKey]);
-    doctor.birthDate ??= DateTime.now();
+    var testString = map[birthDateKey];
+    if(testString != null) {
+      doctor.birthDate = DateTime.tryParse(testString);
+    }
+    else{
+      doctor.birthDate = DateTime.now();
+    }
     doctor.email = map[emailKey];
     doctor.middleName = map[middleNameKey];
-
-    doctor.userId = int.tryParse(map[userIdKey]);
+    testString = map[userIdKey];
+    if(testString != null){
+      doctor.userId = int.tryParse(testString);
+    }
+    else{
+      doctor.userId = null;
+    }
+    doctor.phones = map[phonesKey];
     return doctor;
   }
 }

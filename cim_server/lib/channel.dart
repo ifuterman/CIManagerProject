@@ -78,7 +78,13 @@ class CimServerChannel extends ApplicationChannel {
         .route("doctor/new")
         .link(() => AuthorisationController(context))
         .link(() => CheckRoleController(context))
-        .link(() => UserGetController(context));
+        .link(() => DoctorNewController(context));
+
+    router
+        .route("doctor/get")
+        .link(() => AuthorisationController(context))
+        .link(() => CheckRoleController(context))
+        .link(() => DoctorGetController(context));
 
     router
         .route("user/new")

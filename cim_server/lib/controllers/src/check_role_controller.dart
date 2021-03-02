@@ -24,14 +24,13 @@ class CheckRoleController extends Controller{
       final queryUser = Query<CIMUserDB>(context)
         ..where((x) => x.id).equalTo(tokenObj.users_id);
       final user = await queryUser.fetchOne();
-      UserRoles role = user
+      final role = user
           .toUser()
           .role;
       if (role == UserRoles.administrator)
         return request;
       if (role == UserRoles.doctor) {
-        if (request.path.segments[0] == CIMRestApi.userSegmentKey &&
-            request.path.segments[1] != 'get') {
+        if (request.path.segments[0] == CIMRestApi.userSegmentKey || request.path.segments[0] == CIMRestApi.debugSegmentKey) {
           return Response.forbidden();
         }
         return request;

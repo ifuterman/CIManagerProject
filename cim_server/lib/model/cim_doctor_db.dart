@@ -5,9 +5,7 @@ import 'package:cim_protocol/cim_protocol.dart';
 
 class CIMDoctorDB extends ManagedObject<_CIMDoctorDB> implements _CIMDoctorDB{
   CIMDoctor toDoctor(){
-    speciality ??= DoctorSpeciality.therapist.index;
-    final doctor = CIMDoctor(name, last_name,
-      DoctorSpeciality.values[speciality],
+    final doctor = CIMDoctor(name, last_name, speciality,
       middleName: middle_name,
       birthDate: birth_date,
       email: email,
@@ -15,6 +13,7 @@ class CIMDoctorDB extends ManagedObject<_CIMDoctorDB> implements _CIMDoctorDB{
       phones: phones,
       userId: users_id
     );
+    return doctor;
   }
 }
 @Table(name: 'doctors')
@@ -34,7 +33,7 @@ class _CIMDoctorDB{
   @Column()
   String phones;
   @Column()
-  int speciality;
+  DoctorSpeciality speciality;
   @Relate(#users)
   @Column(databaseType: ManagedPropertyType.bigInteger)
   int users_id;
