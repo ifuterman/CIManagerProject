@@ -27,6 +27,7 @@ http://localhost:8888/user/new
 }
 
 http://localhost:8888/debug/clean_db
+http://localhost:8888/debug/delete_users
 
 http://localhost:8888/user/first
 {
@@ -41,3 +42,25 @@ http://localhost:8888/user/first
         }
     ]
 }
+
+
+
+http://localhost:8888/doctor/new
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMDoctor",
+            "name" : "Пётр",
+            "middleName" : "Петрович",
+            "lastName" : "Петров",
+            "email" : "ppetrov@gmail.com",
+            "phones" : "+7-902-12-34-897",
+            "speciality" : "DoctorSpeciality.therapist",
+            "id" : "0",
+            "userId" : null
+        }
+    ]
+}
+
+http://localhost:8888/doctor/get

@@ -16,6 +16,7 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   final String emailKey = 'email';
   final String phonesKey = 'phones';
   final String specialityKey = 'speciality';
+  final String userIdKey = "userId";
 
   @override
   String getVersion() => '0.0.1';
@@ -44,34 +45,43 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   }
   @override
   void doctorToMap(CIMDoctor doctor, Map<String, dynamic> map){
-    var userMap = <String, dynamic>{};
-    userToMap(doctor.user, userMap);
-    map[userKey] = userMap;
     map[idKey] = doctor.id.toString();
     map[birthDateKey] = doctor.birthDate.toString();
     map[emailKey] = doctor.email;
     map[nameKey] = doctor.name;
     map[middleNameKey] = doctor.middleName;
     map[lastNameKey] = doctor.lastName;
-    map[specialityKey] = doctor.speciality.index.toString();
+    map[specialityKey] = doctor.speciality.toString();
+    map[userIdKey] = doctor.userId.toString();
+    map[phonesKey] = doctor.phones;
   }
   @override
   CIMDoctor doctorFromMap(Map<String, dynamic> map) {
-    var user = userFromMap(map[userKey]);
-    if(user == null){
-      return null;
-    }
-    var doctor = CIMDoctor(user);
+    var name = map[nameKey];
+    var lastName = map[lastNameKey];
+    var specialityString = map[specialityKey];
+    specialityString ??= DoctorSpeciality.therapist.toString();
+    final speciality = DoctorSpeciality.values.firstWhere((element) => element.toString() == specialityString);
+    var doctor = CIMDoctor(name, lastName, speciality);
     doctor.id = int.tryParse(map[idKey]);
     doctor.id ??= 0;
-    doctor.birthDate = DateTime.tryParse(map[birthDateKey]);
-    doctor.birthDate ??= DateTime.now();
+    var testString = map[birthDateKey];
+    if(testString != null) {
+      doctor.birthDate = DateTime.tryParse(testString);
+    }
+    else{
+      doctor.birthDate = DateTime.now();
+    }
     doctor.email = map[emailKey];
-    doctor.name = map[nameKey];
     doctor.middleName = map[middleNameKey];
-    doctor.lastName = map[lastNameKey];
-    var sx = int.tryParse(map[specialityKey]);
-    sx ??= 0;
-    doctor.speciality = DoctorSpeciality.values[sx];
+    testString = map[userIdKey];
+    if(testString != null){
+      doctor.userId = int.tryParse(testString);
+    }
+    else{
+      doctor.userId = null;
+    }
+    doctor.phones = map[phonesKey];
+    return doctor;
   }
 }
