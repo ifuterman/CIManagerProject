@@ -17,6 +17,9 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   final String phonesKey = 'phones';
   final String specialityKey = 'speciality';
   final String userIdKey = "userId";
+  final String snilsKey = "snils";
+  final String statusKey = "status";
+  final String sexKey = "sex";
 
   @override
   String getVersion() => '0.0.1';
@@ -83,5 +86,42 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
     }
     doctor.phones = map[phonesKey];
     return doctor;
+  }
+  @override
+  void patientToMap(CIMPatient patient, Map<String, dynamic> map) {
+    map[idKey] = patient.id.toString();
+    map[birthDateKey] = patient.birthDate.toString();
+    map[emailKey] = patient.email;
+    map[nameKey] = patient.name;
+    map[middleNameKey] = patient.middleName;
+    map[lastNameKey] = patient.lastName;
+    map[phonesKey] = patient.phones;
+    map[snilsKey] = patient.snils;
+    map[statusKey] = patient.status.toString();
+    map[sexKey] = patient.sex.toString();
+  }
+    @override
+    CIMPatient patientFromMap(Map<String, dynamic> map) {
+      var testString = map[birthDateKey];
+      var birthDate = testString != null ? DateTime.tryParse(testString) : null;
+      testString = map[sexKey];
+      var sex = Sex.values.firstWhere((element) => element.toString() == testString,
+      orElse: () => Sex.male);
+      testString = map[idKey];
+      final id = testString == null ? 0 : int.tryParse(testString);
+      var patient = CIMPatient(id, map[lastNameKey], map[nameKey], sex,
+        phones: map[phonesKey],
+        email: map[emailKey],
+        birthDate: birthDate,
+        middleName: map[middleNameKey],
+        snils: map[snilsKey]
+      );
+      testString = map[statusKey];
+      if(testString != null){
+        patient.status = Participation.values.firstWhere((element) =>
+          element.toString() == testString,
+          orElse: () => Participation.unknown);
+      }
+      return patient;
   }
 }

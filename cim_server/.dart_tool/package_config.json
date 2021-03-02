@@ -123,9 +123,9 @@
     },
     {
       "name": "http_multi_server",
-      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/http_multi_server-2.2.0",
+      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/http_multi_server-3.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "http_parser",
@@ -141,9 +141,9 @@
     },
     {
       "name": "io",
-      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/io-0.3.4",
+      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/io-1.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "isolate_executor",
@@ -345,7 +345,7 @@
     },
     {
       "name": "test",
-      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.4",
+      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.5",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -357,7 +357,7 @@
     },
     {
       "name": "test_core",
-      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.14",
+      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.15",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -410,7 +410,7 @@
       "languageVersion": "2.0"
     }
   ],
-  "generated": "2021-03-02T05:47:37.892513Z",
+  "generated": "2021-03-02T10:28:57.263726Z",
   "generator": "pub",
   "generatorVersion": "2.12.0-179.0.dev"
 }
