@@ -64,3 +64,23 @@ http://localhost:8888/doctor/new
 }
 
 http://localhost:8888/doctor/get
+
+http://localhost:8888/patients/new
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMPatient",
+            "name" : "Пётр",
+            "middleName" : "Петрович",
+            "lastName" : "Петров",
+            "email" : "ppetrov@gmail.com",
+            "phones" : "+7-902-12-34-897",
+            "speciality" : "DoctorSpeciality.therapist",
+            "id" : "0",
+            "snils" : "snils1",
+            "status" : "Participation.free",
+            "sex" : "Sex.male"
+        }
+    ]
+}
