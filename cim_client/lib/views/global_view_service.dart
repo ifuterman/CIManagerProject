@@ -68,17 +68,25 @@ class GlobalViewService extends GetxService {
     print('$now: GlobalViewService._toAuthForm: token = $token');
     if(token == null){
       Get.put<AuthorizationViewController>(AuthorizationViewController()
-        ..pageNavigate(
+        ..toPage(
             onClose: (c, {args}){
               //_startChooseLang();
+              Get.back();
               debugPrint('$now: GlobalViewService._toAuthForm.CLOSE');
             },
             args: 'from $runtimeType._toAuthForm')
       );
     }else{
       Get.put<MainViewController>(MainViewController()
-        ..pageNavigate(
+        ..toPage(
             onClose: (c, {args}){
+              debugPrint('$now: GlobalViewService._toAuthForm: MainViewController.onClose');
+              Get.back();
+              if(args == 'clear_user'){
+                cache.saveToken(null).then((value) {
+                  _toAuthForm();
+                });
+              }
             },
             args: 'from $runtimeType._toAuthForm')
       );
@@ -87,8 +95,9 @@ class GlobalViewService extends GetxService {
 
   void _toConnectForm() {
     Get.put<ConnectionViewController>(ConnectionViewController()
-      ..pageNavigate(
+      ..toPage(
           onClose: (c, {args}){
+            Get.back();
             //_startChooseLang();
             debugPrint('$now: GlobalViewService._toConnectForm.CLOSE');
           },

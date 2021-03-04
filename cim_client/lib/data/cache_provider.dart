@@ -48,7 +48,6 @@ class CacheProviderService extends GetxService implements CacheProvider {
 
   @override
   Future<void> saveToken(String token) async {
-    assert(null != token);
     _storage.write(tokenKey, token);
   }
 

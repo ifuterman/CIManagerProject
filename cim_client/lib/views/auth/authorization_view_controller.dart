@@ -1,15 +1,13 @@
-import 'package:cim_client/cim_connection.dart';
-import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/auth/authorization_view.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
+import 'package:cim_client/views/profile/profile_page_controller.dart';
 import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
 
 enum AuthorisationState { idle, start, ok, error }
@@ -26,7 +24,7 @@ class AuthorizationViewController extends GetxService
   CacheProvider _cacheProvider;
 
   @override
-  PageBuilder get defaultPageBuilder => () => off(() => AuthorizationView());
+  GetPageBuilder get defaultGetPageBuilder => () => AuthorizationView();
 
   void enterData({String login, String password}) {
     isValidData$(
@@ -37,6 +35,15 @@ class AuthorizationViewController extends GetxService
     _dataProvider.cleanDb().then((value) {
       Get.snackbar('Clean DB', '$value');
     });
+  }
+
+  void openProfile() {
+    Get.put(
+      ProfilePageController()
+        ..toPage(onClose: (nav, {args}) {
+          Get.back();
+        }),
+    );
   }
 
   /// Let's suggest that we don't know about if there is admin in system.
@@ -92,6 +99,7 @@ class AuthorizationViewController extends GetxService
   }
 
   Future<bool> _getToken({String login, String password}) async {
+    debugPrint('$now: AuthorizationViewController._getToken');
     final simpleCandidate = CIMUser(login, password);
     return await _dataProvider.getToken(simpleCandidate).then((value) {
       if (value.result == CIMErrors.ok) {
@@ -99,9 +107,11 @@ class AuthorizationViewController extends GetxService
         assert(null != token);
         _cacheProvider.saveToken(token);
         //
+        debugPrint('$now: AuthorizationViewController._getToken: value.result == CIMErrors.ok');
         Get.put<MainViewController>(MainViewController()
-          ..pageNavigate(
+          ..toPage(
               onClose: (c, {args}) {
+                Get.back();
                 print('$now: AuthorisationViewController.authoriseUser: MainViewController.onClose');
               }));
         // AutoClose

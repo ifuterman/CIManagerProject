@@ -17,8 +17,7 @@ class ConnectionViewController extends GetxController with SmartNavigationMixin 
   final updateScreenTrigger = RxBool(false);
 
   @override
-  PageBuilder get defaultPageBuilder => () =>
-      Get.off(() => ConnectionView(), binding: BindingsBuilder(() => this));
+  GetPageBuilder get defaultGetPageBuilder => () => ConnectionView();
 
 
   void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;

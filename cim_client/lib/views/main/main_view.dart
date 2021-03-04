@@ -97,11 +97,7 @@ class MainMenu extends StatelessWidget {
           _ListTileItem(
             selected: selected == MainMenuItems.item_messages,
             title: 'Clear User',
-            onTap: () {
-              delayMilli(10).then((_) => controller.close());
-              Get.put<AuthorizationViewController>(AuthorizationViewController()
-                ..pageNavigate());
-            },
+            onTap: controller.clearUser,
           ),
       ],
     );

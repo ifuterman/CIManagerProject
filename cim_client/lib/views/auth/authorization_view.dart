@@ -28,7 +28,6 @@ class AuthorizationView extends GetView<AuthorizationViewController> {
               });
             },
             'change theme': pref.switchDarkMode,
-            'DEBUG MENU #1': () {},
           },
           top: 5,
         ),
@@ -139,12 +138,24 @@ class _MainWidget extends GetView<AuthorizationViewController> {
                 },
               ),
               if (kDebugMode)
-                TextButton(
-                  child: Text(
-                    "Clean DB",
-                    style: TextStyle(color: Colors.blue),
-                  ),
-                  onPressed: controller.clearDb,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      child: Text(
+                        "Clean DB",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onPressed: controller.clearDb,
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onPressed: controller.openProfile,
+                    ),
+                  ],
                 )
             ],
           ),

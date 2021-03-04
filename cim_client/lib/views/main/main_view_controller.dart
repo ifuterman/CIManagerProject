@@ -31,7 +31,10 @@ class MainViewController extends GetxController
   bool isAuthorised() => authorised.value;
 
   @override
-  PageBuilder get defaultPageBuilder => () => off(() => MainView());
+  GetPageBuilder get defaultGetPageBuilder => () {
+    debugPrint('$now: MainViewController.defaultGetPageBuilder');
+    return MainView();
+  };
 
   SmartNavigationMixin _lastSmartNavigation;
 
@@ -82,6 +85,10 @@ class MainViewController extends GetxController
   void onSelectMainMenuItem(MainMenuItems item) {
     if (item == selectedItem.value) return;
     selectedItem.value = item;
+  }
+
+  void clearUser() {
+    close(args: 'clear_user');
   }
 
   @override
