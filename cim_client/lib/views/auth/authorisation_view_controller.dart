@@ -22,8 +22,8 @@ class AuthorisationViewController extends GetxController
 
   final isValidData$ = false.obs;
 
-  DataProvider _provider;
-  CacheProvider _cache;
+  DataProvider _dataProvider;
+  CacheProvider _cacheProvider;
 
   @override
   PageBuilder get defaultPageBuilder => () => off(() => AuthorisationView());
@@ -34,7 +34,7 @@ class AuthorisationViewController extends GetxController
   }
 
   void clearDb() {
-    _provider.cleanDb().then((value) {
+    _dataProvider.cleanDb().then((value) {
       Get.snackbar('Clean DB', '$value');
     });
   }
@@ -51,7 +51,7 @@ class AuthorisationViewController extends GetxController
         // FIXME(vvk): [UserRoles] -> UserRole
         final candidate =
         CIMUser.fromJson(0, login, password, UserRoles.administrator);
-        _provider.createFirstUser(candidate).then((value) async {
+        _dataProvider.createFirstUser(candidate).then((value) async {
           if (value.result == CIMErrors.ok) {
             await _getToken(login: login, password: password);
           } else {
@@ -87,17 +87,17 @@ class AuthorisationViewController extends GetxController
   void onInit() {
     super.onInit();
     state$(AuthorisationState.ok);
-    _provider = Get.find<DataProvider>();
-    _cache = Get.find<CacheProvider>();
+    _dataProvider = Get.find<DataProvider>();
+    _cacheProvider = Get.find<CacheProvider>();
   }
 
   Future<bool> _getToken({String login, String password}) async {
     final simpleCandidate = CIMUser(login, password);
-    return await _provider.getToken(simpleCandidate).then((value) {
+    return await _dataProvider.getToken(simpleCandidate).then((value) {
       if (value.result == CIMErrors.ok) {
         final token = value.data['access_token'] as String;
         assert(null != token);
-        _cache.saveToken(token);
+        _cacheProvider.saveToken(token);
         //
         Get.put<MainViewController>(MainViewController()
           ..pageNavigate(
