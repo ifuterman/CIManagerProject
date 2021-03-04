@@ -3,7 +3,7 @@ import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/views/auth/authorisation_view_controller.dart';
+import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/shared/ui_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart' hide Trans;
 
-class AuthorisationView extends GetView<AuthorisationViewController> {
+class AuthorizationView extends GetView<AuthorizationViewController> {
   final pref = Get.find<PreferenceService>();
 
   @override
@@ -37,7 +37,7 @@ class AuthorisationView extends GetView<AuthorisationViewController> {
   }
 }
 
-class _MainWidget extends GetView<AuthorisationViewController> {
+class _MainWidget extends GetView<AuthorizationViewController> {
   final _controllerLogin = TextEditingController();
   final _controllerPassword = TextEditingController();
 

@@ -8,7 +8,7 @@ class CIMPatientDB extends ManagedObject<_CIMPatientDB> implements _CIMPatientDB
       middleName: middle_name,
       birthDate: birth_date,
       email: email,
-      phones: phone
+      phones: phone,
     );
 }
 @Table(name: 'patients')

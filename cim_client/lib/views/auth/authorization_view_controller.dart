@@ -4,7 +4,7 @@ import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/views/auth/authorisation_view.dart';
+import 'package:cim_client/views/auth/authorization_view.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
@@ -14,8 +14,8 @@ import 'package:get/get.dart' hide Trans;
 
 enum AuthorisationState { idle, start, ok, error }
 
-class AuthorisationViewController extends GetxController
-    with SmartNavigationMixin<AuthorisationViewController> {
+class AuthorizationViewController extends GetxService
+    with SmartNavigationMixin<AuthorizationViewController> {
   final user = CIMUser("", "");
 
   final state$ = AuthorisationState.idle.obs;
@@ -26,7 +26,7 @@ class AuthorisationViewController extends GetxController
   CacheProvider _cacheProvider;
 
   @override
-  PageBuilder get defaultPageBuilder => () => off(() => AuthorisationView());
+  PageBuilder get defaultPageBuilder => () => off(() => AuthorizationView());
 
   void enterData({String login, String password}) {
     isValidData$(

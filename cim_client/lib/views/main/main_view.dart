@@ -1,18 +1,17 @@
 import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/views/auth/authorisation_view_controller.dart';
+import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
 import 'main_view_controller.dart';
-import 'patient_screen.dart';
 
 class MainView extends GetView<MainViewController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: (){
+      onWillPop: () {
         print('$now: MainView.build: BACK');
         return controller.close();
       },
@@ -78,17 +77,17 @@ class MainMenu extends StatelessWidget {
       children: [
         _ListTileItem(
           selected: selected == MainMenuItems.item_patients,
-          title: 'MAINVIEWLEFTLIST_ITEM_PATIENTSLIST_TITLE'.tr(),
+          title: 'patient_list'.tr(),
           onTap: () => controller.openSub(MainMenuItems.item_patients),
         ),
         _ListTileItem(
           selected: selected == MainMenuItems.item_schedule,
-          title: 'MAINVIEWLEFTLIST_ITEM_SCHEDULE_TITLE'.tr(),
+          title: 'schedule'.tr(),
           onTap: () => controller.openSub(MainMenuItems.item_schedule),
         ),
         _ListTileItem(
           selected: selected == MainMenuItems.item_protocol,
-          title: 'MAINVIEWLEFTLIST_ITEM_PROTOCOLS_TITLE'.tr(),
+          title: 'protocols'.tr(),
           onTap: () => controller.openSub(MainMenuItems.item_protocol),
         ),
         Container(
@@ -98,16 +97,10 @@ class MainMenu extends StatelessWidget {
           _ListTileItem(
             selected: selected == MainMenuItems.item_messages,
             title: 'Clear User',
-            onTap: (){
+            onTap: () {
               delayMilli(10).then((_) => controller.close());
-              Get.put<AuthorisationViewController>(AuthorisationViewController()
-                ..pageNavigate(
-                    onClose: (c, {args}){
-                      //_startChooseLang();
-                      debugPrint('$now: GlobalViewService._toAuthForm.CLOSE');
-                    },
-                    args: 'from $runtimeType._toAuthForm')
-              );
+              Get.put<AuthorizationViewController>(AuthorizationViewController()
+                ..pageNavigate());
             },
           ),
       ],
@@ -117,19 +110,5 @@ class MainMenu extends StatelessWidget {
 
 class MainScreen extends GetView<MainViewController> {
   @override
-  Widget build(context) => Obx(() {
-        print('$now: MainScreen.build: ${controller.subWidgetPlacer$.value}');
-        return controller.subWidgetPlacer$.value;
-      });
-
-  Widget getScreen(MainMenuItems item) {
-    switch (item) {
-      case MainMenuItems.item_patients:
-        {
-          return PatientScreen();
-        }
-      default:
-        return Container();
-    }
-  }
+  Widget build(context) => Obx(() => controller.subWidgetPlacer$.value);
 }

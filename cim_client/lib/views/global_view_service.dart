@@ -3,7 +3,7 @@ import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/views/auth/authorisation_view_controller.dart';
+import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/connect/connection_view_controller.dart';
 import 'package:cim_client/views/main/main_view.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
@@ -67,7 +67,7 @@ class GlobalViewService extends GetxService {
     final token = cache.fetchToken();
     print('$now: GlobalViewService._toAuthForm: token = $token');
     if(token == null){
-      Get.put<AuthorisationViewController>(AuthorisationViewController()
+      Get.put<AuthorizationViewController>(AuthorizationViewController()
         ..pageNavigate(
             onClose: (c, {args}){
               //_startChooseLang();

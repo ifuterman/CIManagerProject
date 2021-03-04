@@ -61,7 +61,7 @@ class PatientExpansionPanel implements ExpansionPanel {
         Expanded(
           flex: 1,
           child: Container(
-            child: Text(item.patient.firstName),
+            child: Text(item.patient.name),
             margin: EdgeInsets.only(right: 2.0),
           ),
         ),
@@ -75,20 +75,20 @@ class PatientExpansionPanel implements ExpansionPanel {
         Expanded(
           flex: 1,
           child: Container(
-            child: Text("USERINFO_AGE".tr() + ": ${item.patient.age}"),
+            child: Text("USERINFO_AGE".tr() + ": ${item.patient.birthDate}"),
             margin: EdgeInsets.only(right: 2.0),
           ),
         ),
         Expanded(
           flex: 1,
           child: Container(
-            child: Text("USERINFO_SEX".tr() +
+            child: Text("user_sex".tr() +
                 ": " +
-                (item.patient.sex == Sex.male ? "MALE".tr() : "FEMALE".tr())),
+                (item.patient.sex == Sex.male ? "male".tr() : "female".tr())),
             margin: EdgeInsets.only(right: 2.0),
           ),
         ),
-        getParticipationIcon(item.patient.participation),
+        getParticipationIcon(item.patient.status),
       ],
     );
   }
@@ -98,7 +98,7 @@ class PatientExpansionPanel implements ExpansionPanel {
   }
 
   @override
-  get headerBuilder => buildHeader;
+  ExpansionPanelHeaderBuilder get headerBuilder => buildHeader;
 
   Icon getParticipationIcon(Participation p) {
     switch (p) {

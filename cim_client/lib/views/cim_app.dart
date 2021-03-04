@@ -3,7 +3,7 @@ import 'package:cim_client/shared/funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
-import 'auth/authorisation_view.dart';
+import 'auth/authorization_view.dart';
 import 'connect/connection_view.dart';
 import 'main/main_view.dart';
 
@@ -21,7 +21,7 @@ class CIMApp extends StatelessWidget {
   Widget getView(CIMViews view) {
     switch (view) {
       case CIMViews.authorisationView:
-        return AuthorisationView();
+        return AuthorizationView();
       case CIMViews.mainView:
         return MainView();
       case CIMViews.connectionView:
