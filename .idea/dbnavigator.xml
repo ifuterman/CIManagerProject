@@ -24,21 +24,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="fd611b7b-631f-4bfa-b4f1-b888d674ff5f">
-        <schema name="information_schema" object-types="function, table, view, sequence" />
-        <schema name="pg_catalog" object-types="function, table, view" />
-        <schema name="public" object-types="function, constraint, table, view, column, sequence, dataset trigger, index" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="fd611b7b-631f-4bfa-b4f1-b888d674ff5f">
-      <console name="cim_database" type="STANDARD" schema="public" session="Main"><![CDATA[select * from tokens;
---select * from tokens where tokens."token" = 'xxxx';
---insert into tokens (token, expiration, users_id, refresh_token)
---    values ('xxxx', current_timestamp, 2, 'yyyy');
---select * from users;]]></console>
+      <console name="cim_database" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

@@ -3,9 +3,9 @@ import 'package:aqueduct/aqueduct.dart';
 import 'package:cim_server/model/cim_user_db.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 
-class NewUserController extends Controller{
+class UserNewController extends Controller{
 
-  NewUserController(this.context);
+  UserNewController(this.context);
   final ManagedContext context;
 
   @override
@@ -39,6 +39,5 @@ class NewUserController extends Controller{
       }
       return Response.ok(packet.map);
     }catch(e) { return Response.serverError(body : {"message" : e.toString()});}
-    return Response.serverError(body : {"message" : "Unimplemented error"});
   }
 }

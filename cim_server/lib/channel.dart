@@ -1,10 +1,6 @@
 import 'dart:core';
-import 'package:cim_protocol/cim_protocol.dart';
-import 'package:cim_server/model/cim_token.dart';
-import 'package:uuid/uuid.dart';
 import 'cim_server.dart';
 import 'controllers/controllers.dart';
-import 'model/cim_user_db.dart';
 
 
 
@@ -73,32 +69,59 @@ class CimServerChannel extends ApplicationChannel {
         .link(() => DebugCleanDBController(context));
 
     router
+        .route("debug/delete_users")
+//        .link(() => AuthorisationController(context))
+//        .link(() => CheckRoleController(context))
+        .link(() => DebugDeleteUsersController(context));
+
+    router
+        .route("doctor/new")
+        .link(() => AuthorisationController(context))
+        .link(() => CheckRoleController(context))
+        .link(() => DoctorNewController(context));
+
+    router
+        .route("doctor/get")
+        .link(() => AuthorisationController(context))
+        .link(() => DoctorGetController(context));
+    router
+        .route("doctor/update")
+        .link(() => AuthorisationController(context))
+        .link(() => CheckRoleController(context))
+        .link(() => DoctorUpdateController(context));
+    router
+        .route("doctor/delete")
+        .link(() => AuthorisationController(context))
+        .link(() => CheckRoleController(context))
+        .link(() => DoctorDeleteController(context));
+
+    router
         .route("user/new")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => NewUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserNewController(context));
 
     router
         .route("user/first")
-        .link(() => FirstUserController(context));
+        .link(() => UserFirstController(context));
 
     router
         .route("user/update")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => UpdateUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserUpdateController(context));
 
     router
         .route("user/delete")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => DeleteUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserDeleteController(context));
 
     router
         .route("user/get")
         .link(() => AuthorisationController(context))
-        .link(() => RoleCheckController(context))
-        .link(() => GetUserController(context));
+        .link(() => CheckRoleController(context))
+        .link(() => UserGetController(context));
 
     return router;
   }
@@ -111,14 +134,5 @@ class CimServerChannel extends ApplicationChannel {
 
 
 
-class DeleteUserController extends Controller{
 
-  DeleteUserController(this.context);
-  final ManagedContext context;
-
-  @override
-  FutureOr<RequestOrResponse> handle(Request request) {
-    return Response.serverError(body : {"message" : "Unimplemented error"});
-  }
-}
 

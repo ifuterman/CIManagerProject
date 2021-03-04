@@ -4,8 +4,8 @@ import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server/cim_server.dart';
 import 'package:cim_server/model/cim_user_db.dart';
 
-class FirstUserController extends Controller{
-  FirstUserController(this.context);
+class UserFirstController extends Controller{
+  UserFirstController(this.context);
   final ManagedContext context;
   @override
   FutureOr<RequestOrResponse> handle (Request request) async{
@@ -39,7 +39,7 @@ class FirstUserController extends Controller{
     }
     catch(e){
       print("AuthorisationController.handle $e");
-      return Response.serverError(body: request.body);
+      return Response.serverError(body: {"message :" : e});
     }
   }
 
