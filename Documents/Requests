@@ -84,3 +84,42 @@ http://localhost:8888/patients/new
         }
     ]
 }
+
+http://localhost:8888/patients/update
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMPatient",
+            "name" : "Пётр",
+            "middleName" : "Петрович",
+            "lastName" : "Петров",
+            "email" : "ppetrov@gmail.com",
+            "phones" : "+7-902-12-34-897",
+            "speciality" : "DoctorSpeciality.therapist",
+            "id" : "1",
+            "snils" : "snils1",
+            "status" : "Participation.free",
+            "sex" : "Sex.male"
+        }
+    ]
+}
+http://localhost:8888/patients/delete
+{
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMPatient",
+            "name" : "Пётр",
+            "middleName" : "Петрович",
+            "lastName" : "Петров",
+            "email" : "ppetrov@gmail.com",
+            "phones" : "+7-902-12-34-897",
+            "speciality" : "DoctorSpeciality.therapist",
+            "id" : "1",
+            "snils" : "snils1",
+            "status" : "Participation.free",
+            "sex" : "Sex.male"
+        }
+    ]
+}

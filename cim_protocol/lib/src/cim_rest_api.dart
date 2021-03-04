@@ -14,8 +14,10 @@ class CIMRestApi{
   static String prepareDoctorGet() => '/$doctorSegmentKey/get';
   static String prepareDoctorUpdate() => '/$doctorSegmentKey/update';
   static String prepareDoctorDelete() => '/$doctorSegmentKey/delete';
+  static String preparePatientsDelete() => '/$patientsSegmentKey/delete';
   static String preparePatientsGet() => '/$patientsSegmentKey/get';
   static String preparePatientsNew() => '/$patientsSegmentKey/new';
+  static String preparePatientsUpdate() => '/$patientsSegmentKey/update';
   static String debugSegmentKey = 'debug';
   static String userSegmentKey = 'user';
   static String authSegmentKey = 'auth';
