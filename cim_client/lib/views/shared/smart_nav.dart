@@ -11,7 +11,7 @@ typedef SubWidgetBuilder = Widget Function();
 
 /// Simple and effective mixin for [GetxController] and [GetxService]
 /// to make navigation
-mixin SmartNavigationMixin<T> {
+mixin SmartNavigationMixin<T> on DisposableInterface {
   SmartNavigationClose closeCallback;
   bool autoDelete;
   var subWidgetPlacer$ = Rx<Widget>();
@@ -66,9 +66,9 @@ mixin SmartNavigationMixin<T> {
     bool autoDelete = true,
     dynamic args,
   }) {
-
-    if(_typeOf<T>().toString() == 'dynamic'){
-      throw Exception('possibly you type SmartNavigationMixin '
+    // It prevents from mixing without pointing to real type
+    if (this is! SmartNavigationMixin<DisposableInterface>) {
+      throw Exception('possibly you use wrong SmartNavigationMixin<???> '
           ' instead of SmartNavigationMixin<$runtimeType> ');
     }
 
@@ -90,8 +90,9 @@ mixin SmartNavigationMixin<T> {
     bool autoDelete = true,
     dynamic args,
   }) {
-    if(_typeOf<T>().toString() == 'dynamic'){
-      throw Exception('possibly you type SmartNavigationMixin '
+    // It prevents from mixing without pointing to real type
+    if (this is! SmartNavigationMixin<DisposableInterface>) {
+      throw Exception('possibly you use wrong SmartNavigationMixin<???> '
           ' instead of SmartNavigationMixin<$runtimeType> ');
     }
 
@@ -114,14 +115,11 @@ mixin SmartNavigationMixin<T> {
   Future<bool> close({bool result = true, dynamic args}) async {
     closeCallback?.call(this, args: args);
     if (autoDelete && result) {
-      print('$now: SmartNavigationMixin.close: $runtimeType');
-      print('$now: SmartNavigationMixin.close: ${_typeOf<T>()}');
       // no way to delete when result is false!
       Get.delete<T>();
     }
     return result;
   }
-
 }
 
-Type _typeOf<T>() => T;
+
