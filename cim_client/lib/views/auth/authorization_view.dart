@@ -1,14 +1,17 @@
 import 'dart:ui';
 import 'package:cim_client/cim_service.dart';
+import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/pref_service.dart';
-import 'package:cim_client/views/auth/authorisation_view_controller.dart';
+import 'package:cim_client/shared/funcs.dart';
+import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/shared/ui_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart' hide Trans;
 
-class AuthorisationView extends GetView<AuthorisationViewController> {
+class AuthorizationView extends GetView<AuthorizationViewController> {
   final pref = Get.find<PreferenceService>();
 
   @override
@@ -18,8 +21,13 @@ class AuthorisationView extends GetView<AuthorisationViewController> {
         body: DebuggableWidget(
           mainWidget: _MainWidget(),
           debugItems: {
+            'clean DB': () {
+              final provider = Get.find<DataProvider>();
+              provider.cleanDb().then((value) {
+                Get.snackbar('Clean DB', '$value');
+              });
+            },
             'change theme': pref.switchDarkMode,
-            'DEBUG MENU #1': () {},
           },
           top: 5,
         ),
@@ -28,7 +36,7 @@ class AuthorisationView extends GetView<AuthorisationViewController> {
   }
 }
 
-class _MainWidget extends GetView<AuthorisationViewController> {
+class _MainWidget extends GetView<AuthorizationViewController> {
   final _controllerLogin = TextEditingController();
   final _controllerPassword = TextEditingController();
 
@@ -76,9 +84,10 @@ class _MainWidget extends GetView<AuthorisationViewController> {
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                   ),
-                  onChanged: (value) {
-                    controller.user.login = _controllerLogin.text;
-                  },
+                  onChanged: (v) => controller.enterData(
+                    login: _controllerLogin.text,
+                    password: _controllerPassword.text,
+                  ),
                 ),
               ),
               Text(
@@ -98,20 +107,26 @@ class _MainWidget extends GetView<AuthorisationViewController> {
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                   ),
+                  onChanged: (v) => controller.enterData(
+                    login: _controllerLogin.text,
+                    password: _controllerPassword.text,
+                  ),
                 ),
               ),
               SizedBox(height: 5),
-              ElevatedButton(
-                child: Text("user_authorize_title".tr()),
-                onPressed: () {
-                  controller.authoriseUser(
-                    login: _controllerPassword.text,
-                    password: _controllerLogin.text,
-                  );
-/*              if (controller.isAuthorised())
-                    service.currentView.value = CIMViews.main_view;*/
-                },
+              Obx(
+                () => ElevatedButton(
+                  child: Text("user_authorize_title".tr()),
+                  onPressed: controller.isValidData$.value
+                      ? () {
+                          controller.authoriseUser(
+                            login: _controllerPassword.text,
+                            password: _controllerLogin.text,
+                          );
+                        }
+                      : null,
 //              onPressed: () => viewModel.authorizeUser(),
+                ),
               ),
               TextButton(
                 child: Text(
@@ -121,11 +136,31 @@ class _MainWidget extends GetView<AuthorisationViewController> {
                 onPressed: () {
                   service.currentView.value = CIMViews.connectionView;
                 },
-              )
+              ),
+              if (kDebugMode)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      child: Text(
+                        "Clean DB",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onPressed: controller.clearDb,
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                      onPressed: controller.openProfile,
+                    ),
+                  ],
+                )
             ],
           ),
         ),
-        Obx((){
+        Obx(() {
           return controller.state$.value == AuthorisationState.start
               ? _ProgressIndicator()
               : Container();

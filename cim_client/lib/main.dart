@@ -1,6 +1,8 @@
 import 'package:cim_client/cim_service.dart';
+import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/shared/funcs.dart';
+import 'package:cim_client/shared/logger_utils.dart';
 import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/shared/routes.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -14,6 +16,7 @@ import 'views/cim_app.dart';
 void main() async {
   EquatableConfig.stringify = true;
   WidgetsFlutterBinding.ensureInitialized();
+
   await initServices();
   final pref = Get.find<PreferenceService>();
   runApp(
@@ -37,6 +40,10 @@ void main() async {
               navigatorKey: Get.key,
               initialRoute: GlobalViewService.initialRoute,
               getPages: routes,
+
+              // enableLog: true,
+              // logWriterCallback: Logger.write,
+
             );
           }),
     ),
@@ -47,6 +54,7 @@ Future initServices() async {
   print('starting services ...');
   await GetStorage.init();
   Get.putAsync(() => PreferenceService().init());
+  Get.putAsync<CacheProvider>(() => CacheProviderService().init());
   Get.putAsync(() => CIMService().init());
   await Get.putAsync(() => GlobalViewService().init());
   await delayMilli(1000);
