@@ -2,7 +2,7 @@ import 'package:cim_protocol/src/mappers/cim_json_mapper.dart';
 import 'package:test/test.dart';
 
 import 'package:cim_protocol/cim_protocol.dart';
-
+enum testEnum{e1, e2}
 void main() {
   group('tests for CIMJsonMapper_0_0_1', () {
     CIMUser user = CIMUser.fromJson(0, 'test_login', 'test_password', UserRoles.administrator);

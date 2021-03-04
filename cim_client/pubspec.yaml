@@ -21,9 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  intl: ^0.17.0
+#  intl: ^0.17.0
+  intl: any
   equatable: ^1.2.6
-  http: ^0.13.0
+#  http: ^0.13.0
+  http: any
   get: ^3.25.4
   get_storage: ^1.4.0
   filepicker_windows: ^1.0.0

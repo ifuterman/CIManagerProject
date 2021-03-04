@@ -3,7 +3,7 @@ import 'package:cim_server/model/cim_user_db.dart';
 
 class DebugDeleteUsersController extends Controller{
   DebugDeleteUsersController(this.context);
-  ManagedContext context;
+  final ManagedContext context;
 
   @override
   FutureOr<RequestOrResponse> handle(Request request) async{

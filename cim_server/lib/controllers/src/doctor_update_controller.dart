@@ -2,14 +2,13 @@ import 'package:cim_server/cim_server.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server/model/cim_doctor_db.dart';
 
-
-class DoctorNewController extends Controller{
-  DoctorNewController(this.context);
+class DoctorUpdateController extends Controller{
+  DoctorUpdateController(this.context);
   final ManagedContext context;
 
   @override
-  FutureOr<RequestOrResponse> handle(Request request) async {
-    try {
+  FutureOr<RequestOrResponse> handle(Request request) async{
+    try{
       await request.body.decode();
       var packet = CIMPacket.makePacketFromMap(request.body.as());
       final list = packet.getInstances();
@@ -25,14 +24,18 @@ class DoctorNewController extends Controller{
         ..values.email = doctor.email
         ..values.birth_date = doctor.birthDate
         ..values.phones = doctor.phones
-        ..values.users_id = doctor.userId;
-      final doctorDB = await query.insert();
+        ..values.users_id = doctor.userId
+        ..where((x) => x.id).equalTo(doctor.id);
+      final doctorDB = await query.updateOne();
+      if(doctorDB == null){
+        return Response.notFound();
+      }
       doctor = doctorDB.toDoctor();
       packet = CIMPacket.makePacket();
-      if(!packet.addInstance(doctor)){
-        return Response.serverError(body : {"message" : "add instance problem"});
-      }
+      packet.addInstance(doctor);
       return Response.ok(packet.map);
-    }catch(e) { return Response.serverError(body : {"message" : e.toString()});}
+    }catch(e){
+      return Response.serverError(body: {'message' : e});
+    }
   }
 }
