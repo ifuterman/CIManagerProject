@@ -1,6 +1,7 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
 
+import '../cim_schedule.dart';
 import 'cim_json_mapper.dart';
 
 class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
@@ -16,10 +17,15 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   final String emailKey = 'email';
   final String phonesKey = 'phones';
   final String specialityKey = 'speciality';
-  final String userIdKey = "userId";
-  final String snilsKey = "snils";
-  final String statusKey = "status";
-  final String sexKey = "sex";
+  final String userIdKey = 'userId';
+  final String snilsKey = 'snils';
+  final String statusKey = 'status';
+  final String sexKey = 'sex';
+  final String doctorKey = 'doctor';
+  final String patientKey = 'patient';
+  final String noteKey = 'note';
+  final String dateKey = 'date';
+  final String durationKey = 'duration';
 
   @override
   String getVersion() => '0.0.1';
@@ -123,5 +129,29 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
           orElse: () => Participation.unknown);
       }
       return patient;
+  }
+  @override
+  void scheduleToMap(CIMSchedule schedule, Map<String, dynamic> map) {
+    map[idKey] = schedule.id;
+    map[noteKey] = schedule.note;
+    map[dateKey] = schedule.date.toString();
+    map[durationKey] = schedule.duration.toString();
+    if(schedule.doctor != null){
+      final doctorMap = <String, dynamic>{};
+      doctorToMap(schedule.doctor, doctorMap);
+      map[doctorKey] = doctorMap;
+    }
+    else{
+      map[doctorKey] = null;
+    }
+    if(schedule.patient != null){
+      final patientMap = <String, dynamic>{};
+      patientToMap(schedule.patient, patientMap);
+      map[patientKey] = patientMap;
+    }
+  }
+  @override
+  CIMSchedule scheduleFromMap(Map<String, dynamic> map) {
+    
   }
 }
