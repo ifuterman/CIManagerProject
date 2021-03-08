@@ -21,4 +21,12 @@ void main() {
     debugPrint('main.2: cimExcel2 = $cimExcel2');
     expect(cimExcel1, equals(cimExcel2));
   });
+
+  test('Give me a rows', () {
+    final cimExcel = CIMExcel;
+    final res = cimExcel.open('wrong_path');
+    expect(res.result, equals(ExcelResult.wrongFormat));
+    final res2 = cimExcel.retrieveRow(12);
+    expect(res2.result, equals(ExcelResult.wrongFormat));
+  });
 }

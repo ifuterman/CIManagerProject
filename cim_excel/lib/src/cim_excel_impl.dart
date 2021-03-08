@@ -2,7 +2,6 @@ import 'package:cim_excel/cim_excel.dart';
 import 'package:cim_shared/cim_shared.dart';
 
 class CIMExcelImpl implements CIMExcelInterface {
-  
   String _path;
 
   Return<String, ExcelPage> _result;
@@ -18,6 +17,14 @@ class CIMExcelImpl implements CIMExcelInterface {
     _path = path;
     _result = Return<String, ExcelPage>(result: ExcelResult.wrongFormat);
     return _result;
+  }
+
+  @override
+  Return<String, ExcelRow> retrieveRow(int index){
+    if(_result.result != ExcelResult.ok){
+      return Return(result: _result.result);
+    }
+    return Return(result: _result.result, data: ExcelRow(2));
   }
 
   @override
