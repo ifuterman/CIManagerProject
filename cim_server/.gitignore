@@ -1,6 +1,8 @@
 .buildlog
 .pub/
 build/
+.fvm/
+.dart_tool/
 packages
 .packages
 *.dart.js
