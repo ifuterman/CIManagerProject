@@ -1,21 +1,22 @@
 import 'package:cim_excel/cim_excel.dart';
+import 'package:cim_shared/cim_shared.dart';
 
 class CIMExcelImpl implements CIMExcelInterface {
   
   String _path;
 
-  ExcelResult _result;
+  Return<String, ExcelPage> _result;
 
   @override
   String get path => _path;
 
   @override
-  ExcelResult get result => _result;
+  Return<String, ExcelPage> get result => _result;
 
   @override
-  ExcelResult open(String path) {
+  Return<String, ExcelPage> open(String path) {
     _path = path;
-    _result = ExcelResult.wrongFormat;
+    _result = Return<String, ExcelPage>(result: ExcelResult.wrongFormat);
     return _result;
   }
 

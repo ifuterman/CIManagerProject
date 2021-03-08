@@ -1,14 +1,8 @@
 part of cim_excel;
 
 ///
-class ExcelResult extends Equatable{
-  static const ExcelResult ok = ExcelResult._('ok');
-  static const ExcelResult fileNotRead = ExcelResult._('fileNotRead');
-  static const ExcelResult wrongFormat = ExcelResult._('wrongFormat');
-
-  const ExcelResult._(this.result);
-  final String result;
-
-  @override
-  List<Object> get props => [result];
+abstract class ExcelResult extends Equatable{
+  static const String ok = 'excel_file_ok';
+  static const String fileNotRead = 'excel_file_not_read';
+  static const String wrongFormat = 'wrong_format';
 }

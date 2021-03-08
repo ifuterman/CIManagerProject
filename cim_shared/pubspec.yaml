@@ -1,10 +1,8 @@
-name: cim_excel
+name: cim_shared
 description: A new Flutter package project.
 version: 0.0.1
-author:
-homepage: 'homepage'
-
-publish_to: none
+author: author
+homepage: 'homepage1'
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -14,8 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
   equatable: ^2.0.0
-  cim_shared:
-    path: "../cim_shared"
 
 dev_dependencies:
   flutter_test:

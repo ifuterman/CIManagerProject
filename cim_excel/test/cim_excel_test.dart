@@ -15,8 +15,8 @@ void main() {
     debugPrint('main.1: cimExcel1 = $cimExcel1');
     debugPrint('main.1: cimExcel2 = $cimExcel2');
 
-    final res = cimExcel1.open('path');
-    expect(res, equals(ExcelResult.wrongFormat));
+    final res = cimExcel1.open('wrong_path');
+    expect(res.result, equals(ExcelResult.wrongFormat));
     debugPrint('main.2: cimExcel1 = $cimExcel1');
     debugPrint('main.2: cimExcel2 = $cimExcel2');
     expect(cimExcel1, equals(cimExcel2));

@@ -4,8 +4,8 @@ part of cim_excel;
 abstract class CIMExcelInterface {
   
   String get path;
-  ExcelResult get result;
-  
-  ExcelResult open(String path);
+  Return<String, ExcelPage> get result;
+
+  Return<String, ExcelPage> open(String path);
 
 }
