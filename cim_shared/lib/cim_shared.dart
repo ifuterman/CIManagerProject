@@ -5,4 +5,5 @@ import 'package:equatable/equatable.dart';
 
 
 part 'src/return.dart';
+part 'src/funcs.dart';
 
