@@ -32,4 +32,33 @@ class CIMPatient{
   String snils;
   Participation status;
   Sex sex;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CIMPatient &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          middleName == other.middleName &&
+          lastName == other.lastName &&
+          birthDate == other.birthDate &&
+          phones == other.phones &&
+          email == other.email &&
+          snils == other.snils &&
+          status == other.status &&
+          sex == other.sex;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      name.hashCode ^
+      middleName.hashCode ^
+      lastName.hashCode ^
+      birthDate.hashCode ^
+      phones.hashCode ^
+      email.hashCode ^
+      snils.hashCode ^
+      status.hashCode ^
+      sex.hashCode;
 }
