@@ -17,7 +17,7 @@ class UserGetController extends Controller {
       }
       var packet = CIMPacket.makePacket();
       if(packet == null){
-        return Response.serverError(body: request.body);
+        return Response.serverError(body: request.body.as());
       }
       for(var user in usersList){
         var u = user.toUser();

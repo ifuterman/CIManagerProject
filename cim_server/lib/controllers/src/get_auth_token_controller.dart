@@ -16,15 +16,15 @@ class GetAuthTokenController extends Controller{
     try {
       final packet = CIMPacket.makePacketFromMap(request.body.as());
       if(packet == null){
-        return Response.badRequest(body: request.body);
+        return Response.badRequest(body: request.body.as());
       }
       final list = packet.getInstances();
       if(list == null || list.isEmpty){
-        return Response.badRequest(body: request.body);
+        return Response.badRequest(body: request.body.as());
       }
 
       if(list[0] is! CIMUser){
-        return Response.badRequest(body: request.body);
+        return Response.badRequest(body: request.body.as());
       }
       final user = list[0] as CIMUser;
       var query = Query<CIMUserDB>(context)
@@ -38,7 +38,7 @@ class GetAuthTokenController extends Controller{
         if(list.isEmpty) {
           return Response.noContent();
         }
-        return Response.unauthorized(body: request.body);
+        return Response.unauthorized(body: request.body.as());
       }
       var tokenQuery = Query<CIMToken>(context)
         ..where((x) => x.users_id).equalTo(userDB.id);
