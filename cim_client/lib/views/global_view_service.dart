@@ -1,17 +1,15 @@
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
-import 'package:cim_client/pref_service.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/connect/connection_view_controller.dart';
-import 'package:cim_client/views/main/main_view.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/shared/routes.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/utils.dart';
 
 class GlobalViewService extends GetxService {
   static const initialRoute = AppRoutes.splash;

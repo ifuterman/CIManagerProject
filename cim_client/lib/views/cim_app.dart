@@ -1,7 +1,7 @@
 import 'package:cim_client/cim_service.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/utils.dart';
 
 import 'auth/authorization_view.dart';
 import 'connect/connection_view.dart';

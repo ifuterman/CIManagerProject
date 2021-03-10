@@ -2,14 +2,15 @@ import 'package:cim_client/cim_connection.dart';
 import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
-import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/smart_navigation.dart';
 
 enum ConnectionStates { checking, connected, disconnected, unknown }
 
-class ConnectionViewController extends GetxController with SmartNavigationMixin {
+class ConnectionViewController extends GetxController
+    with SmartNavigationMixin<ConnectionViewController> {
   CIMConnection connection;
   CIMService service = Get.find();
   String address;

@@ -1,9 +1,8 @@
-import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/utils.dart';
 
 import 'main_view_controller.dart';
 

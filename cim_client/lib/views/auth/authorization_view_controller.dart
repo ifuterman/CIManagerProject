@@ -1,14 +1,14 @@
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/auth/authorization_view.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/profile/profile_page_controller.dart';
-import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/smart_navigation.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 enum AuthorisationState { idle, start, ok, error }
 

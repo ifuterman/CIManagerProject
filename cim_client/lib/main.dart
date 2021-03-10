@@ -1,8 +1,6 @@
 import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/pref_service.dart';
-import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/shared/logger_utils.dart';
 import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/shared/routes.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,8 +8,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
-import 'views/cim_app.dart';
 
 void main() async {
   EquatableConfig.stringify = true;

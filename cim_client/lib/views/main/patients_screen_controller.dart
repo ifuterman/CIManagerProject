@@ -1,8 +1,8 @@
 import 'package:cim_client/cim_data_provider.dart';
-import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/smart_navigation.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 import 'patient_screen.dart';
 

@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:cim_client/shared/constants.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 import 'cim_connection.dart';
 import 'cim_data_provider.dart';

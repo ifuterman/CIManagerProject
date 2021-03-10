@@ -1,7 +1,3 @@
-import 'package:cim_protocol/cim_protocol.dart';
-
-import '../cim_protocol.dart';
-
 enum DoctorSpeciality{
   therapist
 }
@@ -17,4 +13,31 @@ class CIMDoctor{
   String phones;
   DoctorSpeciality speciality;
   int userId = 0;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CIMDoctor &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          middleName == other.middleName &&
+          lastName == other.lastName &&
+          birthDate == other.birthDate &&
+          email == other.email &&
+          phones == other.phones &&
+          speciality == other.speciality &&
+          userId == other.userId;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      name.hashCode ^
+      middleName.hashCode ^
+      lastName.hashCode ^
+      birthDate.hashCode ^
+      email.hashCode ^
+      phones.hashCode ^
+      speciality.hashCode ^
+      userId.hashCode;
 }
