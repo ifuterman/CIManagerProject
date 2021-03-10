@@ -40,7 +40,8 @@ dependencies:
     path: ../cim_excel/
   vfx_flutter_common:
     git:
-      url: git@gitlab.com:frostyland/vfx_flutter_common.git
+      url: https://gitlab.com/frostyland/vfx_flutter_common.git
+#      url: git@gitlab.com:frostyland/vfx_flutter_common.git
       ref: master
 
   flutter:
