@@ -1,12 +1,11 @@
 import 'package:cim_client/cim_data_provider.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/main/main_view.dart';
 import 'package:cim_client/views/main/patients_screen_controller.dart';
-import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/vfx_flutter_common.dart';
 
 enum MainMenuItems {
   item_patients,
@@ -44,9 +43,9 @@ class MainViewController extends GetxController
     _lastSmartNavigation = null;
 
     selectedItem(item);
+    print('$now: MainViewController.openSub: $item');
     switch (item) {
       case MainMenuItems.item_patients:
-        print('$now: MainViewController.openSub');
         _lastSmartNavigation = Get.put<PatientsScreenController>(
             PatientsScreenController()
               ..subWidgetNavigate(

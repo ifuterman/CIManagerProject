@@ -1,4 +1,5 @@
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_protocol/src/cim_schedule.dart';
 import 'cim_json_mapper_0_0_1.dart';
 
 /*
@@ -13,6 +14,7 @@ class CIMJsonMapper{
   static const cimUserKey = 'CIMUser';
   static const cimDoctorKey = 'CIMDoctor';
   static const cimPatientKey = 'CIMPatient';
+  static const cimScheduleKey = 'CIMSchedule';
   static final _mapperVersions = <String, CIMJsonMapper>{
     '0.0.1' : CIMJsonMapper_0_0_1()
   };
@@ -23,6 +25,8 @@ class CIMJsonMapper{
   CIMDoctor doctorFromMap(Map<String, dynamic> map) => throw UnimplementedError();
   void patientToMap(CIMPatient patient, Map<String, dynamic> map) => throw UnimplementedError();
   CIMPatient patientFromMap(Map<String, dynamic> map) => throw UnimplementedError();
+  void scheduleToMap(CIMSchedule schedule, Map<String, dynamic> map) => throw UnimplementedError();
+  CIMSchedule scheduleFromMap(Map<String, dynamic> map) => throw UnimplementedError();
 
 
   static CIMJsonMapper getMapper([String version = lastVersion]) => _mapperVersions[version];
@@ -42,6 +46,10 @@ class CIMJsonMapper{
     else if(instance is CIMPatient){
       map[instanceKey] = cimPatientKey;
       patientToMap(instance, map);
+    }
+    else if(instance is CIMSchedule){
+      map[instanceKey] = cimScheduleKey;
+      scheduleToMap(instance, map);
     }
     else{
       return null;
@@ -68,6 +76,9 @@ class CIMJsonMapper{
         }
         case cimPatientKey:{
           return patientFromMap(map);
+        }
+        case cimScheduleKey:{
+          return scheduleFromMap(map);
         }
       }
     }catch (e){

@@ -1,6 +1,7 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
 
+import '../cim_schedule.dart';
 import 'cim_json_mapper.dart';
 
 class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
@@ -16,10 +17,15 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   final String emailKey = 'email';
   final String phonesKey = 'phones';
   final String specialityKey = 'speciality';
-  final String userIdKey = "userId";
-  final String snilsKey = "snils";
-  final String statusKey = "status";
-  final String sexKey = "sex";
+  final String userIdKey = 'userId';
+  final String snilsKey = 'snils';
+  final String statusKey = 'status';
+  final String sexKey = 'sex';
+  final String doctorKey = 'doctor';
+  final String patientKey = 'patient';
+  final String noteKey = 'note';
+  final String dateKey = 'date';
+  final String durationKey = 'duration';
 
   @override
   String getVersion() => '0.0.1';
@@ -27,15 +33,15 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   @override
   CIMUser userFromMap(Map<String, dynamic> map) {
     var login = map[loginKey];
-    var id = int.tryParse(map[idKey]);
+//    var id = int.tryParse(map[idKey]);
+    var id = map[idKey];
     var pwrd = map[passwordKey];
     if(login == null || pwrd == null){
       return null;
     }
     id ??= 0;
-    var rx = int.tryParse(map[roleKey]);
-    rx ??= UserRoles.patient.index;
-    var role = UserRoles.values[rx];
+    var roleString = map[roleKey] ?? '';
+    var role = UserRoles.values.firstWhere((element) => element.toString() == roleString);
     return CIMUser.fromJson(id, login, pwrd, role);
   }
 
@@ -43,19 +49,19 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
   void userToMap(CIMUser user, Map<String, dynamic> map) {
     map[loginKey] = user.login;
     map[passwordKey] = user.password;
-    map[idKey] = user.id.toString();
-    map[roleKey] = user.role.index.toString();
+    map[idKey] = user.id;
+    map[roleKey] = user.role.toString();
   }
   @override
   void doctorToMap(CIMDoctor doctor, Map<String, dynamic> map){
-    map[idKey] = doctor.id.toString();
+    map[idKey] = doctor.id;
     map[birthDateKey] = doctor.birthDate.toString();
     map[emailKey] = doctor.email;
     map[nameKey] = doctor.name;
     map[middleNameKey] = doctor.middleName;
     map[lastNameKey] = doctor.lastName;
     map[specialityKey] = doctor.speciality.toString();
-    map[userIdKey] = doctor.userId.toString();
+    map[userIdKey] = doctor.userId;
     map[phonesKey] = doctor.phones;
   }
   @override
@@ -66,7 +72,7 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
     specialityString ??= DoctorSpeciality.therapist.toString();
     final speciality = DoctorSpeciality.values.firstWhere((element) => element.toString() == specialityString);
     var doctor = CIMDoctor(name, lastName, speciality);
-    doctor.id = int.tryParse(map[idKey]);
+    doctor.id = map[idKey];
     doctor.id ??= 0;
     var testString = map[birthDateKey];
     if(testString != null) {
@@ -77,13 +83,7 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
     }
     doctor.email = map[emailKey];
     doctor.middleName = map[middleNameKey];
-    testString = map[userIdKey];
-    if(testString != null){
-      doctor.userId = int.tryParse(testString);
-    }
-    else{
-      doctor.userId = null;
-    }
+    doctor.userId = map[userIdKey];
     doctor.phones = map[phonesKey];
     return doctor;
   }
@@ -123,5 +123,48 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
           orElse: () => Participation.unknown);
       }
       return patient;
+  }
+  @override
+  void scheduleToMap(CIMSchedule schedule, Map<String, dynamic> map) {
+    map[idKey] = schedule.id;
+    map[noteKey] = schedule.note;
+    map[dateKey] = schedule.date.toString();
+    map[durationKey] = schedule.duration.toString();
+    if(schedule.doctor != null){
+      final doctorMap = <String, dynamic>{};
+      doctorToMap(schedule.doctor, doctorMap);
+      map[doctorKey] = doctorMap;
+    }
+    else{
+      map[doctorKey] = null;
+    }
+    if(schedule.patient != null){
+      final patientMap = <String, dynamic>{};
+      patientToMap(schedule.patient, patientMap);
+      map[patientKey] = patientMap;
+    }
+  }
+  @override
+  CIMSchedule scheduleFromMap(Map<String, dynamic> map) {
+    try{
+      var instanceMap = map[patientKey];
+      final patient = patientFromMap(instanceMap);
+      if(patient == null){
+        return null;
+      }
+      instanceMap = map[doctorKey];
+      final doctor = instanceMap == null ? null : doctorFromMap(instanceMap);
+      final id = map[idKey];
+      final note = map[noteKey];
+      var testString = map[durationKey];
+      testString ??= '';
+      final duration = DateTime.tryParse(testString);
+      testString = map[dateKey];
+      testString ??= '';
+      final date = DateTime.tryParse(testString);
+      return CIMSchedule(id, patient, date, doctor: doctor, duration: duration, note: note);
+    }catch(e){
+      return null;
+    }
   }
 }

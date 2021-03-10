@@ -1,18 +1,18 @@
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/auth/authorization_view.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/profile/profile_page_controller.dart';
-import 'package:cim_client/views/shared/smart_nav.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/smart_navigation.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 enum AuthorisationState { idle, start, ok, error }
 
-class AuthorizationViewController extends GetxService
+class AuthorizationViewController extends GetxController
     with SmartNavigationMixin<AuthorizationViewController> {
   final user = CIMUser("", "");
 
@@ -22,6 +22,8 @@ class AuthorizationViewController extends GetxService
 
   DataProvider _dataProvider;
   CacheProvider _cacheProvider;
+
+  // Future<AuthorizationViewController> init() async => this;
 
   @override
   GetPageBuilder get defaultGetPageBuilder => () => AuthorizationView();
@@ -53,41 +55,19 @@ class AuthorizationViewController extends GetxService
     state$(AuthorisationState.start);
 
     _getToken(login: login, password: password).then((value) {
+      state$(AuthorisationState.ok);
       if(!value){
-        // FIXME(vvk): в этом методе нет ничего от JSON
         // FIXME(vvk): [UserRoles] -> UserRole
-        final candidate =
-        CIMUser.fromJson(0, login, password, UserRoles.administrator);
+        final candidate = CIMUser(login, password);
         _dataProvider.createFirstUser(candidate).then((value) async {
           if (value.result == CIMErrors.ok) {
             await _getToken(login: login, password: password);
           } else {
             Get.snackbar(null, 'create first: ${value.result}');
           }
-          state$(AuthorisationState.ok);
         });
       }
     });
-
-    // CIMConnection connection = Get.find();
-    // var res = connection.authoriseUser(user);
-    // res.then((value) {
-    //   if (value == CIMErrors.ok) {
-    //     CIMService service = Get.find();
-    //     service.currentView.value = CIMViews.mainView;
-    //     return;
-    //   }
-    //   String message = mapError[value].tr();
-    //   Get.defaultDialog(
-    //     title: "error".tr(),
-    //     middleText: message,
-    //     confirm: RaisedButton(
-    //       child: Text("OK".tr()),
-    //       onPressed: () => Get.back(),
-    //     ),
-    //   );
-    //   return;
-    // });
   }
 
   @override
@@ -106,16 +86,7 @@ class AuthorizationViewController extends GetxService
         final token = value.data['access_token'] as String;
         assert(null != token);
         _cacheProvider.saveToken(token);
-        //
-        debugPrint('$now: AuthorizationViewController._getToken: value.result == CIMErrors.ok');
-        Get.put<MainViewController>(MainViewController()
-          ..toPage(
-              onClose: (c, {args}) {
-                Get.back();
-                print('$now: AuthorisationViewController.authoriseUser: MainViewController.onClose');
-              }));
-        // AutoClose
-        delayMilli(10).then((_) => close());
+        delayMilli(10).then((_) => close(args: true));
         return true;
       } else {
         Get.snackbar(null, 'token: ${value.result}');

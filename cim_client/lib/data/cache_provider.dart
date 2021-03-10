@@ -1,12 +1,7 @@
-import 'dart:io';
-import 'package:cim_client/cim_service.dart';
-import 'package:cim_client/globals.dart';
-import 'package:cim_client/shared/funcs.dart';
-import 'package:cim_client/shared/return.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:path/path.dart' as p;
+import 'package:vfx_flutter_common/utils.dart';
 
 // ignore: one_member_abstracts
 abstract class CacheProvider {

@@ -1,3 +1,5 @@
+part of cim_shared;
+
 // Handy mini functions and properties
 /// Delay in microseconds
 Future delayMicro(int value) async =>

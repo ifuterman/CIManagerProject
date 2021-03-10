@@ -10,9 +10,10 @@ class PatientScreen extends GetView<PatientsScreenController> {
 
   @override
   Widget build(BuildContext context) {
+    final c = controller;
     return SingleChildScrollView(
       child: Container(
-        child: Obx(() => _buildPanelList(controller.updateScreen.value)),
+        child: Obx(() => _buildPanelList(c.updateScreen.value)),
       ),
     );
   }

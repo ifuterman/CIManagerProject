@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/pref_service.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/shared/ui_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
