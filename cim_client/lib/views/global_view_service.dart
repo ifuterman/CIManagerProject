@@ -64,43 +64,49 @@ class GlobalViewService extends GetxService {
     final cache = Get.find<CacheProvider>();
     final token = cache.fetchToken();
     print('$now: GlobalViewService._toAuthForm: token = $token');
-    if(token == null){
+    if (token == null) {
       Get.put<AuthorizationViewController>(AuthorizationViewController()
-        ..toPage(
-            onClose: (c, {args}){
-              //_startChooseLang();
-              Get.back();
-              debugPrint('$now: GlobalViewService._toAuthForm.CLOSE');
-            },
-            args: 'from $runtimeType._toAuthForm')
+          ..toPage(
+              onClose: (c, {args}) {
+                debugPrint('$now: GlobalViewService._toAuthForm.CLOSE');
+                Get.back();
+                if (args == true) {
+                  _toMainForm();
+                }
+              },
+              args: 'from $runtimeType._toAuthForm'),
       );
-    }else{
-      Get.put<MainViewController>(MainViewController()
-        ..toPage(
-            onClose: (c, {args}){
-              debugPrint('$now: GlobalViewService._toAuthForm: MainViewController.onClose');
-              Get.back();
-              if(args == 'clear_user'){
-                cache.saveToken(null).then((value) {
-                  _toAuthForm();
-                });
-              }
-            },
-            args: 'from $runtimeType._toAuthForm')
-      );
+    } else {
+      _toMainForm();
     }
+  }
+
+  void _toMainForm() {
+    debugPrint('$now: GlobalViewService._toMainForm');
+    final cache = Get.find<CacheProvider>();
+    Get.put<MainViewController>(MainViewController()
+      ..toPage(
+          onClose: (c, {args}) {
+            debugPrint(
+                '$now: GlobalViewService._toAuthForm: MainViewController.onClose');
+            Get.back();
+            if (args == 'clear_user') {
+              cache.saveToken(null).then((value) {
+                _toAuthForm();
+              });
+            }
+          },
+          args: 'from $runtimeType._toAuthForm'));
   }
 
   void _toConnectForm() {
     Get.put<ConnectionViewController>(ConnectionViewController()
       ..toPage(
-          onClose: (c, {args}){
+          onClose: (c, {args}) {
             Get.back();
             //_startChooseLang();
             debugPrint('$now: GlobalViewService._toConnectForm.CLOSE');
           },
-          args: 'from $runtimeType._toConnectForm')
-    );
+          args: 'from $runtimeType._toConnectForm'));
   }
-
 }

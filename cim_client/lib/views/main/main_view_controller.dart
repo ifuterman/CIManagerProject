@@ -43,9 +43,9 @@ class MainViewController extends GetxController
     _lastSmartNavigation = null;
 
     selectedItem(item);
+    print('$now: MainViewController.openSub: $item');
     switch (item) {
       case MainMenuItems.item_patients:
-        print('$now: MainViewController.openSub');
         _lastSmartNavigation = Get.put<PatientsScreenController>(
             PatientsScreenController()
               ..subWidgetNavigate(
