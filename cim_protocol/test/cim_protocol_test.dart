@@ -25,7 +25,8 @@ void main() {
         id: 1);
     var schedule = CIMSchedule(1, patient, DateTime.now(),
         note: 'schedule note',
-        doctor: doctor);
+        doctor: doctor,
+        duration: 45);
     setUp(() {
     });
     test('test userToMap and userFromMap', () {

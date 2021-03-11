@@ -1,8 +1,7 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:cim_server/cim_server.dart';
-import 'package:cim_server/model/cim_token.dart';
-import 'package:cim_server/model/cim_user_db.dart';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_server/model/cim_user_db.dart';
 
 
 class UserDeleteController extends Controller{

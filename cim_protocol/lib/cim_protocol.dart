@@ -9,5 +9,6 @@ export 'src/cim_patient.dart';
 export 'src/cim_packet.dart';
 export 'src/cim_authorisationInfo.dart';
 export 'src/cim_doctor.dart';
+export 'src/cim_schedule.dart';
 
 // TODO: Export any libraries intended for clients of this package.
