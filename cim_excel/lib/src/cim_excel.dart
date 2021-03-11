@@ -8,6 +8,16 @@ abstract class CIMExcelInterface {
 
   Return<String, ExcelPage> open(String path);
 
-  Return<String, ExcelRow> retrieveRow(int index);
+  Return<String, List<ExcelRow>> touchRow({
+    int index,
+    int startColumn,
+    int endColumn,
+  });
 
+  Return<String, ExcelDataChunk> retrieveRows({
+    int startRow,
+    int endRow,
+    int startColumn,
+    int endColumn,
+  });
 }
