@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
 
 class GlobalViewService extends GetxService {
@@ -16,7 +17,7 @@ class GlobalViewService extends GetxService {
 
   DataProvider provider;
 
-  final connectionState$ = Rx<ConnectionStates>(ConnectionStates.unknown);
+  // final connectionState$ = Rx<ConnectionStates>(ConnectionStates.unknown);
 
   Future init() async => this;
 
@@ -38,10 +39,12 @@ class GlobalViewService extends GetxService {
     delayMilli(2000).then((_) {
       provider.checkConnection().then((value) {
         if (value == CIMErrors.ok) {
-          connectionState$(ConnectionStates.connected);
+          GetStorage().write('connect', ConnectionStates.connected.index);
+          // connectionState$(ConnectionStates.connected);
           _toAuthForm();
         } else {
-          connectionState$(ConnectionStates.disconnected);
+          GetStorage().write('connect', ConnectionStates.disconnected.index);
+          // connectionState$(ConnectionStates.disconnected);
           String message = mapError[value].tr();
           Get.defaultDialog(
             title: "error".tr(),
@@ -72,6 +75,9 @@ class GlobalViewService extends GetxService {
                 Get.back();
                 if (args == true) {
                   _toMainForm();
+                }
+                if(args == 'reconnect'){
+                  _toConnectForm();
                 }
               },
               args: 'from $runtimeType._toAuthForm'),
@@ -104,8 +110,11 @@ class GlobalViewService extends GetxService {
       ..toPage(
           onClose: (c, {args}) {
             Get.back();
-            //_startChooseLang();
-            debugPrint('$now: GlobalViewService._toConnectForm.CLOSE');
+            if (args == true) {
+              _toAuthForm();
+            }else{
+              // Get.back();
+            }
           },
           args: 'from $runtimeType._toConnectForm'));
   }

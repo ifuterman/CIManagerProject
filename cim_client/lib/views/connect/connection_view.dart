@@ -9,12 +9,12 @@ class ConnectionView extends GetView<ConnectionViewController> {
   final _controllerAddress = TextEditingController();
   final _controllerPort = TextEditingController();
 
-  ConnectionView() {
-    controller.init();
-  }
+  // ConnectionView() {
+  //   controller.init();
+  // }
 
   Widget getConnectionIcon() {
-    switch (controller.connectionState) {
+    switch (controller.connectionState$.value) {
       case ConnectionStates.unknown:
         {
           return Icon(
@@ -56,44 +56,40 @@ class ConnectionView extends GetView<ConnectionViewController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "SERVER_ADDRESS".tr(),
+              "server_address".tr(),
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Container(
               constraints: BoxConstraints.expand(
                   height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
                   width: Theme.of(context).textTheme.bodyText1.fontSize * 15),
-              child: TextField(
+              child: Obx(()=>TextField(
                 controller: _controllerAddress,
                 textAlignVertical: TextAlignVertical.top,
                 obscureText: false,
-                enabled: controller.connectionState == ConnectionStates.checking
-                    ? false
-                    : true,
+                enabled: controller.connectionState$.value == ConnectionStates.checking,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                 ),
                 onChanged: (value) {
                   controller.address = value;
                 },
-              ),
+              )),
             ),
             Text(
-              "SERVER_PORT".tr(),
+              "server_port".tr(),
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Container(
               constraints: BoxConstraints.expand(
                   height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
                   width: Theme.of(context).textTheme.bodyText1.fontSize * 8),
-              child: TextField(
+              child: Obx(()=>TextField(
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                 ],
                 controller: _controllerPort,
-                enabled: controller.connectionState == ConnectionStates.checking
-                    ? false
-                    : true,
+                enabled: controller.connectionState$.value == ConnectionStates.checking,
                 textAlignVertical: TextAlignVertical.top,
                 maxLines: 1,
                 obscureText: false,
@@ -103,17 +99,17 @@ class ConnectionView extends GetView<ConnectionViewController> {
                 onChanged: (value) {
                   controller.port = int.parse(value);
                 },
-              ),
+              )),
             ),
             Padding(
               padding: EdgeInsets.only(left: 3.0),
-              child: ElevatedButton(
-                child: Text("TEST_CONNECTION".tr()),
+              child: Obx(()=>ElevatedButton(
+                child: Text('test_connection'.tr()),
                 onPressed:
-                    controller.connectionState == ConnectionStates.checking
-                        ? null
-                        : controller.onCheckConnection,
-              ),
+                controller.connectionState$.value == ConnectionStates.checking
+                    ? null
+                    : controller.onCheckConnection,
+              )),
             ),
             Padding(
               padding: EdgeInsets.only(left: 3.0),
@@ -124,19 +120,22 @@ class ConnectionView extends GetView<ConnectionViewController> {
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              child: Text("OK".tr()),
-              onPressed: controller.connectionState == ConnectionStates.checking
+            child: Obx(()=>ElevatedButton(
+              child: Text("ok".tr()),
+              onPressed: controller.connectionState$.value
+                  == ConnectionStates.checking  || controller.connectionState$.value
+                  == ConnectionStates.disconnected
                   ? null
                   : controller.applyConnection,
-            ),
+            )),
           ),
-          ElevatedButton(
-            child: Text("CANCEL".tr()),
-            onPressed: controller.connectionState == ConnectionStates.checking
+          Obx(()=>ElevatedButton(
+            child: Text("cancel".tr()),
+            onPressed: controller.connectionState$.value
+                == ConnectionStates.checking
                 ? null
                 : controller.cancelConnection,
-          ),
+          )),
         ]),
       ],
     );
