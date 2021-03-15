@@ -28,7 +28,7 @@ class UserFirstController extends Controller{
       query = Query<CIMUserDB>(context)
         ..values.username = user.login
         ..values.pwrd = user.password
-        ..values.role = user.role.index;
+        ..values.role = user.role;
       final userDB = await query.insert();
       user = userDB.toUser();
       packet = CIMPacket.makePacket();

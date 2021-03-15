@@ -1,4 +1,5 @@
-import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_protocol/src/model/cim_patient.dart';
+import 'package:cim_protocol/src/model/cim_doctor.dart';
 
 class CIMSchedule{
   

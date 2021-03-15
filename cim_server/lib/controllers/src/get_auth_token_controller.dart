@@ -43,7 +43,7 @@ class GetAuthTokenController extends Controller{
       var tokenQuery = Query<CIMToken>(context)
         ..where((x) => x.users_id).equalTo(userDB.id);
       var token = await tokenQuery.fetchOne();
-      var info = null;
+      CIMAuthorisationInfo info;
       if(token != null){
         tokenQuery = Query<CIMToken>(context)
           ..values.expiration = DateTime.now().add(Duration(days: 1))
@@ -64,6 +64,7 @@ class GetAuthTokenController extends Controller{
       info.refreshToken = token.refresh_token;
       info.username = user.login;
       info.expiresIn = token.expiration;
+      info.role = userDB.role;
       return Response.ok(info.toMap());
     }catch(e){
       print("GetAuthToken.handle $e");

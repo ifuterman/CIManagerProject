@@ -6,7 +6,8 @@ class CIMAuthorisationInfo{
   static const passwordKey = 'password';
   static const refreshTokenKey = 'refresh_token';
   static const accessTokenKey = 'access_token';
-  static const expiresInKey = "expires_in";
+  static const expiresInKey = 'expires_in';
+  static const roleKey = 'role';
 /*  CIMAuthorisationInfo(CIMUser user){
     _username = user.login;
     _pwrd_hash = user.password;
@@ -38,12 +39,14 @@ class CIMAuthorisationInfo{
   String token = '';
   String refreshToken = '';
   DateTime expiresIn;
+  UserRoles role;
   Map<String, String> toMap(){
     return {
       usernameKey : username,
       accessTokenKey : token,
       refreshTokenKey : refreshToken,
-      expiresInKey : expiresIn.toString()
+      expiresInKey : expiresIn.toString(),
+      roleKey : role.toString()
     };
   }
   static CIMAuthorisationInfo fromMap(Map<String, String> map){
@@ -52,6 +55,7 @@ class CIMAuthorisationInfo{
     info.token = map[accessTokenKey];
     info.refreshToken = map[refreshTokenKey];
     info.expiresIn = DateTime.tryParse(map[expiresInKey]);
+    info.role = UserRoles.values.firstWhere((element) => map[roleKey] == element.toString(), orElse: () => UserRoles.patient);
     return info;
   }
 }

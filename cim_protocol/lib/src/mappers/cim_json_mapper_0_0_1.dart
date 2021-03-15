@@ -1,7 +1,6 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
 
-import '../cim_schedule.dart';
 import 'cim_json_mapper.dart';
 
 class CIMJsonMapper_0_0_1 extends CIMJsonMapper{

@@ -5,7 +5,7 @@ import 'package:cim_protocol/cim_protocol.dart';
 class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{
   CIMUser toUser(){
     final user = CIMUser(username, pwrd);
-    user.role = UserRoles.values[role];
+    user.role = role;
     user.id = id;
     return user;
   }
@@ -21,5 +21,5 @@ class _CIMUserDB{
   @Column()
   String pwrd;
   @Column()
-  int role;
+  UserRoles role;
 }
