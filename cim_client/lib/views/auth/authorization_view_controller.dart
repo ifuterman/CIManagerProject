@@ -48,6 +48,10 @@ class AuthorizationViewController extends GetxController
     );
   }
 
+  void reconnect() {
+    close(args: 'reconnect');
+  }
+
   /// Let's suggest that we don't know about if there is admin in system.
   /// So we just try to connect.
   /// Then, if fails, system tries to make us admin.

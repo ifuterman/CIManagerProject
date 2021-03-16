@@ -12,11 +12,11 @@ class PatientsUpdateController extends Controller{
       await request.body.decode();
       var packet = CIMPacket.makePacketFromMap(request.body.as());
       if (packet == null) {
-        return Response.badRequest(body: request.body);
+        return Response.badRequest(body: request.body.as());
       }
       final list = packet.getInstances();
       if (list == null || list.isEmpty || list[0] is! CIMPatient) {
-        return Response.badRequest(body: request.body);
+        return Response.badRequest(body: request.body.as());
       }
       var patient = list[0] as CIMPatient;
       final query = Query<CIMPatientDB>(context)

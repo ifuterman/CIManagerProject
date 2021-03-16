@@ -24,6 +24,15 @@
       <excludeFolder url="file://$MODULE_DIR$/cim_client/windows/flutter/ephemeral/.plugin_symlinks/shared_preferences_windows/build" />
       <excludeFolder url="file://$MODULE_DIR$/cim_client/windows/flutter/ephemeral/.plugin_symlinks/shared_preferences_windows/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/cim_client/windows/flutter/ephemeral/.plugin_symlinks/shared_preferences_windows/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_excel/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_excel/build" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_excel/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_excel/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_excel/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_excel/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_shared/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_shared/build" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_shared/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

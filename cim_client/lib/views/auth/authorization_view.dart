@@ -132,9 +132,7 @@ class _MainWidget extends GetView<AuthorizationViewController> {
                   "connection_options".tr(),
                   style: TextStyle(color: Colors.blue),
                 ),
-                onPressed: () {
-                  service.currentView.value = CIMViews.connectionView;
-                },
+                onPressed: controller.reconnect,
               ),
               if (kDebugMode)
                 Row(

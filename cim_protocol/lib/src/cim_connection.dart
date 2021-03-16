@@ -1,17 +1,14 @@
-import 'package:cim_client/globals.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
+import 'cim_errors.dart';
 
 class CIMConnection extends GetConnect {
-  var _address = "127.0.0.1";
+  final address;
 
-  String get address => _address;
-  var _port = 8888;
+  final port;
 
-  int get port => _port;
-
-  CIMConnection(this._address, this._port);
+  CIMConnection({this.address = '127.0.0.1', this.port = 8888});
 
   Future<CIMErrors> checkConnection() async {
     Response res;
@@ -32,7 +29,7 @@ class CIMConnection extends GetConnect {
   }
 
   void init() {
-    httpClient.baseUrl = "http://$address:$port";
+    httpClient.baseUrl = 'http://$address:$port';
   }
 
   Future<CIMErrors> authoriseUser(CIMUser user) async {

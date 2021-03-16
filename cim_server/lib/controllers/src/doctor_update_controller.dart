@@ -24,7 +24,7 @@ class DoctorUpdateController extends Controller{
         ..values.email = doctor.email
         ..values.birth_date = doctor.birthDate
         ..values.phones = doctor.phones
-        ..values.users_id = doctor.userId
+        ..values.users_id = doctor.userId == 0 ? null : doctor.userId
         ..where((x) => x.id).equalTo(doctor.id);
       final doctorDB = await query.updateOne();
       if(doctorDB == null){

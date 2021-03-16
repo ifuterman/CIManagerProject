@@ -5,8 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
-
-import 'cim_connection.dart';
 import 'cim_data_provider.dart';
 
 enum CIMViews { authorisationView, connectionView, mainView }
@@ -31,7 +29,7 @@ class CIMService extends GetxService {
     super.onInit();
     debugPrint('$now: CIMService.onInit');
     connection =
-        Get.put(CIMConnection(AppConst.defaultAddress, AppConst.defaultPort));
+        Get.put(CIMConnection(address: AppConst.defaultAddress, port: AppConst.defaultPort));
     currentView = Rx(CIMViews.authorisationView);
     //user = CIMUser("", "");
     _restoreUser();
