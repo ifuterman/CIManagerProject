@@ -5,7 +5,7 @@ import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/connect/connection_view_controller.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/shared/routes.dart';
-import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_client/cim_errors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

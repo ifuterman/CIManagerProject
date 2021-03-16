@@ -1,6 +1,5 @@
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
-import 'package:cim_protocol/cim_protocol.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
@@ -8,6 +7,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
 import 'package:vfx_flutter_common/utils.dart';
+import 'package:cim_client/cim_connection.dart';
+import 'package:cim_client/cim_errors.dart';
 
 enum ConnectionStates { checking, connected, disconnected, unknown }
 

@@ -6,6 +6,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
 import 'cim_data_provider.dart';
+import 'cim_connection.dart';
 
 enum CIMViews { authorisationView, connectionView, mainView }
 
