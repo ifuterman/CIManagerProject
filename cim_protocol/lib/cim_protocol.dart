@@ -4,6 +4,8 @@
 library cim_protocol;
 
 export 'src/cim_rest_api.dart';
+export 'src/cim_errors.dart';
+export 'src/cim_connection.dart';
 export 'src/model/cim_user.dart';
 export 'src/model/cim_patient.dart';
 export 'src/model/cim_packet.dart';

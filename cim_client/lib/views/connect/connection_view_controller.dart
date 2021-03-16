@@ -1,7 +1,6 @@
-import 'package:cim_client/cim_connection.dart';
-import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
@@ -81,7 +80,7 @@ class ConnectionViewController extends GetxController
   }
 
   void onCheckConnection() {
-    connection = CIMConnection(address, port);
+    connection = CIMConnection(address: address, port: port);
     connection.init();
 
     connectionState$(ConnectionStates.checking);
