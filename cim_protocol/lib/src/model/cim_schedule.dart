@@ -1,4 +1,5 @@
-import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_protocol/src/model/cim_patient.dart';
+import 'package:cim_protocol/src/model/cim_doctor.dart';
 
 class CIMSchedule{
   
@@ -6,12 +7,11 @@ class CIMSchedule{
   CIMDoctor doctor;
   CIMPatient patient;
   DateTime date;
-  DateTime duration;
+  int duration;
   String note;
 
   CIMSchedule(
-      this.id, this.patient, this.date, {this.doctor, DateTime duration, this.note}){
-    this.duration = duration ?? DateTime.utc(0, 0, 0, 0, 45);
+      this.id, this.patient, this.date, {this.doctor, this.duration = 45, this.note}){
   }
 
   @override

@@ -1,5 +1,5 @@
-import 'package:cim_protocol/src/cim_schedule.dart';
-import 'package:cim_protocol/src/mappers/cim_json_mapper.dart';
+import 'package:cim_protocol/cim_protocol.dart';
+
 import 'package:test/test.dart';
 
 import 'package:cim_protocol/cim_protocol.dart';
@@ -25,7 +25,8 @@ void main() {
         id: 1);
     var schedule = CIMSchedule(1, patient, DateTime.now(),
         note: 'schedule note',
-        doctor: doctor);
+        doctor: doctor,
+        duration: 45);
     setUp(() {
     });
     test('test userToMap and userFromMap', () {
