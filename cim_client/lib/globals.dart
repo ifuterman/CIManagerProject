@@ -1,10 +1,3 @@
-enum CIMErrors {
-  ok,
-  connectionErrorServerNotFound,
-  connectionErrorServerDbFault,
-  unexpectedServerResponse,
-  wrongUserCredentials
-}
 
 const Map<CIMErrors, String> mapError = {
   CIMErrors.connectionErrorServerNotFound: "connection_error_server_not_found",

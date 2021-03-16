@@ -1,5 +1,5 @@
 import 'package:cim_protocol/cim_protocol.dart';
-import 'package:cim_protocol/src/cim_schedule.dart';
+//import 'package:cim_protocol/src/cim_schedule.dart';
 import 'cim_json_mapper_0_0_1.dart';
 
 /*

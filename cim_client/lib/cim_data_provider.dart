@@ -1,12 +1,16 @@
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:equatable/equatable.dart';
 
-class CIMDataProvider {
-  List<CIMPatient> listPatients;
+class CIMDataProvider extends Equatable{
+
+  final listPatients = <CIMPatient>[];
 
   CIMDataProvider() {
-    final mockData = MockData();
-    listPatients = mockData.patientsList;
+    listPatients.addAll(MockData().patientsList);
   }
+
+  @override
+  List<Object> get props => [listPatients];
 }
 
 class MockData {

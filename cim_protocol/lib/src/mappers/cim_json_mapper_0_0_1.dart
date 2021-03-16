@@ -1,7 +1,6 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
 
-import '../cim_schedule.dart';
 import 'cim_json_mapper.dart';
 
 class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
@@ -129,7 +128,7 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
     map[idKey] = schedule.id;
     map[noteKey] = schedule.note;
     map[dateKey] = schedule.date.toString();
-    map[durationKey] = schedule.duration.toString();
+    map[durationKey] = schedule.duration;
     if(schedule.doctor != null){
       final doctorMap = <String, dynamic>{};
       doctorToMap(schedule.doctor, doctorMap);
@@ -156,10 +155,8 @@ class CIMJsonMapper_0_0_1 extends CIMJsonMapper{
       final doctor = instanceMap == null ? null : doctorFromMap(instanceMap);
       final id = map[idKey];
       final note = map[noteKey];
-      var testString = map[durationKey];
-      testString ??= '';
-      final duration = DateTime.tryParse(testString);
-      testString = map[dateKey];
+      final duration = map[durationKey] ?? 45;
+      var testString = map[dateKey];
       testString ??= '';
       final date = DateTime.tryParse(testString);
       return CIMSchedule(id, patient, date, doctor: doctor, duration: duration, note: note);

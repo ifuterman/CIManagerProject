@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:cim_client/shared/constants.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 import 'cim_connection.dart';
 import 'cim_data_provider.dart';
@@ -65,10 +64,12 @@ abstract class UserMapper {
 
   static const loginKey = 'login';
   static const passwordKey = 'password';
+  static const roleKey = 'role';
 
   static CIMUser fromJson(String json){
     assert(json != null);
     try{
+      print('$now: UserMapper.fromJson: $json');
       return fromMap(jsonDecode(json));
     }catch(e){
       return null;
@@ -77,9 +78,12 @@ abstract class UserMapper {
 
   static CIMUser fromMap(Map<String, dynamic> map) {
     try{
+      print('$now: UserMapper.fromMap: $map');
+      final lst = (map['instances'] as List).cast<Map<String, dynamic>>();
+      final e = lst[0];
       return CIMUser(
-        map[loginKey] as String,
-        map[passwordKey] as String,
+        e[loginKey] as String,
+        e[passwordKey] as String,
       );
     }catch(e){
       return null;
@@ -93,8 +97,18 @@ abstract class UserMapper {
 
   static Map<String, dynamic> toMap(CIMUser user) {
     return <String, dynamic>{
-      loginKey: user.login,
-      passwordKey: user.password,
+      "version" : "0.0.1",
+      "instances" : [
+        {
+          "instance" : "CIMUser",
+          "login" : "admin_again",
+          "password" : "admin_again",
+          "id" : "0",
+          "role" : "0"
+        }
+      ],
+      // loginKey: user.login,
+      // passwordKey: user.password,
     };
   }
 

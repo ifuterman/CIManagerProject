@@ -27,7 +27,7 @@ class UserNewController extends Controller{
       query = Query<CIMUserDB>(context)
         ..values.username = user.login
         ..values.pwrd = user.password
-        ..values.role = user.role.index;
+        ..values.role = user.role;
       var newDBUser = await query.insert();
       if(newDBUser == null) {
         return Response.conflict();

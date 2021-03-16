@@ -1,8 +1,8 @@
 import 'package:cim_client/cim_service.dart';
-import 'package:cim_client/shared/funcs.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 ///
 class PreferenceService extends GetxService {

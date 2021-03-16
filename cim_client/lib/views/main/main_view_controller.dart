@@ -1,8 +1,11 @@
 import 'package:cim_client/cim_data_provider.dart';
 import 'package:cim_client/views/main/main_view.dart';
-import 'package:cim_client/views/shared/smart_nav.dart';
+import 'package:cim_client/views/main/patients_screen_controller.dart';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/vfx_flutter_common.dart';
 
 enum MainMenuItems {
   item_patients,
@@ -11,8 +14,15 @@ enum MainMenuItems {
   item_messages
 }
 
-class MainViewController extends GetxController with SmartNavigationMixin {
+class MainViewController extends GetxController
+    with SmartNavigationMixin<MainViewController> {
+  MainViewController() {
+    subWidgetPlacer$.value = Container();
+    print('$now: MainViewController.MainViewController');
+  }
+
   CIMDataProvider dataProvider;
+
   Rx<MainMenuItems> selectedItem;
 
   RxBool authorised;
@@ -20,8 +30,51 @@ class MainViewController extends GetxController with SmartNavigationMixin {
   bool isAuthorised() => authorised.value;
 
   @override
-  PageBuilder get defaultPageBuilder => () =>
-      Get.off(() => MainView(), binding: BindingsBuilder(() => this));
+  GetPageBuilder get defaultGetPageBuilder => () {
+    debugPrint('$now: MainViewController.defaultGetPageBuilder');
+    return MainView();
+  };
+
+  SmartNavigationMixin _lastSmartNavigation;
+
+  // FIXME(vvk): [MainMenuItems] -> MainMenuItem
+  void openSub(MainMenuItems item) {
+    _lastSmartNavigation?.close();
+    _lastSmartNavigation = null;
+
+    selectedItem(item);
+    print('$now: MainViewController.openSub: $item');
+    switch (item) {
+      case MainMenuItems.item_patients:
+        _lastSmartNavigation = Get.put<PatientsScreenController>(
+            PatientsScreenController()
+              ..subWidgetNavigate(
+                  subWidgetPlacer$: subWidgetPlacer$, onClose: _subClose));
+        break;
+      case MainMenuItems.item_schedule:
+        _lastSmartNavigation = Get.put<SecondController>(SecondController()
+          ..subWidgetNavigate(
+              subWidgetPlacer$: subWidgetPlacer$, onClose: _subClose));
+        break;
+      case MainMenuItems.item_protocol:
+      case MainMenuItems.item_messages:
+        _lastSmartNavigation = Get.put<ThirdController>(ThirdController()
+          ..subWidgetNavigate(
+              subWidgetPlacer$: subWidgetPlacer$, onClose: _subClose));
+        break;
+    }
+  }
+
+  void _subClose(SmartNavigationMixin smart, {args}) {
+    print('$now: MainViewController._subClose: $smart');
+    // smart.destroy();
+    // smart?.destroy<T>();
+  }
+
+  void beforeClose() {
+    subWidgetPlacer$.value = Container();
+    print('$now: MainViewController.beforeClose');
+  }
 
   void authorise(CIMUser user) {
     //TODO: Implement authorisation procedure
@@ -33,11 +86,71 @@ class MainViewController extends GetxController with SmartNavigationMixin {
     selectedItem.value = item;
   }
 
+  void clearUser() {
+    close(args: 'clear_user');
+  }
+
   @override
   void onInit() {
     super.onInit();
     dataProvider = CIMDataProvider();
+    print('$now: MainViewController.onInit');
     selectedItem = Rx(MainMenuItems.item_patients);
     authorised = false.obs;
   }
+
+  @override
+  void onReady() {
+    super.onReady();
+    print('$now: MainViewController.onReady');
+    openSub(MainMenuItems.item_patients);
+  }
+
+  @override
+  void onClose() {
+    print('$now: MainViewController.onClose');
+    super.onClose();
+  }
+}
+
+class SecondController extends GetxController
+    with SmartNavigationMixin<SecondController> {
+  @override
+  SubWidgetBuilder get defaultSubWidgetBuilder => () => Container(
+        child: Center(
+          child: Text(
+            runtimeType.toString(),
+          ),
+        ),
+      );
+
+  @override
+  void onClose() {
+    print('$now: SecondController.onClose');
+    super.onClose();
+  }
+}
+
+class ThirdController extends GetxController
+    with SmartNavigationMixin<ThirdController> {
+  @override
+  SubWidgetBuilder get defaultSubWidgetBuilder => () => Container(
+        child: Center(
+          child: Text(
+            runtimeType.toString(),
+          ),
+        ),
+      );
+
+  @override
+  void onClose() {
+    print('$now: ThirdController.onClose');
+    super.onClose();
+  }
+
+// @override
+// Future<bool> close({bool result = true, args}) {
+//   print('$now: ThirdController.close: ${typeOf<T>()}');
+//   return super.close(result: result, args: args);
+// }
 }

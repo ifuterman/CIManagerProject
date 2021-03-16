@@ -25,7 +25,7 @@ class DoctorNewController extends Controller{
         ..values.email = doctor.email
         ..values.birth_date = doctor.birthDate
         ..values.phones = doctor.phones
-        ..values.users_id = doctor.userId;
+        ..values.users_id = doctor.userId == 0 ? null : doctor.userId;
       final doctorDB = await query.insert();
       doctor = doctorDB.toDoctor();
       packet = CIMPacket.makePacket();

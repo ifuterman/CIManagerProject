@@ -1,8 +1,7 @@
 import 'package:aqueduct/aqueduct.dart';
 import 'package:cim_server/cim_server.dart';
-import 'package:cim_server/model/cim_token.dart';
-import 'package:cim_server/model/cim_user_db.dart';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:cim_server/model/cim_user_db.dart';
 
 
 class UserDeleteController extends Controller{
@@ -17,7 +16,7 @@ class UserDeleteController extends Controller{
       var packet = CIMPacket.makePacketFromMap(request.body.as());
       final list = packet.getInstances();
       if(list == null || list.isEmpty || list[0] is! CIMUser){
-        return Response.badRequest(body: request.body);
+        return Response.badRequest(body: request.body.as());
       }
       final user = list[0] as CIMUser;
 

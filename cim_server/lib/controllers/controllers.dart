@@ -13,6 +13,8 @@ export 'src/patients_get_controller.dart';
 export 'src/patients_new_controller.dart';
 export 'src/patients_update_controller.dart';
 export 'src/refresh_token_controller.dart';
+export 'src/schedule_add_controller.dart';
+export 'src/schedule_get_controller.dart';
 export 'src/user_delete_controller.dart';
 export 'src/user_first_controller.dart';
 export 'src/user_get_controller.dart';
