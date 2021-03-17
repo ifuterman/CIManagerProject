@@ -1,3 +1,4 @@
+import 'cim_errors.dart';
 
 const Map<CIMErrors, String> mapError = {
   CIMErrors.connectionErrorServerNotFound: "connection_error_server_not_found",

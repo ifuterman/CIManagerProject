@@ -22,11 +22,13 @@ void main() {
     expect(cimExcel1, equals(cimExcel2));
   });
 
-  test('Give me a rows', () {
+  test('Touching a rows', () {
     final cimExcel = CIMExcel;
     final res = cimExcel.open('wrong_path');
     expect(res.result, equals(ExcelResult.wrongFormat));
-    final res2 = cimExcel.retrieveRow(12);
+    final res2 = cimExcel.touchRow(index: 1, startColumn: 1, endColumn: 5);
     expect(res2.result, equals(ExcelResult.wrongFormat));
+    final res3 = cimExcel.retrieveRows(startRow: 1, endRow: 10, startColumn: 1, endColumn: 5);
+    expect(res3.result, equals(ExcelResult.wrongFormat));
   });
 }

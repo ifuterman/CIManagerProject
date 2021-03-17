@@ -1,9 +1,8 @@
 import 'dart:io';
-import 'package:cim_client/globals.dart';
-import 'package:cim_client/shared/return.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/utils.dart';
+import 'package:cim_client/cim_errors.dart';
 
 // ignore: one_member_abstracts
 abstract class DataProvider {

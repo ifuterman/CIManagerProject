@@ -20,11 +20,13 @@ class CIMExcelImpl implements CIMExcelInterface {
   }
 
   @override
-  Return<String, ExcelRow> retrieveRow(int index){
-    if(_result.result != ExcelResult.ok){
-      return Return(result: _result.result);
-    }
-    return Return(result: _result.result, data: ExcelRow(2));
+  Return<String, ExcelDataChunk> retrieveRows({int startRow, int endRow, int startColumn, int endColumn}) {
+    return Return<String, ExcelDataChunk>(result: ExcelResult.wrongFormat);;
+  }
+
+  @override
+  Return<String, List<ExcelRow>> touchRow({int index, int startColumn, int endColumn}) {
+    return Return<String, List<ExcelRow>>(result: ExcelResult.wrongFormat);;
   }
 
   @override
@@ -40,6 +42,6 @@ class CIMExcelImpl implements CIMExcelInterface {
 
   @override
   String toString() {
-    return 'path = $path. result = $result';
+    return 'CIMExcelImpl{_path: $_path, _result: $_result}';
   }
 }
