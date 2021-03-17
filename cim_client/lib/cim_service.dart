@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/shared/constants.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
@@ -45,7 +46,7 @@ class CIMService extends GetxService {
   void _restoreUser() {
     const userKey = 'user';
 
-    final store = GetStorage();
+    final store = Get.find<CacheProvider>().storage;
     user = UserMapper.fromJson(store.read(userKey) ?? '');
     if(user == null) {
       userMode$(UserMode.first);
