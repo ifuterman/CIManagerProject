@@ -63,7 +63,7 @@
     },
     {
       "name": "cim_protocol",
-      "rootUri": "../../cim_protocol",
+      "rootUri": "../../cim_protocol-0.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.10"
     },
@@ -410,7 +410,7 @@
       "languageVersion": "2.0"
     }
   ],
-  "generated": "2021-03-16T12:31:46.786090Z",
+  "generated": "2021-03-19T07:37:38.185417Z",
   "generator": "pub",
   "generatorVersion": "2.12.0"
 }

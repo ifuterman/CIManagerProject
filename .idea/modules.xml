@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/CIManagerProject.iml" filepath="$PROJECT_DIR$/.idea/CIManagerProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/cim_client/cim_client.iml" filepath="$PROJECT_DIR$/cim_client/cim_client.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cim_protocol/cim_protocol.iml" filepath="$PROJECT_DIR$/cim_protocol/cim_protocol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cim_protocol-0.0.1/cim_protocol.iml" filepath="$PROJECT_DIR$/cim_protocol-0.0.1/cim_protocol.iml" />
     </modules>
   </component>
 </project>

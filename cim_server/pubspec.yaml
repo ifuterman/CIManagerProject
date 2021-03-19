@@ -10,7 +10,7 @@ dependencies:
   aqueduct: 4.0.0-b1
   uuid: ^2.2.2
   cim_protocol:
-    path: ../cim_protocol/
+    path: ../cim_protocol-0.0.1/
 
 
 dev_dependencies:

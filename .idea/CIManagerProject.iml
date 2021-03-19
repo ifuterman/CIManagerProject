@@ -33,6 +33,9 @@
       <excludeFolder url="file://$MODULE_DIR$/cim_shared/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/cim_shared/build" />
       <excludeFolder url="file://$MODULE_DIR$/cim_shared/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_protocol-0.1.0/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_protocol-0.1.0/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/cim_protocol-0.1.0/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
