@@ -60,7 +60,7 @@ class ExcelRow extends Equatable {
   final data = <int, dynamic>{};
 
   @override
-  List<Object> get props => [length, data];
+  List<Object> get props => [index, length, data];
 }
 
 ///

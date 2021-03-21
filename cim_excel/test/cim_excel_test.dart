@@ -31,4 +31,12 @@ void main() {
     final res3 = cimExcel.retrieveRows(startRow: 1, endRow: 10, startColumn: 1, endColumn: 5);
     expect(res3.result, equals(ExcelResult.wrongFormat));
   });
+
+  test('Sampling ', () {
+    final cimExcel = CIMExcel;
+    final res = cimExcel.open('wrong_path');
+    print('main: ${res.data}');
+    //
+
+  });
 }
