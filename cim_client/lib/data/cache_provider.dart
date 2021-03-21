@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
 
 // ignore: one_member_abstracts
 abstract class CacheProvider {
+
+  GetStorage get storage;
+
+
   Future<CIMUser> fetchUser();
   Future<void> saveUser(CIMUser candidate);
   String fetchToken();
@@ -19,8 +26,13 @@ class CacheProviderService extends GetxService implements CacheProvider {
 
   GetStorage _storage;
 
+  @override
+  GetStorage get storage => _storage;
+
   Future<CacheProviderService> init() async {
-    _storage = GetStorage();
+    final directory = Directory.current.path;
+    debugPrint('$now: CacheProviderService.init: directory = $directory');
+    _storage = GetStorage('cache.data', directory);
     return this;
   }
 

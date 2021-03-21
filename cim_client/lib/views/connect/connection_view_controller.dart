@@ -1,13 +1,16 @@
+import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
-import 'package:cim_protocol/cim_protocol.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
 import 'package:vfx_flutter_common/utils.dart';
+import 'package:cim_client/cim_connection.dart';
+import 'package:cim_client/cim_errors.dart';
 
 enum ConnectionStates { checking, connected, disconnected, unknown }
 
@@ -45,8 +48,6 @@ class ConnectionViewController extends GetxController
 
   void cancelConnection() {
     close(args: false);
-    // connection.dispose();
-    // service.currentView.value = CIMViews.authorisationView;
   }
 
   void init() {
@@ -59,7 +60,7 @@ class ConnectionViewController extends GetxController
   void onInit() {
     super.onInit();
     _subs.add(connectionState$.listen((v) {
-      GetStorage().write('connect', v.index);
+      Get.find<CacheProvider>().storage.write('connect', v.index);
       updateScreen();
     }));
     init();
@@ -68,7 +69,7 @@ class ConnectionViewController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    final i = GetStorage().read('connect') as int ?? ConnectionStates.disconnected.index;
+    final i = Get.find<CacheProvider>().storage.read('connect') as int ?? ConnectionStates.disconnected.index;
     connectionState$(ConnectionStates.values.elementAt(i));
   }
 

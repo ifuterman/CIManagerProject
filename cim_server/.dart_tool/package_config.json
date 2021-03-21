@@ -45,9 +45,9 @@
     },
     {
       "name": "buffer",
-      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/buffer-1.0.7",
+      "rootUri": "file:///C:/Users/ifuterman/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/buffer-1.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.7"
+      "languageVersion": "2.12"
     },
     {
       "name": "charcode",
@@ -410,7 +410,7 @@
       "languageVersion": "2.0"
     }
   ],
-  "generated": "2021-03-10T14:37:02.288230Z",
+  "generated": "2021-03-16T12:31:46.786090Z",
   "generator": "pub",
   "generatorVersion": "2.12.0"
 }

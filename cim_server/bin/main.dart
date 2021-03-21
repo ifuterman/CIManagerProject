@@ -8,7 +8,7 @@ Future main() async {
 //      ..options.privateKeyFilePath = "assets\\certificate\\cimkey.pem"
   ;
 
-  final count = Platform.numberOfProcessors ~/ 8;
+  final count = Platform.numberOfProcessors ~/ (Platform.numberOfProcessors / 2);
   await app.start(numberOfInstances: count > 0 ? count : 1);
 
   print("Application started on port: ${app.options.port}.");

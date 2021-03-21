@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/shared/constants.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
 import 'cim_data_provider.dart';
+import 'cim_connection.dart';
 
 enum CIMViews { authorisationView, connectionView, mainView }
 
@@ -44,7 +46,7 @@ class CIMService extends GetxService {
   void _restoreUser() {
     const userKey = 'user';
 
-    final store = GetStorage();
+    final store = Get.find<CacheProvider>().storage;
     user = UserMapper.fromJson(store.read(userKey) ?? '');
     if(user == null) {
       userMode$(UserMode.first);

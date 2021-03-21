@@ -387,8 +387,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: master
-      resolved-ref: bfed7336e013f3c1a40ad8efd4041c8006f3f9c1
+      ref: "master.test"
+      resolved-ref: "581800c435b5cf87b3e1da7aa47766176f37d9f4"
       url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
     source: git
     version: "0.0.1"

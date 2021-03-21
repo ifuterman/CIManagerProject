@@ -51,12 +51,12 @@ void main() async {
 
 Future initServices() async {
   print('starting services ...');
-  await GetStorage.init();
-  await Get.putAsync(() => PreferenceService().init());
-  await Get.putAsync<CacheProvider>(() => CacheProviderService().init());
+  // await GetStorage.init();
+  final cache = await Get.putAsync<CacheProvider>(() => CacheProviderService().init());
+  await Get.putAsync(() => PreferenceService(cache).init());
   await Get.putAsync(() => CIMService().init());
   await Get.putAsync(() => GlobalViewService().init());
   // await Get.putAsync(() => AuthorizationViewController().init());
-  await delayMilli(1000);
+  // await delayMilli(1000);
   print('All services started...');
 }

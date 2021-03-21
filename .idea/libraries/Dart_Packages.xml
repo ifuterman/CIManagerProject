@@ -57,7 +57,7 @@
         <entry key="buffer">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/buffer-1.0.7/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/buffer-1.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -676,7 +676,7 @@
         <entry key="vfx_flutter_common">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-f6a1ee8b2bd746108ff6340981fdfe5e658b8657/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-bfed7336e013f3c1a40ad8efd4041c8006f3f9c1/lib" />
             </list>
           </value>
         </entry>
@@ -736,7 +736,7 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-f6a1ee8b2bd746108ff6340981fdfe5e658b8657/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-bfed7336e013f3c1a40ad8efd4041c8006f3f9c1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-12.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-17.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-0.40.5/lib" />
@@ -747,7 +747,7 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/args-2.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/async-2.5.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/boolean_selector-2.1.0/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/buffer-1.0.7/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/buffer-1.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/characters-1.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/charcode-1.2.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/checked_yaml-1.0.4/lib" />

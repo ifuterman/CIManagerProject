@@ -41,8 +41,8 @@ dependencies:
   vfx_flutter_common:
     git:
       url: https://gitlab.com/frostyland/vfx_flutter_common.git
-#      url: git@gitlab.com:frostyland/vfx_flutter_common.git
-      ref: master
+      ref: 'master.test'
+#      ref: master
 
   flutter:
     sdk: flutter

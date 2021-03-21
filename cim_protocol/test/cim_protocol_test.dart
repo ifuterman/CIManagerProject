@@ -2,7 +2,6 @@ import 'package:cim_protocol/cim_protocol.dart';
 
 import 'package:test/test.dart';
 
-import 'package:cim_protocol/cim_protocol.dart';
 enum testEnum{e1, e2}
 void main() {
   group('tests for CIMJsonMapper_0_0_1', () {
