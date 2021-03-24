@@ -6,7 +6,7 @@ Future main() async {
   String token;
   final String authKey = 'Authorization';
   var authorisation = <String, String>{};
-  final user = CIMUser('admin', 'admin',);
+  var user = CIMUser('admin', 'admin',);
   user.role = UserRoles.administrator;
 
   var doctor = CIMDoctor('Test', 'TEST', DoctorSpeciality.therapist, email: 'test@mail.ru', phones: '+79122534222');
@@ -16,6 +16,28 @@ Future main() async {
   test('check connection', () async{
     final response = await harness.agent.get(CIMRestApi.prepareCheckConnection());
     expectResponse(response, 200);
+  });
+
+
+  test('test first user', ()async{
+    final response = await harness.agent.post(CIMRestApi.prepareDebugDeleteUsers());
+    expectResponse(response, 200);
+  });
+
+  test('test first user', ()async{
+    var packet = CIMPacket.makePacket();
+    packet.addInstance(user);
+    final response = await harness.agent.post(CIMRestApi.prepareFirstUser(), body: packet.map);
+    expectResponse(response, 200);
+    await response.body.decode();
+    packet = CIMPacket.makePacketFromMap(response.body.as());
+    expect(packet, isNotNull);
+    final list = packet.getInstances();
+    expect(list, isNotNull);
+    expect(true, list.isNotEmpty);
+    final instance = list[0];
+    expect(true, instance is CIMUser);
+    user = instance as CIMUser;
   });
 
   test('get token', ()async{
@@ -160,6 +182,13 @@ Future main() async {
     final packet = CIMPacket.makePacket();
     packet.addInstance(doctor);
     final response = await harness.agent.post(CIMRestApi.prepareDoctorDelete(),headers: authorisation, body: packet.map);
+    expectResponse(response, 200);
+  });
+
+  test('test delete user', ()async{
+    final packet = CIMPacket.makePacket();
+    packet.addInstance(user);
+    final response = await harness.agent.post(CIMRestApi.prepareDeleteUser(),headers: authorisation, body: packet.map);
     expectResponse(response, 200);
   });
   /*test("GET /example returns 200 {'key': 'value'}", () async {

@@ -1,6 +1,6 @@
-import 'package:cim_protocol/cim_protocol.dart';
-
 import 'package:test/test.dart';
+//import '../lib/cim_protocol.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 
 enum testEnum{e1, e2}
 void main() {
@@ -32,7 +32,7 @@ void main() {
       var map = <String, dynamic>{};
       var mapper = CIMJsonMapper.getMapper();
       expect(mapper, isNotNull);
-      mapper.userToMap(user, map);
+      mapper!.userToMap(user, map);
       var user2 = mapper.userFromMap(map);
       expect(user2, isNotNull);
       expect(user, equals(user2));
@@ -41,7 +41,7 @@ void main() {
       var map = <String, dynamic>{};
       var mapper = CIMJsonMapper.getMapper();
       expect(mapper, isNotNull);
-      mapper.doctorToMap(doctor, map);
+      mapper!.doctorToMap(doctor, map);
       var doctor2 = mapper.doctorFromMap(map);
       expect(doctor2, isNotNull);
       expect(doctor, equals(doctor2));
@@ -50,7 +50,7 @@ void main() {
       var map = <String, dynamic>{};
       var mapper = CIMJsonMapper.getMapper();
       expect(mapper, isNotNull);
-      mapper.patientToMap(patient, map);
+      mapper!.patientToMap(patient, map);
       var patient2 = mapper.patientFromMap(map);
       expect(patient2, isNotNull);
       expect(patient, equals(patient2));
@@ -59,7 +59,7 @@ void main() {
       var map = <String, dynamic>{};
       var mapper = CIMJsonMapper.getMapper();
       expect(mapper, isNotNull);
-      mapper.scheduleToMap(schedule, map);
+      mapper!.scheduleToMap(schedule, map);
       var schedule2 = mapper.scheduleFromMap(map);
       expect(schedule2, isNotNull);
       expect(schedule, equals(schedule2));
@@ -67,18 +67,18 @@ void main() {
     test('test to CIMPacket from CIMPacket', () {
       var packet = CIMPacket.makePacket();
       expect(packet, isNotNull);
-      packet.addInstance(user);
+      packet!.addInstance(user);
       packet.addInstance(doctor);
       packet.addInstance(patient);
       packet.addInstance(schedule);
       var map = packet.map;
       packet = CIMPacket.makePacketFromMap(map);
-      var list = packet.getInstances();
+      var list = packet!.getInstances();
       var user2;
       var doctor2;
       var patient2;
       var schedule2;
-      for(var instance in list){
+      for(var instance in list!){
         if(instance is CIMUser){
           user2 = instance;
           continue;

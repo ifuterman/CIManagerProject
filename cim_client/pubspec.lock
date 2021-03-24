@@ -46,10 +46,10 @@ packages:
   cim_protocol:
     dependency: "direct main"
     description:
-      path: "../cim_protocol"
+      path: "../cim_protocol-0.0.1"
       relative: true
     source: path
-    version: "0.0.0"
+    version: "0.0.1"
   cim_shared:
     dependency: transitive
     description:

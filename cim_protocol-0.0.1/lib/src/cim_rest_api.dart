@@ -5,6 +5,7 @@ class CIMRestApi{
   static String prepareNewUser() => '/$userSegmentKey/new';
   static String prepareGetUser() => '/$userSegmentKey/get';
   static String prepareFirstUser() => '/$userSegmentKey/first';
+  static String prepareDeleteUser() => '/$userSegmentKey/delete';
   static String prepareUpdateUser() => '/$userSegmentKey/update';
   static String prepareDebugCleanDB() => '/$debugSegmentKey/clean_db';
   static String prepareDebugDeleteUsers() => '/$debugSegmentKey/delete_users';

@@ -35,7 +35,7 @@ dependencies:
 #  cim_model:
 #   path: ../cim_model/
   cim_protocol:
-    path: ../cim_protocol/
+    path: ../cim_protocol-0.0.1/
   cim_excel:
     path: ../cim_excel/
   vfx_flutter_common:
