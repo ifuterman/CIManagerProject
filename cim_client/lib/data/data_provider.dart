@@ -11,6 +11,7 @@ abstract class DataProvider {
   Future<Return<CIMErrors, Map<String, dynamic>>> getToken(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createNewUser(CIMUser candidate);
+  Future<Return<CIMErrors, CIMUser>> getUserInfo();
 }
 
 class DataProviderImpl extends GetConnect implements DataProvider {
@@ -112,6 +113,27 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   }
 
   @override
+  Future<Return<CIMErrors, CIMUser>> getUserInfo() async {
+    Response res;
+    try {
+      res = await get(CIMRestApi.prepareGetUser());
+      switch (res.status.code) {
+        case HttpStatus.ok:
+          final data = res.body;
+          final packet = CIMPacket.makePacketFromMap(data);
+          final user = packet.getInstances()[0] as CIMUser;
+          return Return(result: CIMErrors.ok, data: user);
+        case HttpStatus.internalServerError:
+          return Return(result: CIMErrors.connectionErrorServerDbFault);
+        default:
+          return Return(result: CIMErrors.unexpectedServerResponse);
+      }
+    } catch (e) {
+      return Return(result: CIMErrors.unexpectedServerResponse, description: e.toString());
+    }
+  }
+
+  @override
   Future<CIMErrors> cleanDb() async{
     Response res;
     try {
@@ -129,4 +151,5 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       return CIMErrors.connectionErrorServerNotFound;
     return CIMErrors.unexpectedServerResponse;
   }
+
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/smart_navigation.dart';
 import 'package:vfx_flutter_common/utils.dart';
 
-import 'patient_screen.dart';
+import 'patients_screen.dart';
 
 class PatientsScreenController extends GetxController
     with SmartNavigationMixin<PatientsScreenController> {

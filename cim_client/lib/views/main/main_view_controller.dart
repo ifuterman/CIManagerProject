@@ -1,20 +1,24 @@
 import 'package:cim_client/cim_data_provider.dart';
+import 'package:cim_client/views/shared/getx_helpers.dart';
 import 'package:cim_client/views/main/main_view.dart';
-import 'package:cim_client/views/main/patients_screen_controller.dart';
+import 'package:cim_client/views/main/sub/patient/src/patients_screen_controller.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/vfx_flutter_common.dart';
 
+import 'sub/profile/profile.dart';
+
 enum MainMenuItems {
   item_patients,
   item_schedule,
   item_protocol,
-  item_messages
+  item_messages,
+  itemProfile
 }
 
-class MainViewController extends GetxController
+class MainViewController extends AppGetxController
     with SmartNavigationMixin<MainViewController> {
   MainViewController() {
     subWidgetPlacer$.value = Container();
@@ -23,11 +27,11 @@ class MainViewController extends GetxController
 
   CIMDataProvider dataProvider;
 
-  Rx<MainMenuItems> selectedItem;
+  Rx<MainMenuItems> selectedItem$;
 
-  RxBool authorised;
+  RxBool authorised$;
 
-  bool isAuthorised() => authorised.value;
+  bool isAuthorised() => authorised$.value;
 
   @override
   GetPageBuilder get defaultGetPageBuilder => () {
@@ -42,33 +46,44 @@ class MainViewController extends GetxController
     _lastSmartNavigation?.close();
     _lastSmartNavigation = null;
 
-    selectedItem(item);
-    print('$now: MainViewController.openSub: $item');
+    selectedItem$(item);
     switch (item) {
       case MainMenuItems.item_patients:
-        _lastSmartNavigation = Get.put<PatientsScreenController>(
-            PatientsScreenController()
-              ..subWidgetNavigate(
-                  subWidgetPlacer$: subWidgetPlacer$, onClose: _subClose));
+        _lastSmartNavigation =
+            _put<PatientsScreenController>(() => PatientsScreenController());
         break;
       case MainMenuItems.item_schedule:
-        _lastSmartNavigation = Get.put<SecondController>(SecondController()
-          ..subWidgetNavigate(
-              subWidgetPlacer$: subWidgetPlacer$, onClose: _subClose));
+        _lastSmartNavigation =
+            _put<SecondController>(() => SecondController());
         break;
       case MainMenuItems.item_protocol:
       case MainMenuItems.item_messages:
-        _lastSmartNavigation = Get.put<ThirdController>(ThirdController()
-          ..subWidgetNavigate(
-              subWidgetPlacer$: subWidgetPlacer$, onClose: _subClose));
+      _lastSmartNavigation =
+          _put<ThirdController>(() => ThirdController());
+        break;
+      case MainMenuItems.itemProfile:
+        _lastSmartNavigation =
+            _put<ProfilePageController>(() => ProfilePageController());
         break;
     }
   }
 
-  void _subClose(SmartNavigationMixin smart, {args}) {
-    print('$now: MainViewController._subClose: $smart');
-    // smart.destroy();
-    // smart?.destroy<T>();
+  // 2. Удобный метод для упрощения вызовов
+  ///
+  T _put<T extends SmartNavigationMixin>(T Function() factory, {args}) {
+    return Get.put<T>(
+      factory()
+        ..subWidgetNavigate(
+          subWidgetPlacer$: subWidgetPlacer$,
+          onClose: _subClose,
+          args: args,
+        ),
+    );
+  }
+
+  void _subClose<T>(T c, {dynamic args}) {
+    _lastSmartNavigation = null;
+    subWidgetPlacer$(Container());
   }
 
   void beforeClose() {
@@ -78,12 +93,12 @@ class MainViewController extends GetxController
 
   void authorise(CIMUser user) {
     //TODO: Implement authorisation procedure
-    authorised.value = true;
+    authorised$.value = true;
   }
 
   void onSelectMainMenuItem(MainMenuItems item) {
-    if (item == selectedItem.value) return;
-    selectedItem.value = item;
+    if (item == selectedItem$.value) return;
+    selectedItem$.value = item;
   }
 
   void clearUser() {
@@ -95,8 +110,8 @@ class MainViewController extends GetxController
     super.onInit();
     dataProvider = CIMDataProvider();
     print('$now: MainViewController.onInit');
-    selectedItem = Rx(MainMenuItems.item_patients);
-    authorised = false.obs;
+    selectedItem$ = Rx(MainMenuItems.item_patients);
+    authorised$ = false.obs;
   }
 
   @override
