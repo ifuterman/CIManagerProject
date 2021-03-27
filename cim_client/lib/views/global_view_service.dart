@@ -6,6 +6,7 @@ import 'package:cim_client/views/connect/connection_view_controller.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/shared/routes.dart';
 import 'package:cim_client/cim_errors.dart';
+import 'package:cim_client/views/temp_start/src/temp_start_view_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,19 @@ class GlobalViewService extends GetxService {
   void onReady() {
     super.onReady();
     debugPrint('$now: GlobalViewService.onReady');
-    _start();
+    delayMilli(2000).then((_) {
+      _startTemp();
+    });
+    // _start();
+  }
+
+  void _startTemp(){
+    Get.put<TempStartViewController>(TempStartViewController()
+      ..toPage(
+          onClose: (c, {args}) {
+
+          }
+    ));
   }
 
   Future _start() async {
