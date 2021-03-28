@@ -40,14 +40,11 @@ class MainViewController extends AppGetxController
   SmartNavigationMixin _lastSmartNavigation;
 
   @override
-  dynamic processArgs(args) {
-    final a = args as Map<String, dynamic>;
-    final to = a.entries.firstWhere((e) => e.key == NavArgs.startNavKey,
-        orElse: () => null);
-    if (to != null && to.value as String == NavArgs.toNewUser) {
-      openSub(MainMenuItems.itemProfile, args: a);
+  Future afterNavigate({Map<String, dynamic> args}) async {
+    final to = NavArgs.safeValue(args, key: NavArgs.startNavKey);
+    if (to != null && to as String == NavArgs.toNewUser) {
+      openSub(MainMenuItems.itemProfile, args: args);
     }
-    return args;
   }
 
 

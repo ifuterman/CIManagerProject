@@ -15,8 +15,20 @@ import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/utils.dart';
 
 abstract class NavArgs {
+
+  static const defaultKey = 'default';
   static const startNavKey = 'start_navigation';
   static const toNewUser = 'new_user';
+
+  static safeValue(Map<String, dynamic> args, {String key, defValue}){
+    assert(args != null);
+    if(args.containsKey(key ?? defaultKey)){
+      return args[key];
+    }
+    return defValue;
+  }
+
+  static Map<String, dynamic> simple(value) => {defaultKey: value};
 }
 
 class GlobalViewService extends GetxService {
@@ -94,14 +106,14 @@ class GlobalViewService extends GetxService {
               onClose: (c, {args}) {
                 debugPrint('$now: GlobalViewService._toAuthForm.CLOSE');
                 Get.back();
-                if (args == true) {
+                if (NavArgs.safeValue(args) == true) {
                   _toMainForm();
                 }
-                if(args == 'reconnect'){
+                if(NavArgs.safeValue(args) == 'reconnect'){
                   _toConnectForm();
                 }
               },
-              args: 'from $runtimeType._toAuthForm'),
+              args: {NavArgs.defaultKey: 'from $runtimeType._toAuthForm'}),
       );
     } else {
       print('GlobalViewService._toAuthForm.2');
@@ -116,7 +128,7 @@ class GlobalViewService extends GetxService {
       ..toPage(
           onClose: (c, {args}) {
             Get.back();
-            if (args == 'clear_user') {
+            if (NavArgs.safeValue(args) == 'clear_user') {
               cache.saveToken(null).then((value) {
                 _toAuthForm();
               });
@@ -140,6 +152,6 @@ class GlobalViewService extends GetxService {
               }
             }
           },
-          args: 'from $runtimeType._toConnectForm'));
+          args: {NavArgs.defaultKey: 'from $runtimeType._toConnectForm'}));
   }
 }
