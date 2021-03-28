@@ -106,7 +106,7 @@ class MainViewController extends AppGetxController
   }
 
   void clearUser() {
-    close(args: 'clear_user');
+    close(args: NavArgs.simple('clear_user'));
   }
 
   @override

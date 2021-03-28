@@ -12,7 +12,20 @@ class NewUserView extends AppGetView<NewUserViewController> {
       body: Center(
         child: Container(
           width: 500,
-          color: Colors.yellow[400],
+          margin: EdgeInsets.all(64),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Colors.grey[200],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          // color: Colors.yellow[400],
           child: Center(
             child: Form(
               key: _formKey,
@@ -21,6 +34,8 @@ class NewUserView extends AppGetView<NewUserViewController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text('Вводим, вводим, не стесняемся!'),
+                    SizedBox(height: 60),
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: 'Имя'
@@ -44,30 +59,42 @@ class NewUserView extends AppGetView<NewUserViewController> {
                       },
                     ),
                     DropdownButtonFormField(
-                      value: 1,
-                      items: [1, 2, 3, 4, 5]
+                      validator: (value){
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter роль';
+                        }
+                        return null;
+                      },
+                      value: null,
+                      items: ['Админ','Врачелло','Терпила',]
                           .map((label) => DropdownMenuItem(
                         child: Text(label.toString()),
                         value: label,
                       ))
                           .toList(),
-                      hint: Text('Rating'),
+                      hint: Text('Роль'),
                       onChanged: (value) {
                       },
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_formKey.currentState.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text('Processing Data')));
-                          }
-                        },
-                        child: Text('Submit'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false otherwise.
+                              if (_formKey.currentState.validate()) {
+                                c.processing();
+                              }
+                            },
+                            child: Text('Submit'),
+                          ),
+                          ElevatedButton(
+                            onPressed: c.cancel,
+                            child: Text('Cancel'),
+                          ),
+                        ],
                       ),
                     ),
 

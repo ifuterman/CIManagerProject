@@ -17,7 +17,7 @@ class ProfileSubView extends AppGetView<ProfilePageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue[200],
+        color: Colors.grey[100],
         child: Center(
           child: Obx(()=>Column(
             mainAxisAlignment: MainAxisAlignment.center,

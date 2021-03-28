@@ -22,7 +22,8 @@ abstract class NavArgs {
 
   static safeValue(Map<String, dynamic> args, {String key, defValue}){
     assert(args != null);
-    if(args.containsKey(key ?? defaultKey)){
+    key ??= defaultKey;
+    if(args.containsKey(key)){
       return args[key];
     }
     return defValue;
@@ -128,6 +129,8 @@ class GlobalViewService extends GetxService {
       ..toPage(
           onClose: (c, {args}) {
             Get.back();
+            print('GlobalViewService._toMainForm.1: args = $args');
+            print('GlobalViewService._toMainForm.2: args = ${NavArgs.safeValue(args)}');
             if (NavArgs.safeValue(args) == 'clear_user') {
               cache.saveToken(null).then((value) {
                 _toAuthForm();
