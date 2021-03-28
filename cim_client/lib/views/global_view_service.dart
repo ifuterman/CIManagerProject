@@ -12,11 +12,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
+
+abstract class NavArgs {
+  static const startNavKey = 'start_navigation';
+  static const toNewUser = 'new_user';
+}
 
 class GlobalViewService extends GetxService {
   static const initialRoute = AppRoutes.splash;
+
+  static const initialArgs = <String, dynamic>{
+    NavArgs.startNavKey: NavArgs.toNewUser,
+  };
 
   DataProvider provider;
 
@@ -35,9 +43,9 @@ class GlobalViewService extends GetxService {
     super.onReady();
     debugPrint('$now: GlobalViewService.onReady');
     delayMilli(2000).then((_) {
-      _startTemp();
+      // _startTemp();
+      _start();
     });
-    // _start();
   }
 
   void _startTemp(){
@@ -50,31 +58,29 @@ class GlobalViewService extends GetxService {
   }
 
   Future _start() async {
-    debugPrint('$now: GlobalViewService._start');
-    delayMilli(2000).then((_) {
-      provider.checkConnection().then((value) {
-        if (value == CIMErrors.ok) {
-          Get.find<CacheProvider>().storage.write('connect', ConnectionStates.connected.index);
-          // connectionState$(ConnectionStates.connected);
-          _toAuthForm();
-        } else {
-          Get.find<CacheProvider>().storage.write('connect', ConnectionStates.disconnected.index);
-          // connectionState$(ConnectionStates.disconnected);
-          String message = mapError[value].tr();
-          Get.defaultDialog(
-            title: "error".tr(),
-            middleText: message,
-            confirm: RaisedButton(
-              child: Text("close".tr()),
-              onPressed: () {
-                Get.back();
-                _toConnectForm();
-              },
-            ),
-          );
-        }
-        return null;
-      });
+    provider.checkConnection().then((value) {
+      debugPrint('$now: GlobalViewService._start: $value');
+      if (value == CIMErrors.ok) {
+        Get.find<CacheProvider>().storage.write('connect', ConnectionStates.connected.index);
+        // connectionState$(ConnectionStates.connected);
+        _toAuthForm();
+      } else {
+        Get.find<CacheProvider>().storage.write('connect', ConnectionStates.disconnected.index);
+        // connectionState$(ConnectionStates.disconnected);
+        String message = mapError[value].tr();
+        Get.defaultDialog(
+          title: "error".tr(),
+          middleText: message,
+          confirm: RaisedButton(
+            child: Text("close".tr()),
+            onPressed: () {
+              Get.back();
+              _toConnectForm();
+            },
+          ),
+        );
+      }
+      return null;
     });
   }
 
@@ -98,18 +104,17 @@ class GlobalViewService extends GetxService {
               args: 'from $runtimeType._toAuthForm'),
       );
     } else {
+      print('GlobalViewService._toAuthForm.2');
       _toMainForm();
     }
   }
 
   void _toMainForm() {
-    debugPrint('$now: GlobalViewService._toMainForm');
+    print('GlobalViewService._toMainForm');
     final cache = Get.find<CacheProvider>();
     Get.put<MainViewController>(MainViewController()
       ..toPage(
           onClose: (c, {args}) {
-            debugPrint(
-                '$now: GlobalViewService._toAuthForm: MainViewController.onClose');
             Get.back();
             if (args == 'clear_user') {
               cache.saveToken(null).then((value) {
@@ -117,7 +122,7 @@ class GlobalViewService extends GetxService {
               });
             }
           },
-          args: 'from $runtimeType._toAuthForm'));
+          args: initialArgs));
   }
 
   void _toConnectForm() {

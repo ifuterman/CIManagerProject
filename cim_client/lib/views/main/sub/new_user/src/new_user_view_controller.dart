@@ -1,10 +1,5 @@
-import 'package:cim_client/cim_errors.dart';
-import 'package:cim_client/data/data_provider.dart';
-import 'package:cim_protocol/cim_protocol.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
-import 'package:vfx_flutter_common/utils.dart';
 
 import 'new_user_view.dart';
 
