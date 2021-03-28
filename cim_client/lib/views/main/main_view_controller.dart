@@ -30,7 +30,7 @@ class MainViewController extends AppGetxController
 
   final selectedItem$ = MainMenuItems.item_patients.obs;
 
-  RxBool authorised$;
+  final authorised$ = false.obs;
 
   bool isAuthorised() => authorised$.value;
 
@@ -40,33 +40,16 @@ class MainViewController extends AppGetxController
   SmartNavigationMixin _lastSmartNavigation;
 
   @override
-  Future toPage({
-    onClose,
-    pageBuilder,
-    bool autoDelete,
-    Transition transition,
-    Duration duration,
-    args,
-  }) {
-    print('MainViewController.toPage');
+  dynamic processArgs(args) {
     final a = args as Map<String, dynamic>;
     final to = a.entries.firstWhere((e) => e.key == NavArgs.startNavKey,
         orElse: () => null);
-    print('MainViewController.subWidgetNavigate: $to');
     if (to != null && to.value as String == NavArgs.toNewUser) {
-      // selectedItem$(MainMenuItems.itemProfile);
-      // openSub(MainMenuItems.itemProfile, args: a);
+      openSub(MainMenuItems.itemProfile, args: a);
     }
-
-    return super.toPage(
-      onClose: onClose,
-      pageBuilder: pageBuilder,
-      autoDelete: autoDelete,
-      transition: transition,
-      duration: duration,
-      args: args,
-    );
+    return args;
   }
+
 
   void openSub(MainMenuItems item, {args}) {
     _lastSmartNavigation?.close();
@@ -133,21 +116,8 @@ class MainViewController extends AppGetxController
   void onInit() {
     super.onInit();
     dataProvider = CIMDataProvider();
-    // selectedItem$ = Rx(MainMenuItems.item_patients);
-    authorised$ = false.obs;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    // openSub(MainMenuItems.item_patients);
-  }
-
-  @override
-  void onClose() {
-    print('$now: MainViewController.onClose');
-    super.onClose();
-  }
 }
 
 class SecondController extends GetxController

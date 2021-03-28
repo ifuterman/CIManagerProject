@@ -386,11 +386,9 @@ packages:
   vfx_flutter_common:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "master.test"
-      resolved-ref: "420afc3207cffc83864a10aea7a0600ef598a454"
-      url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
-    source: git
+      path: "../../../Real/vfx_flutter_common"
+      relative: true
+    source: path
     version: "0.0.1"
   win32:
     dependency: transitive
@@ -408,4 +406,4 @@ packages:
     version: "0.1.2"
 sdks:
   dart: ">=2.12.0 <3.0.0"
-  flutter: ">2.0.0"
+  flutter: ">=1.17.0"
