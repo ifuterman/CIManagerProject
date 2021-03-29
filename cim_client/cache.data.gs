@@ -1,1 +1,1 @@
-{"connect":1,"cache.token":null}
+{"connect":1,"cache.token":"ea4b6ca6-e1c3-4701-a0d2-c57858e73eb7"}

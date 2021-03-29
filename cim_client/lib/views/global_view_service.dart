@@ -16,7 +16,7 @@ import 'package:vfx_flutter_common/utils.dart';
 
 abstract class NavArgs {
 
-  static const defaultKey = 'default';
+  static const defaultKey = '_default_nav_arg_';
   static const startNavKey = 'start_navigation';
   static const toNewUser = 'new_user';
 
@@ -105,7 +105,9 @@ class GlobalViewService extends GetxService {
       Get.put<AuthorizationViewController>(AuthorizationViewController()
           ..toPage(
               onClose: (c, {args}) {
-                debugPrint('$now: GlobalViewService._toAuthForm.CLOSE');
+                debugPrint('$now: GlobalViewService._toAuthForm.CLOSE'
+                    'NavArgs.safeValue($args)'
+                    '');
                 Get.back();
                 if (NavArgs.safeValue(args) == true) {
                   _toMainForm();

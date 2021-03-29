@@ -57,10 +57,12 @@ class AuthorizationViewController extends GetxController
   /// Then, if fails, system tries to make us admin.
   void authoriseUser({String login, String password}) {
     state$(AuthorisationState.start);
+    debugPrint('$now: AuthorizationViewController.authoriseUser.1');
 
     _getToken(login: login, password: password).then((value) {
       state$(AuthorisationState.ok);
       if(!value){
+        debugPrint('$now: AuthorizationViewController.authoriseUser.2');
         // FIXME(vvk): [UserRoles] -> UserRole
         final candidate = CIMUser(login, password);
         _dataProvider.createFirstUser(candidate).then((value) async {
@@ -71,6 +73,7 @@ class AuthorizationViewController extends GetxController
           }
         });
       }
+      debugPrint('$now: AuthorizationViewController.authoriseUser.3');
     });
   }
 

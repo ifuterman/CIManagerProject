@@ -37,6 +37,7 @@ class NewUserView extends AppGetView<NewUserViewController> {
                     Text('Вводим, вводим, не стесняемся!'),
                     SizedBox(height: 60),
                     TextFormField(
+                      onChanged: c.changeName,
                       decoration: InputDecoration(
                         hintText: 'Имя'
                       ),
@@ -48,6 +49,7 @@ class NewUserView extends AppGetView<NewUserViewController> {
                       },
                     ),
                     TextFormField(
+                      onChanged: c.changePassword,
                       decoration: InputDecoration(
                         hintText: 'Фамилия'
                       ),

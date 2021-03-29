@@ -1,4 +1,5 @@
 import 'package:cim_client/views/shared/getx_helpers.dart';
+import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,6 +25,17 @@ class ProfileSubView extends AppGetView<ProfilePageController> {
             children: [
               Text('${c.user$.value.login}'),
               Text('${c.user$.value.role}'),
+
+              SizedBox(height: 30),
+              Obx((){
+                List<CIMUser> items = List.from(c.users$);
+                return Column(
+                children: items.length > 0
+                    ? items.map((e) => Text(e.login)).toList() : [Text('')],
+              );
+              }),
+              SizedBox(height: 30),
+
               ElevatedButton(
                 onPressed: c.makeUser,
                 child: Text('Make User'),

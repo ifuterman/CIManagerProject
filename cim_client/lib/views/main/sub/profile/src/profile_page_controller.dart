@@ -14,6 +14,7 @@ class ProfilePageController extends GetxController
     with SmartNavigationMixin<ProfilePageController> {
 
   final user$ = Rx<CIMUser>(CIMUser('a', 'b'));
+  final users$ = RxList<CIMUser>();
 
   ProfilePageController(){
     subWidgetPlacer$(defaultSubWidgetBuilder());
@@ -26,6 +27,7 @@ class ProfilePageController extends GetxController
   ProfileSubView Function() get defaultSubWidgetBuilder => () => ProfileSubView();
 
   void makeUser() {
+    debugPrint('$now: ProfilePageController.makeUser');
     Get.put(NewUserViewController()..subWidgetNavigate(
         subWidgetPlacer$: subWidgetPlacer$,
         onClose: (c, {args}){
@@ -46,9 +48,20 @@ class ProfilePageController extends GetxController
       debugPrint('$now: ProfilePageController.onReady.2: getUserInfo().then($value)');
       if(value.result == CIMErrors.ok){
         final user = value.data;
+        debugPrint('$now: ProfilePageController.onReady: $user');
         user$(user);
       }
     });
+
+    dp.getUsers().then((value) {
+      if (value.result == CIMErrors.ok) {
+        debugPrint('$now: ProfilePageController.onReady: ${value.data}');
+        users$(value.data);
+      } else {
+        Get.snackbar(null, 'create first: ${value.result}');
+      }
+    });
+
   }
 
 }

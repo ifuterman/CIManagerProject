@@ -1,5 +1,6 @@
 import 'package:cim_client/cim_data_provider.dart';
 import 'package:cim_client/views/global_view_service.dart';
+import 'package:cim_client/views/shared/funcs.dart';
 import 'package:cim_client/views/shared/getx_helpers.dart';
 import 'package:cim_client/views/main/main_view.dart';
 import 'package:cim_client/views/main/sub/patient/src/patients_screen_controller.dart';
@@ -42,7 +43,8 @@ class MainViewController extends AppGetxController
   @override
   Future afterNavigate({Map<String, dynamic> args}) async {
     final to = NavArgs.safeValue(args, key: NavArgs.startNavKey);
-    if (to != null && to as String == NavArgs.toNewUser) {
+    if (hasSense(to, matcher: NavArgs.toNewUser)) {
+    // if (to != null && to as String == NavArgs.toNewUser) {
       openSub(MainMenuItems.itemProfile, args: args);
     }
   }
