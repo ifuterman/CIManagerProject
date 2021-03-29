@@ -46,10 +46,10 @@ packages:
   cim_protocol:
     dependency: "direct main"
     description:
-      path: "../cim_protocol-0.0.1"
+      path: "../cim_protocol-0.1.0"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.1.0"
   cim_shared:
     dependency: transitive
     description:
@@ -265,7 +265,7 @@ packages:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1"
   rxdart:
     dependency: "direct main"
     description:
@@ -388,7 +388,7 @@ packages:
     description:
       path: "."
       ref: "master.test"
-      resolved-ref: "420afc3207cffc83864a10aea7a0600ef598a454"
+      resolved-ref: d84267b97ebfc0d7d54a539a11b09a0c4ef78905
       url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
     source: git
     version: "0.0.1"

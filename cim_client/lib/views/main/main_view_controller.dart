@@ -1,4 +1,5 @@
 import 'package:cim_client/cim_data_provider.dart';
+import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/shared/getx_helpers.dart';
 import 'package:cim_client/views/main/main_view.dart';
 import 'package:cim_client/views/main/sub/patient/src/patients_screen_controller.dart';
@@ -27,22 +28,27 @@ class MainViewController extends AppGetxController
 
   CIMDataProvider dataProvider;
 
-  Rx<MainMenuItems> selectedItem$;
+  final selectedItem$ = MainMenuItems.item_patients.obs;
 
-  RxBool authorised$;
+  final authorised$ = false.obs;
 
   bool isAuthorised() => authorised$.value;
 
   @override
-  GetPageBuilder get defaultGetPageBuilder => () {
-    debugPrint('$now: MainViewController.defaultGetPageBuilder');
-    return MainView();
-  };
+  GetPageBuilder get defaultGetPageBuilder => () => MainView();
 
   SmartNavigationMixin _lastSmartNavigation;
 
-  // FIXME(vvk): [MainMenuItems] -> MainMenuItem
-  void openSub(MainMenuItems item) {
+  @override
+  Future afterNavigate({Map<String, dynamic> args}) async {
+    final to = NavArgs.safeValue(args, key: NavArgs.startNavKey);
+    if (to != null && to as String == NavArgs.toNewUser) {
+      openSub(MainMenuItems.itemProfile, args: args);
+    }
+  }
+
+
+  void openSub(MainMenuItems item, {args}) {
     _lastSmartNavigation?.close();
     _lastSmartNavigation = null;
 
@@ -53,17 +59,15 @@ class MainViewController extends AppGetxController
             _put<PatientsScreenController>(() => PatientsScreenController());
         break;
       case MainMenuItems.item_schedule:
-        _lastSmartNavigation =
-            _put<SecondController>(() => SecondController());
+        _lastSmartNavigation = _put<SecondController>(() => SecondController());
         break;
       case MainMenuItems.item_protocol:
       case MainMenuItems.item_messages:
-      _lastSmartNavigation =
-          _put<ThirdController>(() => ThirdController());
+        _lastSmartNavigation = _put<ThirdController>(() => ThirdController());
         break;
       case MainMenuItems.itemProfile:
         _lastSmartNavigation =
-            _put<ProfilePageController>(() => ProfilePageController());
+            _put<ProfilePageController>(() => ProfilePageController(), args: args);
         break;
     }
   }
@@ -102,30 +106,15 @@ class MainViewController extends AppGetxController
   }
 
   void clearUser() {
-    close(args: 'clear_user');
+    close(args: NavArgs.simple('clear_user'));
   }
 
   @override
   void onInit() {
     super.onInit();
     dataProvider = CIMDataProvider();
-    print('$now: MainViewController.onInit');
-    selectedItem$ = Rx(MainMenuItems.item_patients);
-    authorised$ = false.obs;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    print('$now: MainViewController.onReady');
-    openSub(MainMenuItems.item_patients);
-  }
-
-  @override
-  void onClose() {
-    print('$now: MainViewController.onClose');
-    super.onClose();
-  }
 }
 
 class SecondController extends GetxController

@@ -1,6 +1,7 @@
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/views/auth/authorization_view.dart';
+import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/main/sub/profile/profile.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
@@ -48,7 +49,7 @@ class AuthorizationViewController extends GetxController
   }
 
   void reconnect() {
-    close(args: 'reconnect');
+    close(args:  NavArgs.simple('reconnect'));
   }
 
   /// Let's suggest that we don't know about if there is admin in system.
@@ -89,7 +90,7 @@ class AuthorizationViewController extends GetxController
         final token = value.data['access_token'] as String;
         assert(null != token);
         _cacheProvider.saveToken(token);
-        delayMilli(10).then((_) => close(args: true));
+        delayMilli(10).then((_) => close(args: NavArgs.simple(true)));
         return true;
       } else {
         Get.snackbar(null, 'token: ${value.result}');

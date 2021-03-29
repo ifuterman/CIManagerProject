@@ -1,27 +1,32 @@
-import 'package:cim_client/cim_errors.dart';
-import 'package:cim_client/data/data_provider.dart';
-import 'package:cim_protocol/cim_protocol.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cim_client/views/global_view_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
-import 'package:vfx_flutter_common/utils.dart';
 
 import 'new_user_view.dart';
 
 class NewUserViewController extends GetxController
     with SmartNavigationMixin<NewUserViewController> {
-
   @override
   NewUserView Function() get defaultSubWidgetBuilder => () => NewUserView();
 
-  @override
-  void onReady() {
-    super.onReady();
+  void cancel() {
+    close();
   }
 
-  @override
-  Future<bool> close({bool result = true, args}) {
-    return super.close(args: 'USER');
+  void processing() {
+    ScaffoldMessenger.of(Get.context).showSnackBar(
+      SnackBar(
+        content: Text('Processing Data'),
+        duration: Duration(seconds: 1),
+      ),
+    );
+    close();
   }
+
+// @override
+// Future<bool> close({bool result = true, args}) {
+//   return super.close(args: NavArgs.simple('USER'));
+// }
 
 }

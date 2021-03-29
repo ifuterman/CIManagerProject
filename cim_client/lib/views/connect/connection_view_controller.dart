@@ -1,6 +1,7 @@
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
+import 'package:cim_client/views/global_view_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,14 +41,14 @@ class ConnectionViewController extends GetxController
   // }
 
   void applyConnection() {
-    close(args: true);
+    close(args: NavArgs.simple(true));
     // Get.delete<CIMConnection>();
     // Get.put(connection);
     // service.currentView.value = CIMViews.authorisationView;
   }
 
   void cancelConnection() {
-    close(args: false);
+    close(args: NavArgs.simple(false));
   }
 
   void init() {

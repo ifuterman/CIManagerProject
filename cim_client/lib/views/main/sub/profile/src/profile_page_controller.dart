@@ -31,7 +31,7 @@ class ProfilePageController extends GetxController
         onClose: (c, {args}){
           subWidgetPlacer$(defaultSubWidgetBuilder());
           delayMilli(1).then((_) {
-            Get.snackbar('title', args, snackPosition: SnackPosition.BOTTOM);
+            // Get.snackbar('title', args.toString(), snackPosition: SnackPosition.BOTTOM);
           });
         }));
   }

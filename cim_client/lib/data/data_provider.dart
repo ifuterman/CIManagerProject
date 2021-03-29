@@ -22,6 +22,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   Future<CIMErrors> checkConnection() async{
     Response res;
     try {
+      print('DataProviderImpl.checkConnection');
       res = await get(CIMRestApi.prepareCheckConnection());
       switch (res.status.code) {
         case HttpStatus.ok:
