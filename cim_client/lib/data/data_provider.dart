@@ -14,7 +14,7 @@ abstract class DataProvider {
   Future<Return<CIMErrors, Map<String, dynamic>>> getToken(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createNewUser(CIMUser candidate);
-  Future<Return<CIMErrors, List<CIMUser>>> getUsers();
+  Future<Return<CIMErrors, List<CIMPatient>>> getUsers();
   Future<Return<CIMErrors, CIMUser>> getUserInfo();
 }
 
@@ -83,7 +83,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   }
 
   @override
-  Future<Return<CIMErrors, List<CIMUser>>> getUsers() async {
+  Future<Return<CIMErrors, List<CIMPatient>>> getUsers() async {
     Response res;
     try {
 
@@ -100,11 +100,11 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       debugPrint('$now: DataProviderImpl.getUsers: ${res.statusCode} / ${res.body}');
       switch (res.status.code) {
         case HttpStatus.ok:
-          await res.body.decode();
-          debugPrint('$now: DataProviderImpl.getUsers.packet.1: ');
-          final packet = CIMPacket.makePacketFromMap(res.body.as());
+          // await res.body.decode();
+          debugPrint('$now: DataProviderImpl.getUsers.packet.1: ${res.body}');
+          final packet = CIMPacket.makePacketFromMap(res.body);
           debugPrint('$now: DataProviderImpl.getUsers.packet: ${packet}');
-          final list = packet.getInstances();
+          final list = packet.getInstances().cast<CIMPatient>();
           debugPrint('$now: DataProviderImpl.getUsers.list: ${list}');
           return Return(result: CIMErrors.ok, data: list);
 

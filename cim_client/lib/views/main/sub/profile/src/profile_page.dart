@@ -28,10 +28,10 @@ class ProfileSubView extends AppGetView<ProfilePageController> {
 
               SizedBox(height: 30),
               Obx((){
-                List<CIMUser> items = List.from(c.users$);
+                final items = List.from(c.users$).cast<CIMPatient>();
                 return Column(
                 children: items.length > 0
-                    ? items.map((e) => Text(e.login)).toList() : [Text('')],
+                    ? items.map((e) => Text(e.name)).toList() : [Text('')],
               );
               }),
               SizedBox(height: 30),
