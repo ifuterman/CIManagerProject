@@ -33,11 +33,27 @@ class ProfilePageController extends GetxController
         onClose: (c, {args}){
           subWidgetPlacer$(defaultSubWidgetBuilder());
           delayMilli(1).then((_) {
-            // Get.snackbar('title', args.toString(), snackPosition: SnackPosition.BOTTOM);
+            fetch();
           });
         }));
   }
 
+  void fetch() {
+    print('ProfilePageController.fetch');
+    final dp = Get.find<DataProvider>();
+    delayMilli(1000).then((_) {
+      dp.getUsers().then((value) {
+        debugPrint('$now: ProfilePageController.fetch.value: ${value}');
+        if (value.result == CIMErrors.ok) {
+          debugPrint('$now: ProfilePageController.fetch.result: ${value.data}');
+          users$(value.data);
+        } else {
+          Get.snackbar(null, 'create first: ${value.result}');
+        }
+      });
+    });
+
+  }
 
   @override
   void onReady() {
@@ -53,15 +69,7 @@ class ProfilePageController extends GetxController
       }
     });
 
-    dp.getUsers().then((value) {
-      debugPrint('$now: ProfilePageController.onReady.value: ${value}');
-      if (value.result == CIMErrors.ok) {
-        debugPrint('$now: ProfilePageController.onReady.result: ${value.data}');
-        users$(value.data);
-      } else {
-        Get.snackbar(null, 'create first: ${value.result}');
-      }
-    });
+    fetch();
 
   }
 
