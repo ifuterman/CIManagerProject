@@ -32,13 +32,12 @@ class NewUserViewController extends GetxController
 
   void processing() {
 
-    final candidate = CIMUser(name, password, UserRoles.patient);
+    final candidate = CIMPatient(100, name, password, Sex.female);
     DataProvider _dataProvider;
     _dataProvider = Get.find<DataProvider>();
-    _dataProvider.createNewUser(candidate).then((value) async {
+    _dataProvider.createPatient(candidate).then((value) async {
       if (value.result == CIMErrors.ok) {
         debugPrint('$now: NewUserViewController.processing: OK');
-
         _dataProvider.getUsers().then((value) {
           return null;
         });

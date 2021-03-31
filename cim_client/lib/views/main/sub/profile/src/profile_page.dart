@@ -12,7 +12,6 @@ class ProfilePage extends AppGetView<ProfilePageController> {
   }
 }
 
-
 class ProfileSubView extends AppGetView<ProfilePageController> {
   @override
   Widget build(BuildContext context) {
@@ -20,28 +19,37 @@ class ProfileSubView extends AppGetView<ProfilePageController> {
       body: Container(
         color: Colors.grey[100],
         child: Center(
-          child: Obx(()=>Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('${c.user$.value.login}'),
-              Text('${c.user$.value.role}'),
-
-              SizedBox(height: 30),
-              Obx((){
-                final items = List.from(c.users$).cast<CIMPatient>();
-                return Column(
-                children: items.length > 0
-                    ? items.map((e) => Text(e.name)).toList() : [Text('')],
-              );
-              }),
-              SizedBox(height: 30),
-
-              ElevatedButton(
-                onPressed: c.makeUser,
-                child: Text('Make User'),
-              ),
-            ],
-          )) ,
+          child: Obx(() => Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('${c.user$.value.login}'),
+                  Text('${c.user$.value.role}'),
+                  SizedBox(height: 30),
+                  Obx(() {
+                    final items = List.from(c.users$).cast<CIMPatient>();
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: items.length > 0
+                          ? items.map((e) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(e.name),
+                                  Text(e.sex.toString()),
+                                ],
+                              );
+                            }).toList()
+                          : [Text('')],
+                    );
+                  }),
+                  SizedBox(height: 30),
+                  ElevatedButton(
+                    onPressed: c.makeUser,
+                    child: Text('Make User'),
+                  ),
+                ],
+              )),
         ),
       ),
     );
