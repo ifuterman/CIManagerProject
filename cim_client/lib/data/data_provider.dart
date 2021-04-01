@@ -27,8 +27,8 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   Future<CIMErrors> checkConnection() async{
     Response res;
     try {
-      print('DataProviderImpl.checkConnection');
       res = await get(CIMRestApi.prepareCheckConnection());
+      debugPrint('$now: DataProviderImpl.checkConnection: res = $res');
       switch (res.status.code) {
         case HttpStatus.ok:
           return CIMErrors.ok;
@@ -107,7 +107,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
           // debugPrint('$now: DataProviderImpl.getUsers.packet: ${packet}');
           final list = packet?.getInstances()?.cast<CIMPatient>();
           // debugPrint('$now: DataProviderImpl.getUsers.list: ${list}');
-          return Return(result: CIMErrors.ok, data: list);
+          return Return(result: CIMErrors.ok, data: list!);
 
         case HttpStatus.internalServerError:
           return Return(result: CIMErrors.connectionErrorServerDbFault);

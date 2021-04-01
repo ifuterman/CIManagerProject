@@ -395,7 +395,7 @@ packages:
     description:
       path: "."
       ref: "master.test"
-      resolved-ref: a99b897b582465e939ec6e07072a374a0ef3b892
+      resolved-ref: cb04c2b27fb76741f104b996d7771deff4de769c
       url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
     source: git
     version: "0.0.1"

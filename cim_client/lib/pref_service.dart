@@ -20,7 +20,7 @@ class PreferenceService extends GetxService {
   final langIndex$ = 0.obs;
   final isDarkMode$ = false.obs;
 
-  final CacheProviderService _cache;
+  final CacheProviderService? _cache;
 
   void setLangIndex(int index) {
     _cache?.storage?.write(langIndexKey, index);
@@ -51,7 +51,7 @@ class PreferenceService extends GetxService {
     // _storage = Get.find<CacheProviderService>();
     langIndex$(_cache?.storage?.read(langIndexKey) ?? 0);
     delayMilli(1000).then((value) {
-      isDarkMode$(_cache.storage?.read(isDarkModeKey) as bool ?? false);
+      isDarkMode$(_cache?.storage?.read(isDarkModeKey) ?? false);
       print('$now: PreferenceService.onReady: ${isDarkMode$.value}');
     });
   }

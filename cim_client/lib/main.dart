@@ -15,6 +15,7 @@ import 'package:vfx_flutter_common/utils.dart';
 void main() async {
   EquatableConfig.stringify = true;
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   await initServices();
   final pref = Get.find<PreferenceService>();

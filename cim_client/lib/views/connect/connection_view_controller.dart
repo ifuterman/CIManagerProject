@@ -26,7 +26,7 @@ class ConnectionViewController extends GetxController
   final _subs = CompositeSubscription();
 
   @override
-  GetPageBuilder get defaultGetPageBuilder => () => ConnectionView();
+  get defaultGetPageBuilder => () => ConnectionView();
 
 
   void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;
@@ -48,7 +48,8 @@ class ConnectionViewController extends GetxController
   }
 
   void cancelConnection() {
-    close(args: NavArgs.simple(false));
+    // close(args: NavArgs.simple(false));
+    onCheckConnection();
   }
 
   void init() {
@@ -70,7 +71,8 @@ class ConnectionViewController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    final i = Get!.find<CacheProviderService>()!.storage!.read('connect') as int ?? ConnectionStates.disconnected.index;
+    final i = Get.find<CacheProviderService>().storage?.read('connect') as int ?? ConnectionStates.disconnected.index;
+    debugPrint('$now: ConnectionViewController.onReady: i = $i');
     connectionState$(ConnectionStates.values.elementAt(i));
   }
 
@@ -82,6 +84,7 @@ class ConnectionViewController extends GetxController
   }
 
   void onCheckConnection() {
+    debugPrint('$now: ConnectionViewController.onCheckConnection');
     connection = CIMConnection(address: address, port: port);
     connection?.init();
 

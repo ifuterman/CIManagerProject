@@ -63,9 +63,9 @@ class GlobalViewService extends GetxService {
   void _startTemp(){
     Get.put<TempStartViewController>(TempStartViewController()
       ..toPage(
-          onClose: (c, {args}) {
-
-          }
+          // onClose: (c, {args}) {
+          //
+          // }
     ));
   }
 
