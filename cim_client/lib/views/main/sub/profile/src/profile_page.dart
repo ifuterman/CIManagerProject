@@ -33,7 +33,8 @@ class ProfileSubView extends AppGetView<ProfilePageController> {
                       children: items.length > 0
                           ? items.map((e) {
                               return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Text(e.name),
                                   Text(e.sex.toString()),
@@ -55,3 +56,54 @@ class ProfileSubView extends AppGetView<ProfilePageController> {
     );
   }
 }
+
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.id,
+    required this.name,
+    this.middleName,
+    required this.lastName,
+    this.birthDate,
+    this.phones,
+    this.email,
+    this.snils,
+    required this.status,
+    required this.sex,
+    Key? key,
+  }) : super(key: key);
+
+  final int id;
+  final String name;
+  final String? middleName;
+  final String lastName;
+  final DateTime? birthDate;
+  final String? phones;
+  final String? email;
+  final String? snils;
+
+  final Participation status;
+
+  final Sex sex;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(''),
+        SizedBox(width: 10),
+        Text(''),
+      ],
+    );
+  }
+}
+
+// int id;
+// String name;
+// String? middleName;
+// String lastName;
+// DateTime? birthDate;
+// String? phones;
+// String? email;
+// String? snils;
+// Participation status;
+// Sex sex;

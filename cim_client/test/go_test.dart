@@ -9,7 +9,7 @@ void main() {
   test('HasNoSense test', () async {
     expect(hasNoSense(null), isTrue);
     {
-      String s;
+      String? s;
       expect(hasNoSense(s), isTrue);
     }
     {
@@ -31,7 +31,7 @@ void main() {
   test('HasSense test', () async {
     expect(hasNoSense(null), isTrue);
     {
-      String s;
+      String? s;
       expect(hasSense(s), isFalse);
     }
     {

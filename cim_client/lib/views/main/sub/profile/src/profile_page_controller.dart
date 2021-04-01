@@ -48,7 +48,7 @@ class ProfilePageController extends GetxController
           debugPrint('$now: ProfilePageController.fetch.result: ${value.data}');
           users$(value.data);
         } else {
-          Get.snackbar(null, 'create first: ${value.result}');
+          Get.snackbar('', 'create first: ${value.result}');
         }
       });
     });

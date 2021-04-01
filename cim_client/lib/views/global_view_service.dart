@@ -20,10 +20,9 @@ abstract class NavArgs {
   static const startNavKey = 'start_navigation';
   static const toNewUser = 'new_user';
 
-  static safeValue(Map<String, dynamic> args, {String key, defValue}){
-    assert(args != null);
+  static safeValue(Map<String, dynamic>? args, {String? key, defValue}){
     key ??= defaultKey;
-    if(args.containsKey(key)){
+    if(args!.containsKey(key) ?? false){
       return args[key];
     }
     return defValue;
@@ -39,7 +38,7 @@ class GlobalViewService extends GetxService {
     NavArgs.startNavKey: NavArgs.toNewUser,
   };
 
-  DataProvider provider;
+  DataProvider? provider;
 
   // final connectionState$ = Rx<ConnectionStates>(ConnectionStates.unknown);
 
@@ -71,16 +70,16 @@ class GlobalViewService extends GetxService {
   }
 
   Future _start() async {
-    provider.checkConnection().then((value) {
+    provider!.checkConnection().then((value) {
       debugPrint('$now: GlobalViewService._start: $value');
       if (value == CIMErrors.ok) {
-        Get.find<CacheProvider>().storage.write('connect', ConnectionStates.connected.index);
+        Get!.find<CacheProviderService>()!.storage!.write('connect', ConnectionStates.connected.index);
         // connectionState$(ConnectionStates.connected);
         _toAuthForm();
       } else {
-        Get.find<CacheProvider>().storage.write('connect', ConnectionStates.disconnected.index);
+        Get.find<CacheProviderService>()!.storage!.write('connect', ConnectionStates.disconnected.index);
         // connectionState$(ConnectionStates.disconnected);
-        String message = mapError[value].tr();
+        String message = mapError![value]!.tr();
         Get.defaultDialog(
           title: "error".tr(),
           middleText: message,
@@ -98,7 +97,7 @@ class GlobalViewService extends GetxService {
   }
 
   void _toAuthForm() {
-    final cache = Get.find<CacheProvider>();
+    final cache = Get.find<CacheProviderService>();
     final token = cache.fetchToken();
     print('$now: GlobalViewService._toAuthForm: token = $token');
     if (token == null) {
@@ -126,7 +125,7 @@ class GlobalViewService extends GetxService {
 
   void _toMainForm() {
     print('GlobalViewService._toMainForm');
-    final cache = Get.find<CacheProvider>();
+    final cache = Get.find<CacheProviderService>();
     Get.put<MainViewController>(MainViewController()
       ..toPage(
           onClose: (c, {args}) {

@@ -27,7 +27,7 @@ class MainViewController extends AppGetxController
     print('$now: MainViewController.MainViewController');
   }
 
-  CIMDataProvider dataProvider;
+  CIMDataProvider? dataProvider;
 
   final selectedItem$ = MainMenuItems.item_patients.obs;
 
@@ -38,10 +38,10 @@ class MainViewController extends AppGetxController
   @override
   GetPageBuilder get defaultGetPageBuilder => () => MainView();
 
-  SmartNavigationMixin _lastSmartNavigation;
+  SmartNavigationMixin? _lastSmartNavigation;
 
   @override
-  Future afterNavigate({Map<String, dynamic> args}) async {
+  Future afterNavigate({Map<String, dynamic>? args}) async {
     final to = NavArgs.safeValue(args, key: NavArgs.startNavKey);
     if (hasSense(to, matcher: NavArgs.toNewUser)) {
     // if (to != null && to as String == NavArgs.toNewUser) {

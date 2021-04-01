@@ -17,10 +17,10 @@ enum ConnectionStates { checking, connected, disconnected, unknown }
 
 class ConnectionViewController extends GetxController
     with SmartNavigationMixin<ConnectionViewController> {
-  CIMConnection connection;
+  CIMConnection? connection;
   // CIMService service = Get.find();
-  String address;
-  int port;
+  String? address;
+  int? port;
   final updateScreenTrigger = false.obs;
 
   final _subs = CompositeSubscription();
@@ -53,15 +53,15 @@ class ConnectionViewController extends GetxController
 
   void init() {
     connection = Get.find();
-    address = connection.address;
-    port = connection.port;
+    address = connection?.address;
+    port = connection?.port;
   }
 
   @override
   void onInit() {
     super.onInit();
     _subs.add(connectionState$.listen((v) {
-      Get.find<CacheProvider>().storage.write('connect', v.index);
+      Get!.find<CacheProviderService>()!.storage!.write('connect', v.index);
       updateScreen();
     }));
     init();
@@ -70,7 +70,7 @@ class ConnectionViewController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    final i = Get.find<CacheProvider>().storage.read('connect') as int ?? ConnectionStates.disconnected.index;
+    final i = Get!.find<CacheProviderService>()!.storage!.read('connect') as int ?? ConnectionStates.disconnected.index;
     connectionState$(ConnectionStates.values.elementAt(i));
   }
 
@@ -83,17 +83,17 @@ class ConnectionViewController extends GetxController
 
   void onCheckConnection() {
     connection = CIMConnection(address: address, port: port);
-    connection.init();
+    connection?.init();
 
     connectionState$(ConnectionStates.checking);
 
-    connection.checkConnection().then((value) {
+    connection!.checkConnection().then((value) {
       debugPrint('$now: ConnectionViewController.onCheckConnection');
       if (value == CIMErrors.ok) {
         connectionState$(ConnectionStates.connected);
       } else {
         connectionState$(ConnectionStates.disconnected);
-        String message = mapError[value].tr();
+        String message = mapError![value]!.tr();
         Get.defaultDialog(
           title: "error".tr(),
           middleText: message,

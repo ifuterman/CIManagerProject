@@ -44,7 +44,7 @@ class ConnectionView extends GetView<ConnectionViewController> {
           );
         }
     }
-    return null;
+    return Container();
   }
 
   Widget getUpdatedView(BuildContext context, bool trigger) {
@@ -60,9 +60,6 @@ class ConnectionView extends GetView<ConnectionViewController> {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Container(
-              constraints: BoxConstraints.expand(
-                  height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
-                  width: Theme.of(context).textTheme.bodyText1.fontSize * 15),
               child: Obx(()=>TextField(
                 controller: _controllerAddress,
                 textAlignVertical: TextAlignVertical.top,
@@ -81,9 +78,6 @@ class ConnectionView extends GetView<ConnectionViewController> {
               style: Theme.of(context).textTheme.bodyText1,
             ),
             Container(
-              constraints: BoxConstraints.expand(
-                  height: Theme.of(context).textTheme.headline6.fontSize * 1.2,
-                  width: Theme.of(context).textTheme.bodyText1.fontSize * 8),
               child: Obx(()=>TextField(
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp("[0-9]"))
@@ -144,7 +138,7 @@ class ConnectionView extends GetView<ConnectionViewController> {
   @override
   Widget build(BuildContext context) {
     _controllerPort.text = controller.port.toString();
-    _controllerAddress.text = controller.address;
+    _controllerAddress.text = controller?.address ?? '';
     return SafeArea(
       child: Scaffold(
         body: Container(

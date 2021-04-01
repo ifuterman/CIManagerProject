@@ -29,6 +29,6 @@ abstract class AppGetxController extends GetxController{
 
 ///
 abstract class AppGetView<T> extends GetView<T> {
-  const AppGetView({Key key}) : super(key: key);
+  const AppGetView({Key? key}) : super(key: key);
   T get c => super.controller;
 }

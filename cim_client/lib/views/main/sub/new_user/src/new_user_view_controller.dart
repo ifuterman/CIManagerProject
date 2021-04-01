@@ -1,6 +1,5 @@
 import 'package:cim_client/cim_errors.dart';
 import 'package:cim_client/data/data_provider.dart';
-import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,12 +43,12 @@ class NewUserViewController extends GetxController
 
 
       } else {
-        Get.snackbar(null, 'create first: ${value.result}');
+        Get.snackbar('', 'create first: ${value.result}');
       }
     });
 
 
-    ScaffoldMessenger.of(Get.context).showSnackBar(
+    ScaffoldMessenger.of(Get.context!).showSnackBar(
       SnackBar(
         content: Text('Processing Data'),
         duration: Duration(seconds: 1),

@@ -20,21 +20,21 @@ class AuthorizationViewController extends GetxController
 
   final isValidData$ = false.obs;
 
-  DataProvider _dataProvider;
-  CacheProvider _cacheProvider;
+  DataProvider? _dataProvider;
+  CacheProviderService? _cacheProvider;
 
   // Future<AuthorizationViewController> init() async => this;
 
   @override
   GetPageBuilder get defaultGetPageBuilder => () => AuthorizationView();
 
-  void enterData({String login, String password}) {
+  void enterData({String? login, String? password}) {
     isValidData$(
         (login?.isNotEmpty ?? false) && (password?.isNotEmpty ?? false));
   }
 
   void clearDb() {
-    _dataProvider.cleanDb().then((value) {
+    _dataProvider?.cleanDb().then((value) {
       Get.snackbar('Clean DB', '$value');
     });
   }
@@ -55,7 +55,7 @@ class AuthorizationViewController extends GetxController
   /// Let's suggest that we don't know about if there is admin in system.
   /// So we just try to connect.
   /// Then, if fails, system tries to make us admin.
-  void authoriseUser({String login, String password}) {
+  void authoriseUser({String? login, String? password}) {
     state$(AuthorisationState.start);
     debugPrint('$now: AuthorizationViewController.authoriseUser.1');
 
@@ -64,12 +64,12 @@ class AuthorizationViewController extends GetxController
       if(!value){
         debugPrint('$now: AuthorizationViewController.authoriseUser.2');
         // FIXME(vvk): [UserRoles] -> UserRole
-        final candidate = CIMUser(login, password);
-        _dataProvider.createFirstUser(candidate).then((value) async {
+        final candidate = CIMUser(login ?? '', password ?? '');
+        _dataProvider?.createFirstUser(candidate).then((value) async {
           if (value.result == CIMErrors.ok) {
             await _getToken(login: login, password: password);
           } else {
-            Get.snackbar(null, 'create first: ${value.result}');
+            Get.snackbar('', 'create first: ${value.result}');
           }
         });
       }
@@ -82,21 +82,21 @@ class AuthorizationViewController extends GetxController
     super.onInit();
     state$(AuthorisationState.ok);
     _dataProvider = Get.find<DataProvider>();
-    _cacheProvider = Get.find<CacheProvider>();
+    _cacheProvider = Get.find<CacheProviderService>();
   }
 
-  Future<bool> _getToken({String login, String password}) async {
+  Future<bool> _getToken({String? login, String? password}) async {
     debugPrint('$now: AuthorizationViewController._getToken');
-    final simpleCandidate = CIMUser(login, password);
-    return await _dataProvider.getToken(simpleCandidate).then((value) {
+    final simpleCandidate = CIMUser(login ?? '', password ?? '');
+    return await _dataProvider!.getToken(simpleCandidate).then((value) {
       if (value.result == CIMErrors.ok) {
-        final token = value.data['access_token'] as String;
+        final token = value?.data!['access_token'] as String;
         assert(null != token);
-        _cacheProvider.saveToken(token);
+        _cacheProvider!.saveToken(token);
         delayMilli(10).then((_) => close(args: NavArgs.simple(true)));
         return true;
       } else {
-        Get.snackbar(null, 'token: ${value.result}');
+        Get.snackbar('', 'token: ${value.result}');
         return false;
       }
     });

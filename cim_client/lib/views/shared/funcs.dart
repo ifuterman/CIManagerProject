@@ -1,5 +1,5 @@
 ///
-bool hasNoSense<T>(T value, {T matcher}) {
+bool hasNoSense<T>(T value, {T? matcher}) {
   if(null == value) {
     return true;
   }
@@ -13,7 +13,7 @@ bool hasNoSense<T>(T value, {T matcher}) {
 }
 
 ///
-bool hasSense<T>(T value, {T matcher}) {
+bool hasSense<T>(T value, {T? matcher}) {
   if(null == value) {
     return false;
   }

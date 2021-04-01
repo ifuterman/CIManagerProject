@@ -23,13 +23,13 @@ class PreferenceService extends GetxService {
   final CacheProviderService _cache;
 
   void setLangIndex(int index) {
-    _cache.storage.write(langIndexKey, index);
-    langIndex$(_cache.storage.read(langIndexKey) ?? 0);
+    _cache?.storage?.write(langIndexKey, index);
+    langIndex$(_cache?.storage?.read(langIndexKey) ?? 0);
   }
 
   void setDarkMode(bool value) {
-    _cache.storage.write(isDarkModeKey, value);
-    isDarkMode$(_cache.storage.read(isDarkModeKey) as bool ?? false);
+    _cache?.storage?.write(isDarkModeKey, value);
+    isDarkMode$(_cache?.storage?.read(isDarkModeKey) as bool ?? false);
     print('$now: PreferenceService.setDarkMode: ${isDarkMode$.value}');
   }
 
@@ -37,21 +37,21 @@ class PreferenceService extends GetxService {
     setDarkMode(!isDarkMode$.value);
   }
 
-  CIMUser getUser() {
-    return UserMapper.fromJson(_cache.storage.read(lastUserKey) ?? '');
+  CIMUser? getUser() {
+    return UserMapper.fromJson(_cache?.storage?.read(lastUserKey) ?? '');
   }
 
   void setUser(CIMUser user) {
-    _cache.storage.write(lastUserKey, user != null ? UserMapper.toJson(user) : null);
+    _cache?.storage?.write(lastUserKey, user != null ? UserMapper.toJson(user) : null);
   }
 
   @override
   void onReady() {
     super.onReady();
     // _storage = Get.find<CacheProviderService>();
-    langIndex$(_cache.storage.read(langIndexKey) ?? 0);
+    langIndex$(_cache?.storage?.read(langIndexKey) ?? 0);
     delayMilli(1000).then((value) {
-      isDarkMode$(_cache.storage.read(isDarkModeKey) as bool ?? false);
+      isDarkMode$(_cache.storage?.read(isDarkModeKey) as bool ?? false);
       print('$now: PreferenceService.onReady: ${isDarkMode$.value}');
     });
   }
