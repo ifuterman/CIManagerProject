@@ -18,11 +18,26 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  intl: any
+  easy_localization: ^3.0.0
+  equatable: ^2.0.0
+  get: ^4.1.1
+  get_storage: ^2.0.2
+  rxdart: ^0.26.0
+  window_size:
+    git:
+      url: git://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
+      ref: fd519be1e8398c6b6c2062c2447bac960a71bc02
+  vfx_flutter_common:
+    git:
+      url: https://gitlab.com/frostyland/vfx_flutter_common.git
+      ref: "master.test"
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,8 +60,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
