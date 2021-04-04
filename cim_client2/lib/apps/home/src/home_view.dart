@@ -1,4 +1,5 @@
 import 'package:cim_client2/core/getx_helpers.dart';
+import 'package:cim_client2/data/cim_errors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/utils.dart';
@@ -19,6 +20,9 @@ class HomeView extends AppGetView<HomeViewController> {
             Text(
               'You have pushed the button this many times:',
             ),
+            Obx(()=>c.connectionResult$().cimErrors == CIMErrors.initial
+                ? CircularProgressIndicator()
+                : Container(child: Text('${c.connectionResult$()}'),) ),
             Obx(() {
               debugPrint('$now: HomeView.build: title = ${c.title$()}');
               return Text(
@@ -30,7 +34,7 @@ class HomeView extends AppGetView<HomeViewController> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => c.changeTitle('title'),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

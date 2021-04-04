@@ -1,12 +1,12 @@
 import 'package:cim_client2/core/styles/colors.dart';
+import 'package:cim_client2/data/provider/data_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:vfx_flutter_common/utils.dart';
-import 'package:window_size/window_size.dart';
 
 import 'core/routes.dart';
+import 'core/services/connection_service.dart';
 import 'core/services/global_service.dart';
 
 Future main() async {
@@ -52,6 +52,8 @@ class MyApp extends StatelessWidget {
 
 Future initServices() async {
   Get.lazyPut(() => GlobalService());
+  Get.lazyPut<DataProvider>(() => DataProviderImpl());
+  Get.lazyPut(() => ConnectionService());
 
   // immediately
   Get.find<GlobalService>();

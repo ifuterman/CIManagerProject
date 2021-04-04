@@ -1,9 +1,7 @@
 import 'package:cim_client2/apps/home/src/home_view_controller.dart';
-import 'package:cim_client2/apps/splash/splash.dart';
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:cim_client2/core/routes.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/smart_navigation.dart';
 import 'package:vfx_flutter_common/utils.dart';
@@ -14,6 +12,12 @@ class GlobalService extends AppGetxService {
 
   final title$ = ''.obs;
 
+  void changeTitle(String title) {
+    title$(title);
+    // Даже так работает!
+    // setWindowTitle(title);
+  }
+
   @override
   void onReady() {
     super.onReady();
@@ -21,7 +25,7 @@ class GlobalService extends AppGetxService {
     // So here is the trick.
     delayMilli(1000).then((_) {
       title$('title'.tr());
-      if(!GetPlatform.isWeb){
+      if(!GetPlatform.isWeb && !GetPlatform.isMobile){
         // this way (with delaying) one can change title on Desktops
         setWindowTitle('title'.tr());
       }
@@ -31,9 +35,8 @@ class GlobalService extends AppGetxService {
 
   void _start() {
     delayMilli(2000).then((_) {
-      putNavGet(
-        HomeViewController()..offAllPage(transition: Transition.fadeIn),
-      );
+      SmartNavigation.put<HomeViewController>(
+          HomeViewController()..offAllPage(transition: Transition.fadeIn));
     });
   }
 }
