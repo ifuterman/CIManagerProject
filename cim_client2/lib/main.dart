@@ -1,3 +1,4 @@
+import 'package:cim_client2/core/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (_) => 'title'.tr(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
+        scaffoldBackgroundColor: AppColors.mainBG,
       ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -50,5 +52,7 @@ class MyApp extends StatelessWidget {
 
 Future initServices() async {
   Get.lazyPut(() => GlobalService());
+
+  // immediately
   Get.find<GlobalService>();
 }

@@ -1,4 +1,5 @@
 import 'package:cim_client2/core/getx_helpers.dart';
+import 'package:cim_client2/core/styles/colors.dart';
 import 'package:cim_client2/core/styles/fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class SplashView extends AppGetView<SplashViewController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.green[100],
+        color: AppColors.mainBG,
         child: Center(
           child: Text(
             'CIM',
