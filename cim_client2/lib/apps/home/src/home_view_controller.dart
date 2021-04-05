@@ -1,10 +1,15 @@
+import 'dart:typed_data';
+
+import 'package:cim_client2/apps/excel/src/excel_view_controller.dart';
 import 'package:cim_client2/apps/home/src/home_view.dart';
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:cim_client2/core/services/connection_service.dart';
 import 'package:cim_client2/core/services/global_service.dart';
 import 'package:cim_client2/data/cim_errors.dart';
 import 'package:equatable/equatable.dart';
+import 'package:excel/excel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
 import 'package:vfx_flutter_common/utils.dart';
@@ -71,6 +76,35 @@ class HomeViewController extends AppGetxController
 
   void reconnect() {
     _connectionService.connect();
+  }
+
+  Future excel() async{
+    ByteData data = await rootBundle.load("assets/files/demo.xlsx");
+    var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    var excel = Excel.decodeBytes(bytes);
+    debugPrint('$now: HomeViewController.excel: $excel');
+
+
+    for (var table in excel.tables.keys) {
+      print(table); //sheet Name
+      final sh = excel.tables[table];
+      for(var i =0; i < 100; ++i){
+        final row = sh?.row(i);
+        print("$i =>  $row");
+      }
+      // print(excel.tables[table]?.maxCols);
+      // print(excel.tables[table]?.maxRows);
+      // for (var row in excel.tables[table]!.rows) {
+      //   print("$row");
+      // }
+    }
+
+    SmartNavigation.put(ExcelViewController()..toPage(
+      onClose: (c, {args}){
+        Get.back();
+      }
+    ));
+
   }
 
   void _processConnectResult(Boolean<CIMErrors> result) {

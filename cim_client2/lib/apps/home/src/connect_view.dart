@@ -44,6 +44,15 @@ class ConnectView extends AppGetView<HomeViewController> {
                         },
                         child: Text('Reconnect'),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            c.excel();
+                            Get.back();
+                          }
+                        },
+                        child: Text('EXCEL'),
+                      ),
                     ],
                   ),
                 ),
