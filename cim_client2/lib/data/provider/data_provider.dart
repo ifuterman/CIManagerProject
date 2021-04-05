@@ -13,7 +13,7 @@ abstract class DataProvider {
 }
 
 class DataProviderImpl extends GetConnect implements DataProvider {
-  static const _address = "127.0.0.1";
+  static const _address = '127.0.0.1';
   static const _port = 8888;
 
   @override

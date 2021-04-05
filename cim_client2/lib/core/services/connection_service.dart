@@ -25,8 +25,8 @@ class ConnectionService extends AppGetxService {
   }
   
   void connect() {
+    connector$(True(data: CIMErrors.initial));
     delayMilli(2000).then((_) {
-      debugPrint('$now: ConnectionService.connect');
       _provider.checkConnection().then((value) {
         connector$(value);
       });

@@ -8,14 +8,14 @@ void main() {
 
   EquatableConfig.stringify = true;
 
-  test('CIMExcel is Singleton!', () {
+  test('CIMExcel is Singletn!', () async {
     final cimExcel1 = CIMExcel;
     final cimExcel2 = CIMExcel;
     expect(cimExcel1, equals(cimExcel2));
     debugPrint('main.1: cimExcel1 = $cimExcel1');
     debugPrint('main.1: cimExcel2 = $cimExcel2');
 
-    final res = cimExcel1.open('path');
+    final res = await cimExcel1.open('path');
     expect(res.result, equals(ExcelResult.wrongFormat));
     debugPrint('main.2: cimExcel1 = $cimExcel1');
     debugPrint('main.2: cimExcel2 = $cimExcel2');

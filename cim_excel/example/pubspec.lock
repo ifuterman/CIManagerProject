@@ -36,13 +36,6 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
-  cim_shared:
-    dependency: "direct main"
-    description:
-      path: "../../cim_shared"
-      relative: true
-    source: path
-    version: "0.0.1"
   clock:
     dependency: transitive
     description:
@@ -94,7 +87,7 @@ packages:
       name: get
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.26.0"
+    version: "4.1.1"
   matcher:
     dependency: transitive
     description:
@@ -116,6 +109,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.11.0"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.26.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -177,6 +184,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  vfx_flutter_common:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "master.test"
+      resolved-ref: "868ab610f863aad4ec1f83cfee85bf67d9f4ba9b"
+      url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
+    source: git
+    version: "0.0.1"
 sdks:
-  dart: ">=2.12.0-0.0 <3.0.0"
-  flutter: ">=1.17.0"
+  dart: ">=2.12.0 <3.0.0"
+  flutter: ">2.0.0"

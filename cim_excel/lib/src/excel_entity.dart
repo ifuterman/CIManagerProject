@@ -3,8 +3,8 @@ part of cim_excel;
 ///
 class ExcelPage extends Equatable {
   ExcelPage({
-    this.path,
-    this.title,
+    required this.path,
+    required this.title,
     this.startRowIndex = 0,
     this.startColumnIndex = 0,
     this.width = 10,
@@ -50,7 +50,7 @@ class ExcelPage extends Equatable {
 
 ///
 class ExcelRow extends Equatable {
-  ExcelRow({this.length, this.index});
+  ExcelRow({required this.length, required this.index});
 
   /// row index in Excel
   final int index;
