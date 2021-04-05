@@ -6,6 +6,7 @@ import 'package:cim_client2/data/cim_errors.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 class HomeViewController extends AppGetxController with SmartNavigationMixin<HomeViewController>{
 
@@ -13,7 +14,8 @@ class HomeViewController extends AppGetxController with SmartNavigationMixin<Hom
 
   late ConnectionService _connectionService;
 
-  final connectionResult$ = ConnectionResult.initial.obs;
+  // final connector$ = Rx<Boolean<CIMErrors>>(True(data: CIMErrors.initial));
+  final connectionResult$ = Rx<Boolean<CIMErrors>>(True(data: CIMErrors.initial));
 
   @override
   get defaultGetPageBuilder => () => HomeView();
@@ -43,8 +45,8 @@ class HomeViewController extends AppGetxController with SmartNavigationMixin<Hom
 
   }
 
-  void _connect(CIMErrors result){
-    connectionResult$(ConnectionResult(result: true, cimErrors: result));
+  void _connect(Boolean<CIMErrors> result){
+    connectionResult$(result);
   }
 
 }

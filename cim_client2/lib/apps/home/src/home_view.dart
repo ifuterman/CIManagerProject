@@ -20,7 +20,7 @@ class HomeView extends AppGetView<HomeViewController> {
             Text(
               'You have pushed the button this many times:',
             ),
-            Obx(()=>c.connectionResult$().cimErrors == CIMErrors.initial
+            Obx(()=>c.connectionResult$().data == CIMErrors.initial
                 ? CircularProgressIndicator()
                 : Container(child: Text('${c.connectionResult$()}'),) ),
             Obx(() {

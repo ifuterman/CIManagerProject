@@ -1,13 +1,15 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 import '../cim_errors.dart';
 
 // ignore: one_member_abstracts
 abstract class DataProvider {
-  Future<CIMErrors> checkConnection();
+  Future<Boolean<CIMErrors>> checkConnection();
 }
 
 class DataProviderImpl extends GetConnect implements DataProvider {
@@ -15,22 +17,30 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   static const _port = 8888;
 
   @override
-  Future<CIMErrors> checkConnection() async{
+  Future<Boolean<CIMErrors>> checkConnection() async{
+    debugPrint('$now: DataProviderImpl.checkConnection');
     Response res;
     try {
       res = await get(CIMRestApi.prepareCheckConnection());
+      // debugPrint('$now: DataProviderImpl.checkConnection');
+      // debugPrint('$now: DataProviderImpl.checkConnection: '
+      //     '${res.statusCode} / ${res.body}');
+      debugPrint(
+          '$now: DataProviderImpl.checkConnection ${res.statusCode} / ${res.body}');
       switch (res.status.code) {
         case HttpStatus.ok:
-          return CIMErrors.ok;
+          return True(data: CIMErrors.ok);
         case HttpStatus.internalServerError:
-          return CIMErrors.connectionErrorServerDbFault;
+          return False(data: CIMErrors.connectionErrorServerDbFault);
       }
     } catch (e) {
-      return CIMErrors.connectionErrorServerNotFound;
+      debugPrint('$now: DataProviderImpl.checkConnection: e = $e');
+      return False(data: CIMErrors.connectionErrorServerNotFound,
+          description: e.toString());
     }
     if (res.status.connectionError)
-      return CIMErrors.connectionErrorServerNotFound;
-    return CIMErrors.unexpectedServerResponse;
+      return False(data: CIMErrors.connectionErrorServerNotFound);
+    return False(data: CIMErrors.unexpectedServerResponse);
   }
 
   @override

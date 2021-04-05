@@ -13,7 +13,7 @@ import 'package:window_size/window_size.dart';
 
 class ConnectionService extends AppGetxService {
 
-  final connector$ = CIMErrors.initial.obs;
+  final connector$ = Rx<Boolean<CIMErrors>>(True(data: CIMErrors.initial));
 
   late DataProvider _provider;
   
@@ -26,6 +26,7 @@ class ConnectionService extends AppGetxService {
   
   void connect() {
     delayMilli(2000).then((_) {
+      debugPrint('$now: ConnectionService.connect');
       _provider.checkConnection().then((value) {
         connector$(value);
       });
