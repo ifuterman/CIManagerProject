@@ -1,0 +1,17 @@
+name: cim_server_2
+description: A web server built using the shelf package.
+# version: 0.0.1
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  yaml: ^3.1.0
+  args: ^2.0.0
+  shelf: ^1.1.0
+  alfred: 0:0:3+2
+
+dev_dependencies:
+  test: ^1.16.8
+  pedantic: ^1.9.0
