@@ -8,6 +8,7 @@ import 'package:get/get.dart' hide Trans;
 import 'core/routes.dart';
 import 'core/services/connection_service.dart';
 import 'core/services/global_service.dart';
+import 'data/provider/cache_provider.dart';
 
 Future main() async {
   EquatableConfig.stringify = true;
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
 Future initServices() async {
   Get.lazyPut(() => GlobalService());
   Get.lazyPut<DataProvider>(() => DataProviderImpl());
+  Get.lazyPut<CacheProvider>(() => CacheProviderImpl());
   Get.lazyPut(() => ConnectionService());
 
   // immediately

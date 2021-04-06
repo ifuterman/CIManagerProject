@@ -11,6 +11,8 @@ class ExcelPage extends Equatable {
     this.height = 10 + 1,
   }) : captions = ExcelRow(length: width, index: startRowIndex);
 
+  static final nil = ExcelPage(path: '', title: '');
+
   /// File path
   final String path;
 

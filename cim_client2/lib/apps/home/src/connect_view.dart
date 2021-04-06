@@ -1,7 +1,6 @@
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vfx_flutter_common/utils.dart';
 
 import 'home_view_controller.dart';
 
@@ -47,8 +46,9 @@ class ConnectView extends AppGetView<HomeViewController> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            c.excel();
                             Get.back();
+                            Future.delayed(Duration.zero)
+                                .then((_) => c.excel());
                           }
                         },
                         child: Text('EXCEL'),
