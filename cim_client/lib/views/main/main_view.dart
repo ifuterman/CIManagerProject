@@ -1,3 +1,4 @@
+import 'package:cim_client/views/shared/getx_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,16 @@ class MainView extends GetView<MainViewController> {
 }
 
 class _ListTileItem extends GetView<MainViewController> {
-  _ListTileItem({this.item, this.title, this.selected, this.onTap});
+  _ListTileItem({
+    this.item,
+    required this.title,
+    required this.selected,
+    required this.onTap,
+  });
 
-  final MainMenuItems item;
+  final MainMenuItems? item;
   final String title;
   final bool selected;
-
   final Function() onTap;
 
   @override
@@ -63,12 +68,11 @@ class _ListTileItem extends GetView<MainViewController> {
   }
 }
 
-class MainMenu extends StatelessWidget {
-  final controller = Get.find<MainViewController>();
+class MainMenu extends AppGetView<MainViewController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => getMenu(controller.selectedItem.value));
+    return Obx(() => getMenu(c.selectedItem$.value));
   }
 
   Widget getMenu(MainMenuItems selected) {
@@ -77,17 +81,23 @@ class MainMenu extends StatelessWidget {
         _ListTileItem(
           selected: selected == MainMenuItems.item_patients,
           title: 'patient_list'.tr(),
-          onTap: () => controller.openSub(MainMenuItems.item_patients),
+          onTap: () => c.openSub(MainMenuItems.item_patients),
         ),
         _ListTileItem(
           selected: selected == MainMenuItems.item_schedule,
           title: 'schedule'.tr(),
-          onTap: () => controller.openSub(MainMenuItems.item_schedule),
+          onTap: () => c.openSub(MainMenuItems.item_schedule),
         ),
         _ListTileItem(
           selected: selected == MainMenuItems.item_protocol,
           title: 'protocols'.tr(),
-          onTap: () => controller.openSub(MainMenuItems.item_protocol),
+          onTap: () => c.openSub(MainMenuItems.item_protocol),
+        ),
+        SizedBox(height: 100),
+        _ListTileItem(
+          selected: selected == MainMenuItems.itemProfile,
+          title: 'profile'.tr(),
+          onTap: () => c.openSub(MainMenuItems.itemProfile),
         ),
         Container(
           height: 100,

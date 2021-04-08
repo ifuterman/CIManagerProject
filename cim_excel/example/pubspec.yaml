@@ -18,16 +18,18 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  get: ^3.26.0
+  get: 4.1.1
   cim_excel:
     path: ../../cim_excel
-  cim_shared:
-    path: ../../cim_shared
+  vfx_flutter_common:
+    git:
+      url: https://gitlab.com/frostyland/vfx_flutter_common.git
+      ref: "master.test"
 
 
   # The following adds the Cupertino Icons font to your application.

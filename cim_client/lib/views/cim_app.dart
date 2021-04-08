@@ -14,7 +14,7 @@ class CIMApp extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint('$now: CIMApp.build');
     return Scaffold(
-      body: Obx(() => getView(service.currentView.value)),
+      body: Obx(() => getView(service!.currentView!.value)),
     );
   }
 

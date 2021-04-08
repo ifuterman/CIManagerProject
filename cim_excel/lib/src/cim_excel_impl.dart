@@ -1,32 +1,37 @@
 import 'package:cim_excel/cim_excel.dart';
-import 'package:cim_shared/cim_shared.dart';
+import 'package:vfx_flutter_common/utils.dart';
 
 class CIMExcelImpl implements CIMExcelInterface {
-  String _path;
-
-  Return<String, ExcelPage> _result;
+  late String _path;
 
   @override
   String get path => _path;
 
   @override
-  Return<String, ExcelPage> get result => _result;
-
-  @override
-  Return<String, ExcelPage> open(String path) {
+  Future<Return<String, ExcelPage>> open(String path) async {
     _path = path;
-    _result = Return<String, ExcelPage>(result: ExcelResult.wrongFormat);
-    return _result;
+    final result = Return<String, ExcelPage>(result: ExcelResult.wrongFormat);
+    return result;
   }
 
   @override
-  Return<String, ExcelDataChunk> retrieveRows({int startRow, int endRow, int startColumn, int endColumn}) {
-    return Return<String, ExcelDataChunk>(result: ExcelResult.wrongFormat);;
+  Future<Return<String, ExcelDataChunk>> retrieveRows({
+    required int startRow,
+    required int endRow,
+    required int startColumn,
+    required int endColumn,
+  }) async {
+    return Return<String, ExcelDataChunk>(result: ExcelResult.wrongFormat);
+    ;
   }
 
   @override
-  Return<String, List<ExcelRow>> touchRow({int index, int startColumn, int endColumn}) {
-    return Return<String, List<ExcelRow>>(result: ExcelResult.wrongFormat);;
+  Future<Return<String, List<ExcelRow>>> touchRow(
+      {required int index,
+      required int startColumn,
+      required int endColumn}) async {
+    return Return<String, List<ExcelRow>>(result: ExcelResult.wrongFormat);
+    ;
   }
 
   @override
@@ -34,14 +39,13 @@ class CIMExcelImpl implements CIMExcelInterface {
       identical(this, other) ||
       other is CIMExcelImpl &&
           runtimeType == other.runtimeType &&
-          _path == other._path &&
-          _result == other._result;
+          _path == other._path;
 
   @override
-  int get hashCode => _path.hashCode ^ _result.hashCode;
+  int get hashCode => _path.hashCode;
 
   @override
   String toString() {
-    return 'CIMExcelImpl{_path: $_path, _result: $_result}';
+    return 'CIMExcelImpl{_path: $_path}';
   }
 }

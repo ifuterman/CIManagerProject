@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 /// Удобное отладочное меню
 class DebugPopupMenu extends StatelessWidget {
   const DebugPopupMenu({
-    Key key,
+    Key? key,
     this.items,
     this.top,
     this.bottom,
@@ -15,11 +15,11 @@ class DebugPopupMenu extends StatelessWidget {
     this.right,
   }) : super(key: key);
 
-  final Map<String, void Function()> items;
-  final double top;
-  final double bottom;
-  final double left;
-  final double right;
+  final Map<String, void Function()>? items;
+  final double? top;
+  final double? bottom;
+  final double? left;
+  final double? right;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,9 @@ class DebugPopupMenu extends StatelessWidget {
       right: right,
       child: PopupMenuButton(
         icon: const Icon(Icons.pan_tool_outlined),
-        onSelected: (v) => v.value?.call(),
+        onSelected: (MapEntry<String, void Function()> v) => v.value.call(),
         itemBuilder: (context) {
-          return items.entries.map((e) {
+          return items!.entries.map((e) {
             return PopupMenuItem(
               child: Text(e.key),
               value: e,
@@ -47,8 +47,8 @@ class DebugPopupMenu extends StatelessWidget {
 /// Постройка виджетов с элементом отладки
 class DebuggableWidget extends StatelessWidget {
   const DebuggableWidget({
-    Key key,
-    @required this.mainWidget,
+    Key? key,
+    required this.mainWidget,
     this.debugItems,
     this.top = 25,
     this.bottom,
@@ -57,11 +57,11 @@ class DebuggableWidget extends StatelessWidget {
   }) : super(key: key);
 
   final Widget mainWidget;
-  final Map<String, void Function()> debugItems;
-  final double top;
-  final double bottom;
-  final double left;
-  final double right;
+  final Map<String, void Function()>? debugItems;
+  final double? top;
+  final double? bottom;
+  final double? left;
+  final double? right;
 
   @override
   Widget build(BuildContext context) {

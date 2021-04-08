@@ -1,7 +1,9 @@
 import 'package:cim_excel/cim_excel.dart';
-import 'package:cim_shared/cim_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vfx_flutter_common/utils.dart';
+
+import 'getx_helpers.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,7 +43,7 @@ final List<GetPage> routes = [
   ),
 ];
 
-class MyHomePageController extends GetxController {
+class MyHomePageController extends AppGetxController {
   MyHomePageController(this.title);
 
   final excel = CIMExcel;
@@ -52,16 +54,16 @@ class MyHomePageController extends GetxController {
   final openResult$ = ''.obs;
 
   void openFile() {
-    final res = excel.open('path');
-    openResult$(res.result);
-    delayMilli(2000).then((_) => openResult$(''));
+    excel.open('path').then((value) {
+      openResult$(value.result);
+      delayMilli(2000).then((_) => openResult$(''));
+    });
   }
 }
 
-class MyHomePage extends GetView<MyHomePageController> {
+class MyHomePage extends AppGetView<MyHomePageController> {
   @override
   Widget build(BuildContext context) {
-    final c = controller;
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by

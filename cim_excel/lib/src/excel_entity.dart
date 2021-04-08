@@ -3,13 +3,15 @@ part of cim_excel;
 ///
 class ExcelPage extends Equatable {
   ExcelPage({
-    this.path,
-    this.title,
+    required this.path,
+    required this.title,
     this.startRowIndex = 0,
     this.startColumnIndex = 0,
     this.width = 10,
     this.height = 10 + 1,
   }) : captions = ExcelRow(length: width, index: startRowIndex);
+
+  static final nil = ExcelPage(path: '', title: '');
 
   /// File path
   final String path;
@@ -50,7 +52,7 @@ class ExcelPage extends Equatable {
 
 ///
 class ExcelRow extends Equatable {
-  ExcelRow({this.length, this.index});
+  ExcelRow({required this.length, required this.index});
 
   /// row index in Excel
   final int index;

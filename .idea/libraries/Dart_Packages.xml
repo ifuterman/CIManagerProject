@@ -6,7 +6,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-12.0.0/lib" />
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-17.0.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-18.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -14,7 +14,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-0.40.5/lib" />
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-1.1.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-1.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -537,6 +537,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf-1.0.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf-1.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -560,7 +561,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_web_socket-0.2.4+1/lib" />
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_web_socket-1.0.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_web_socket-1.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -632,7 +633,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.5/lib" />
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.7/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.8/lib" />
             </list>
           </value>
         </entry>
@@ -648,7 +649,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.15/lib" />
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.18/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.19/lib" />
             </list>
           </value>
         </entry>
@@ -676,7 +677,7 @@
         <entry key="vfx_flutter_common">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-bfed7336e013f3c1a40ad8efd4041c8006f3f9c1/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-581800c435b5cf87b3e1da7aa47766176f37d9f4/lib" />
             </list>
           </value>
         </entry>
@@ -736,11 +737,11 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-bfed7336e013f3c1a40ad8efd4041c8006f3f9c1/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/git/vfx_flutter_common-581800c435b5cf87b3e1da7aa47766176f37d9f4/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-12.0.0/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-17.0.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/_fe_analyzer_shared-18.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-0.40.5/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-1.1.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/analyzer-1.2.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/aqueduct-4.0.0-b1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/aqueduct_test-2.0.0-b1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/args-1.6.0/lib" />
@@ -821,12 +822,13 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.2+3/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf-1.0.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf-1.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_packages_handler-2.0.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_packages_handler-3.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_static-0.2.9+2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_static-1.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_web_socket-0.2.4+1/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_web_socket-1.0.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/shelf_web_socket-1.0.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/singleton-0.0.2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/source_map_stack_trace-2.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/source_maps-0.10.10/lib" />
@@ -837,11 +839,11 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/term_glyph-1.2.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.5/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.7/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test-1.16.8/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_api-0.2.19/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_api-0.3.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.15/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.18/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/test_core-0.3.19/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/typed_data-1.3.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/uuid-2.2.2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/vector_math-2.1.0/lib" />

@@ -1,8 +1,11 @@
 import 'dart:io';
+
+import 'package:cim_client/cim_errors.dart';
+import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/utils.dart';
-import 'package:cim_client/cim_errors.dart';
 
 // ignore: one_member_abstracts
 abstract class DataProvider {
@@ -11,6 +14,9 @@ abstract class DataProvider {
   Future<Return<CIMErrors, Map<String, dynamic>>> getToken(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate);
   Future<Return<CIMErrors, CIMUser>> createNewUser(CIMUser candidate);
+  Future<Return<CIMErrors, CIMPatient>> createPatient(CIMPatient candidate);
+  Future<Return<CIMErrors, List<CIMPatient>>> getUsers();
+  Future<Return<CIMErrors, CIMUser>> getUserInfo();
 }
 
 class DataProviderImpl extends GetConnect implements DataProvider {
@@ -22,6 +28,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     Response res;
     try {
       res = await get(CIMRestApi.prepareCheckConnection());
+      debugPrint('$now: DataProviderImpl.checkConnection: res = $res');
       switch (res.status.code) {
         case HttpStatus.ok:
           return CIMErrors.ok;
@@ -46,14 +53,62 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     Response res;
     try {
       final packet = CIMPacket.makePacket();
-      packet.addInstance(candidate);
-      res = await post(CIMRestApi.prepareFirstUser(), packet.map);
+      packet?.addInstance(candidate);
+      final _cacheProvider = Get.find<CacheProviderService>();
+      final token = _cacheProvider.fetchToken();
+      final tokenStr = 'Bearer ${token}';
+      final String authKey = 'Authorization';
+      final authorisation = {authKey : tokenStr};
+      res = await post(
+        CIMRestApi.prepareFirstUser(),
+        packet?.map,
+        headers: authorisation,
+      );
+
+      debugPrint('$now: DataProviderImpl.createFirstUser: ${res.statusCode} / ${res.body}');
+
       switch (res.status.code) {
         case HttpStatus.ok:
           final data = res.body;
           final packet = CIMPacket.makePacketFromMap(data);
-          final user = packet.getInstances()[0] as CIMUser;
+          final user = packet?.getInstances()?[0] as CIMUser;
           return Return(result: CIMErrors.ok, data: user);
+        case HttpStatus.internalServerError:
+          return Return(result: CIMErrors.connectionErrorServerDbFault);
+        default:
+          return Return(result: CIMErrors.unexpectedServerResponse);
+      }
+    } catch (e) {
+      return Return(result: CIMErrors.unexpectedServerResponse, description: e.toString());
+    }
+  }
+
+  @override
+  Future<Return<CIMErrors, List<CIMPatient>>> getUsers() async {
+    Response res;
+    try {
+
+      final _cacheProvider = Get.find<CacheProviderService>();
+      final token = _cacheProvider.fetchToken();
+      final tokenStr = 'Bearer ${token}';
+      final String authKey = 'Authorization';
+      final authorisation = {authKey : tokenStr};
+
+      res = await get(
+          CIMRestApi.preparePatientsGet(),
+        headers: authorisation,
+      );
+      // debugPrint('$now: DataProviderImpl.getUsers: ${res.statusCode} / ${res.body}');
+      switch (res.status.code) {
+        case HttpStatus.ok:
+          // await res.body.decode();
+          // debugPrint('$now: DataProviderImpl.getUsers.packet.1: ${res.body}');
+          final packet = CIMPacket.makePacketFromMap(res.body);
+          // debugPrint('$now: DataProviderImpl.getUsers.packet: ${packet}');
+          final list = packet?.getInstances()?.cast<CIMPatient>();
+          // debugPrint('$now: DataProviderImpl.getUsers.list: ${list}');
+          return Return(result: CIMErrors.ok, data: list!);
+
         case HttpStatus.internalServerError:
           return Return(result: CIMErrors.connectionErrorServerDbFault);
         default:
@@ -69,8 +124,8 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     Response res;
     try {
       final packet = CIMPacket.makePacket();
-      packet.addInstance(candidate);
-      res = await post(CIMRestApi.prepareAuthToken(), packet.map);
+      packet?.addInstance(candidate);
+      res = await post(CIMRestApi.prepareAuthToken(), packet?.map);
       switch (res.status.code) {
         case HttpStatus.ok:
           final map = res.body as Map<String, dynamic>;
@@ -92,13 +147,25 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     Response res;
     try {
       final packet = CIMPacket.makePacket();
-      packet.addInstance(candidate);
-      res = await post(CIMRestApi.prepareNewUser(), packet.map);
+      packet?.addInstance(candidate);
+
+
+      final _cacheProvider = Get.find<CacheProviderService>();
+      final token = _cacheProvider.fetchToken();
+      final tokenStr = 'Bearer ${token}';
+      final String authKey = 'Authorization';
+      final authorisation = {authKey : tokenStr};
+      res = await post(
+        CIMRestApi.prepareNewUser(),
+        packet?.map,
+        headers: authorisation,
+      );
+      debugPrint('$now: DataProviderImpl.createFirstUser: ${res.statusCode} / ${res.body}');
       switch (res.status.code) {
         case HttpStatus.ok:
           final data = res.body;
           final packet = CIMPacket.makePacketFromMap(data);
-          final user = packet.getInstances()[0] as CIMUser;
+          final user = packet?.getInstances()?[0] as CIMUser;
           return Return(result: CIMErrors.ok, data: user);
         case HttpStatus.internalServerError:
           return Return(result: CIMErrors.connectionErrorServerDbFault);
@@ -107,6 +174,61 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       }
     } catch (e) {
       // TODO(vvk): сделать ошибку типа  unknownError(e)
+      return Return(result: CIMErrors.unexpectedServerResponse, description: e.toString());
+    }
+  }
+
+  @override
+  Future<Return<CIMErrors, CIMPatient>> createPatient(CIMPatient candidate) async {
+    Response res;
+    try {
+      final packet = CIMPacket.makePacket();
+      packet?.addInstance(candidate);
+      final _cacheProvider = Get.find<CacheProviderService>();
+      final token = _cacheProvider.fetchToken();
+      final tokenStr = 'Bearer ${token}';
+      final String authKey = 'Authorization';
+      final authorisation = {authKey : tokenStr};
+      res = await post(
+        CIMRestApi.preparePatientsNew(),
+        packet!.map,
+        headers: authorisation,
+      );
+      debugPrint('$now: DataProviderImpl.createPatient: ${res.statusCode} / ${res.body}');
+      switch (res.status.code) {
+        case HttpStatus.ok:
+          final data = res.body;
+          final packet = CIMPacket.makePacketFromMap(data);
+          final user = packet!.getInstances()![0] as CIMPatient;
+          return Return(result: CIMErrors.ok, data: user);
+        case HttpStatus.internalServerError:
+          return Return(result: CIMErrors.connectionErrorServerDbFault);
+        default:
+          return Return(result: CIMErrors.unexpectedServerResponse);
+      }
+    } catch (e) {
+      // TODO(vvk): сделать ошибку типа  unknownError(e)
+      return Return(result: CIMErrors.unexpectedServerResponse, description: e.toString());
+    }
+  }
+
+  @override
+  Future<Return<CIMErrors, CIMUser>> getUserInfo() async {
+    Response res;
+    try {
+      res = await get(CIMRestApi.prepareGetUser());
+      switch (res.status.code) {
+        case HttpStatus.ok:
+          final data = res.body;
+          final packet = CIMPacket.makePacketFromMap(data);
+          final user = packet!.getInstances()![0] as CIMUser;
+          return Return(result: CIMErrors.ok, data: user);
+        case HttpStatus.internalServerError:
+          return Return(result: CIMErrors.connectionErrorServerDbFault);
+        default:
+          return Return(result: CIMErrors.unexpectedServerResponse);
+      }
+    } catch (e) {
       return Return(result: CIMErrors.unexpectedServerResponse, description: e.toString());
     }
   }
@@ -129,4 +251,5 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       return CIMErrors.connectionErrorServerNotFound;
     return CIMErrors.unexpectedServerResponse;
   }
+
 }

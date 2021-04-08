@@ -18,11 +18,11 @@ class CIMService extends GetxService {
     debugPrint('$now: CIMService.CIMService');
   }
 
-  CIMConnection connection;
-  CIMUser user;
+  CIMConnection? connection;
+  CIMUser? user;
   final userMode$ = Rx<UserMode>(UserMode.first);
-  Rx<CIMViews> currentView;
-  CIMDataProvider dataProvider;
+  Rx<CIMViews>? currentView;
+  CIMDataProvider? dataProvider;
 
   Future<CIMService> init() async => this;
 
@@ -46,8 +46,8 @@ class CIMService extends GetxService {
   void _restoreUser() {
     const userKey = 'user';
 
-    final store = Get.find<CacheProvider>().storage;
-    user = UserMapper.fromJson(store.read(userKey) ?? '');
+    final store = Get.find<CacheProviderService>().storage;
+    user = UserMapper.fromJson(store?.read(userKey) ?? '');
     if(user == null) {
       userMode$(UserMode.first);
     }else{
@@ -66,7 +66,7 @@ abstract class UserMapper {
   static const passwordKey = 'password';
   static const roleKey = 'role';
 
-  static CIMUser fromJson(String json){
+  static CIMUser? fromJson(String json){
     assert(json != null);
     try{
       print('$now: UserMapper.fromJson: $json');
@@ -76,7 +76,7 @@ abstract class UserMapper {
     }
   }
 
-  static CIMUser fromMap(Map<String, dynamic> map) {
+  static CIMUser? fromMap(Map<String, dynamic> map) {
     try{
       print('$now: UserMapper.fromMap: $map');
       final lst = (map['instances'] as List).cast<Map<String, dynamic>>();

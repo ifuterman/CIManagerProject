@@ -73,10 +73,6 @@ class _MainWidget extends GetView<AuthorizationViewController> {
                 );
               }),
               Container(
-                constraints: BoxConstraints.expand(
-                    height:
-                        Theme.of(context).textTheme.headline6.fontSize * 1.2,
-                    width: Theme.of(context).textTheme.bodyText1.fontSize * 15),
                 child: TextField(
                   controller: _controllerLogin,
                   textAlignVertical: TextAlignVertical.top,
@@ -95,10 +91,6 @@ class _MainWidget extends GetView<AuthorizationViewController> {
                 textAlign: TextAlign.right,
               ),
               Container(
-                constraints: BoxConstraints.expand(
-                    height:
-                        Theme.of(context).textTheme.headline6.fontSize * 1.2,
-                    width: Theme.of(context).textTheme.bodyText1.fontSize * 15),
                 child: TextField(
                   controller: _controllerPassword,
                   textAlignVertical: TextAlignVertical.top,

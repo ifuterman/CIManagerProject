@@ -15,6 +15,7 @@ import 'package:vfx_flutter_common/utils.dart';
 void main() async {
   EquatableConfig.stringify = true;
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   await initServices();
   final pref = Get.find<PreferenceService>();
@@ -25,7 +26,7 @@ void main() async {
       ],
       path: 'assets/Localizations', // <-- change patch to your
       fallbackLocale: Locale('ru', 'RU'),
-      child: StreamBuilder<bool>(
+      child: StreamBuilder<bool?>(
           initialData: pref.isDarkMode$.value,
           stream: pref.isDarkMode$.stream,
           builder: (context, snapshot) {
@@ -33,7 +34,7 @@ void main() async {
             return GetMaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                brightness: isDark ? Brightness.dark : Brightness.light,
+                brightness: (isDark ?? false) ? Brightness.dark : Brightness.light,
               ),
               // home: CIMApp(),
               navigatorKey: Get.key,
@@ -52,7 +53,7 @@ void main() async {
 Future initServices() async {
   print('starting services ...');
   // await GetStorage.init();
-  final cache = await Get.putAsync<CacheProvider>(() => CacheProviderService().init());
+  final cache = await Get.putAsync<CacheProviderService>(() => CacheProviderService().init());
   await Get.putAsync(() => PreferenceService(cache).init());
   await Get.putAsync(() => CIMService().init());
   await Get.putAsync(() => GlobalViewService().init());

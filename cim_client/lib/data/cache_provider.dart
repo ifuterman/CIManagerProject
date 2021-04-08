@@ -7,27 +7,26 @@ import 'package:get_storage/get_storage.dart';
 import 'package:vfx_flutter_common/utils.dart';
 
 // ignore: one_member_abstracts
-abstract class CacheProvider {
+// abstract class CacheProviderService {
+//
+//   GetStorage? get storage;
+//
+//
+//   Future<CIMUser> fetchUser();
+//   Future<void> saveUser(CIMUser candidate);
+//   String? fetchToken();
+//   Future<void> saveToken(String? token);
+// }
 
-  GetStorage get storage;
-
-
-  Future<CIMUser> fetchUser();
-  Future<void> saveUser(CIMUser candidate);
-  String fetchToken();
-  Future<void> saveToken(String token);
-}
-
-class CacheProviderService extends GetxService implements CacheProvider {
+class CacheProviderService extends GetxService {
 
   static const prefix = 'cache';
   static const userKey = '$prefix.user';
   static const tokenKey = '$prefix.token';
 
-  GetStorage _storage;
+  GetStorage? _storage;
 
-  @override
-  GetStorage get storage => _storage;
+  GetStorage? get storage => _storage;
 
   Future<CacheProviderService> init() async {
     final directory = Directory.current.path;
@@ -36,32 +35,12 @@ class CacheProviderService extends GetxService implements CacheProvider {
     return this;
   }
 
-  @override
-  Future<CIMUser> fetchUser() {
-    // TODO: implement fetchUser
-    throw UnimplementedError();
+  String? fetchToken() {
+    return _storage?.read(tokenKey);
   }
 
-  @override
-  Future<void> saveUser(CIMUser candidate) {
-    // TODO: implement saveUser
-    throw UnimplementedError();
-  }
-
-  @override
-  String fetchToken() {
-    return _storage.read(tokenKey);
-  }
-
-  @override
-  Future<void> saveToken(String token) async {
-    _storage.write(tokenKey, token);
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    print('$now: CacheProviderService.onInit');
+  Future<void> saveToken(String? token) async {
+    _storage?.write(tokenKey, token);
   }
 
 }
