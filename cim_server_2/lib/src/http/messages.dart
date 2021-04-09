@@ -5,38 +5,55 @@ enum MessageTypes{
   empty,
   sendPort,
   request,
-  initServer
+  initServer,
+  serverInited,
+  initHttpProcessor
 }
 abstract class Message{
   MessageTypes getType();
+  int get id => _id;
+  int _id;
+  Message(this._id);
 }
 
-class MessageSendPort implements Message{
+class MessageSendPort extends Message{
   SendPort port;
-  MessageSendPort(this.port);
+  MessageSendPort(this.port, int id):super(id);
   @override
   MessageTypes getType() => MessageTypes.sendPort;
 }
 
-class MessageInitServer implements Message{
+class MessageInitServer extends Message{
   int threadsCount;
   String host;
   int serverPort;
   SendPort callerPort;
-  MessageInitServer( this.callerPort,this.threadsCount, this.host, this.serverPort);
-
+  Type applicationChannel;
+  MessageInitServer( this.callerPort,this.threadsCount, this.host, this.serverPort, int id, this.applicationChannel):super(id);
   @override
   MessageTypes getType() => MessageTypes.initServer;
 }
 
-class MessageHttpRequest implements Message{
+class MessageServerInited extends Message{
+  MessageServerInited(int id):super(id);
+  MessageTypes getType() => MessageTypes.serverInited;
+}
+
+class MessageInitHttpProcessor extends Message{
+  MessageInitHttpProcessor(int id):super(id);
+  MessageTypes getType() => MessageTypes.initHttpProcessor;
+}
+
+class MessageHttpRequest extends Message{
   MyHttpRequest request;
-  MessageHttpRequest(this.request);
+  MessageHttpRequest(this.request, int id):super(id);
 
 
   @override
   MessageTypes getType() => MessageTypes.request;
 }
+
+
 
 class MyHttpRequest{
   late HttpHeaders headers;

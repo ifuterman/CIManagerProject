@@ -1,46 +1,56 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:isolate';
-import 'messages.dart';
+import 'dart:mirrors';
+import 'package:cim_server_2/src/http/application_channel.dart';
 
-class Server{
-  String _host;
-  int _port;
-  int _threadsConut;
-  Server._(this._host, this._port, this._threadsConut, this._readIsolate);
+import 'messages.dart';
+import 'http_reader_writer.dart';
+
+class Server<T extends ApplicationChannel>{
+  static final servers = List<Server>.empty(growable: true);
+  Function(Server)? onInit;
+  Server(this._host, this._port){
+    _id = servers.length;
+  }
+  int _id = 0;
+  final String _host;
+  final int _port;
+//  Server._(this._id, this._host, this._port, int threadsCount, this._readIsolate, this._subscription, {this.onInit});
   String get host => _host;
   int get port => _port;
-  Isolate _readIsolate;
-  static Future<Server?> start (String host, int port, [int count = 2]) async{
-    var callerPort = ReceivePort();
-    var initMessage = MessageInitServer(callerPort.sendPort, count, host, port);
-    var readIsolate = await Isolate.spawn(readIsolateEntryPoint, initMessage);
-    SendPort? readPort;
-    await for(Message message in callerPort){
-      if(message.getType() == MessageTypes.sendPort){
-        readPort = (message as MessageSendPort).port;
+  late Isolate _readIsolate;
+  late SendPort _readPort;
+  late StreamSubscription _subscription;
+//  static Future<Server> onInit(Server server) async {return server;}
+    Future start ([int count = 2]) async{
+      var type = reflectType(T).reflectedType;
+      var callerPort = ReceivePort();
+      var initMessage = MessageInitServer(callerPort.sendPort, count, host, port, servers.length, type);
+      var _readIsolate = await Isolate.spawn(HttpReaderWriter.readIsolateEntryPoint, initMessage);
+      var _subscription = callerPort.listen(callbackReadIsolateListener);
+      servers.add(this);
+  }
+
+
+  static void callbackReadIsolateListener(dynamic message){
+    if(message is! Message){
+      print('[Server.callbackReadIsolateListener]: wrong message $message');
+      return;
+    }
+    switch(message.getType()){
+      case MessageTypes.sendPort:{
+        var msg = message as MessageSendPort;
+        var server = servers[msg.id];
+        server._readPort = msg.port;
+        if(server.onInit != null) {
+          server.onInit!(server);
+        }
         break;
       }
+      default:{
+        print('Unhandled message: ${message.getType()}');
+      }
     }
-    if(readPort == null){
-      return null;
-    }
-    readPort.send(1);
-    // SendPort sp = await callerPort.first;
-
-//    readIsolate.controlPort.send(1);
-    var server = Server._(host, port, count, readIsolate);
-    return server;
   }
 }
 
-void readIsolateEntryPoint(MessageInitServer messageInitServer) async{
-  var receivePort = ReceivePort();//Регистрация порта для приёмки сообщений
-  messageInitServer.callerPort.send(MessageSendPort(receivePort.sendPort));//Передача порта, через который будем получать сообщения
-  var server = await HttpServer.bind(messageInitServer.host, messageInitServer.serverPort);
-  receivePort.listen(handler);
-}
-
-void handler(dynamic message){
-  print('Message received');
-}
