@@ -1,7 +1,4 @@
 import 'dart:io';
-import 'dart:isolate';
-
-import 'package:args/args.dart';
 import 'package:cim_server_2/src/app_channel.dart';
 import 'package:cim_server_2/src/config/server_configuration.dart';
 import 'package:cim_server_2/src/http/server.dart';
@@ -13,7 +10,6 @@ void main(List<String> args) async {
   var config = ServerConfiguration;
   var server = Server<AppChannel>(config.host, config.port);
   await server.start();
-  sleep(Duration(minutes: 1));
 /*  var parser = ArgParser()..addOption('port', abbr: 'p');
   var result = parser.parse(args);
 

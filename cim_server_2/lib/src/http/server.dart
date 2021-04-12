@@ -26,9 +26,10 @@ class Server<T extends ApplicationChannel>{
       var type = reflectType(T).reflectedType;
       var callerPort = ReceivePort();
       var initMessage = MessageInitServer(callerPort.sendPort, count, host, port, servers.length, type);
-      var _readIsolate = await Isolate.spawn(HttpReaderWriter.readIsolateEntryPoint, initMessage);
-      var _subscription = callerPort.listen(callbackReadIsolateListener);
+      _readIsolate = await Isolate.spawn<MessageInitServer>(HttpReaderWriter.readIsolateEntryPoint, initMessage);
+      _subscription = callerPort.listen(callbackReadIsolateListener);
       servers.add(this);
+//      _readIsolate.resume(_readIsolate.pauseCapability);
   }
 
 

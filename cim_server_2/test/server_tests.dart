@@ -1,15 +1,29 @@
-import 'dart:mirrors';
 
-import 'package:cim_server_2/src/http/application_channel.dart';
+import 'dart:convert';
+
 import 'package:test/test.dart';
-import 'package:cim_server_2/src/config/server_configuration.dart';
 
 
 void main (){
   group('server test', (){
     test('test config.yaml',(){
-      Type t;
-      var classMirror = reflectClass(ApplicationChannel);
+      var codec = JsonCodec();
+      var str = '''
+   {
+    "version" : "0.0.1",
+    "instances" : [
+        {
+            "instance" : "CIMUser",
+            "login" : "admin1",
+            "password" : "admin",
+            "id" : "0",
+            "role" : "0"
+        }
+    ]
+}
+      ''';
+      dynamic obj = codec.decoder.convert(str);
+      print(obj);
     });
   });
 }

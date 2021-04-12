@@ -1,18 +1,26 @@
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:cim_server_2/src/http/response.dart';
+
+import 'request.dart';
+
 enum MessageTypes{
   empty,
   sendPort,
   request,
   initServer,
   serverInited,
-  initHttpProcessor
+  initHttpProcessor,
+  httpProcessorInited,
+  httpProcessorInitError,
+  processorReady,
+  httpResponse
 }
 abstract class Message{
   MessageTypes getType();
   int get id => _id;
-  int _id;
+  final int _id;
   Message(this._id);
 }
 
@@ -36,16 +44,20 @@ class MessageInitServer extends Message{
 
 class MessageServerInited extends Message{
   MessageServerInited(int id):super(id);
+  @override
   MessageTypes getType() => MessageTypes.serverInited;
 }
 
 class MessageInitHttpProcessor extends Message{
-  MessageInitHttpProcessor(int id):super(id);
+  MessageInitHttpProcessor(int id, this.callerPort, this.applicationChannel):super(id);
+  @override
   MessageTypes getType() => MessageTypes.initHttpProcessor;
+  SendPort callerPort;
+  Type applicationChannel;
 }
 
 class MessageHttpRequest extends Message{
-  MyHttpRequest request;
+  Request request;
   MessageHttpRequest(this.request, int id):super(id);
 
 
@@ -53,15 +65,28 @@ class MessageHttpRequest extends Message{
   MessageTypes getType() => MessageTypes.request;
 }
 
+class MessageHttpProcessorInited extends Message{
+  @override
+  MessageTypes getType() => MessageTypes.httpProcessorInited;
+  SendPort sendPort;
+  MessageHttpProcessorInited(int id, this.sendPort):super(id);
+}
 
+class MessageHttpProcessorInitError extends Message{
+  @override
+  MessageTypes getType() => MessageTypes.httpProcessorInited;
+  MessageHttpProcessorInitError(int id):super(id);
+}
 
-class MyHttpRequest{
-  late HttpHeaders headers;
-  late String method;
-  late Uri requestedUri;
-  MyHttpRequest(HttpRequest request){
-    headers = request.headers;
-    method = request.method;
-    requestedUri = request.requestedUri;
-  }
+class MessageHttpProcessorReady extends Message{
+  @override
+  MessageTypes getType() => MessageTypes.processorReady;
+  MessageHttpProcessorReady(int id):super(id);
+}
+
+class MessageHttpResponse extends Message{
+  Response response;
+  @override
+  MessageTypes getType() => MessageTypes.httpResponse;
+  MessageHttpResponse(this.response, int id):super(id);
 }
