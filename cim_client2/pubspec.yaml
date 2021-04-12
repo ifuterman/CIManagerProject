@@ -27,7 +27,7 @@ dependencies:
   easy_localization: ^3.0.0
   equatable: ^2.0.0
   # 4.1.2 fails with Chrome
-  get: 4.1.1
+  get: ^4.1.4
   get_storage: ^2.0.2
   rxdart: ^0.26.0
   excel: ^2.0.0-null-safety
