@@ -1,5 +1,7 @@
 import 'package:cim_server_2/src/http/http_processor.dart';
+import 'package:cim_server_2/src/http/router.dart';
 
-class ApplicationChannel extends HttpProcessor{
-  String xxx = 'xxxxxxxxx';
+abstract class ApplicationChannel extends HttpProcessor{
+  void prepare(){}
+  Router getEndpoint();
 }

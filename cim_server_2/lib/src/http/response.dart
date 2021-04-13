@@ -1,17 +1,30 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'dart:typed_data';
-
 import 'package:cim_server_2/src/http/body.dart';
+import 'package:cim_server_2/src/http/request_or_response.dart';
 
-class Response{
+class Response implements RequestOrResponse{
   int status;
   late Body body;
-  Response(this.status, this.body);
-  Response.badRequest(Body body):this.status = HttpStatus.badRequest{
-    var codec = JsonCodec();
-    var str = codec.encoder.convert(body);
-    Uint8List.fromList(str.codeUnits);
+  Map<String, String> headers = {};
+  Response(this.status, Body? body){
+    body ??= Body.empty();
+    this.body = body;
+  }
+  Response.badRequest({Body? body}):status = HttpStatus.badRequest{
+    body ??= Body.empty();
+    this.body = body;
+  }
+  Response.internalServerError({Body? body}):status = HttpStatus.internalServerError{
+    body ??= Body.empty();
+    this.body = body;
+  }
+  Response.notFound({Body? body}):status = HttpStatus.notFound{
+    body ??= Body.empty();
+    this.body = body;
+  }
+  Response.ok({Body? body}):status = HttpStatus.ok{
+    body ??= Body.empty();
+    this.body = body;
   }
 }

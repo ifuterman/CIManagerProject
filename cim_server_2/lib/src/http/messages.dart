@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:isolate';
 
 import 'package:cim_server_2/src/http/response.dart';
@@ -11,6 +10,7 @@ enum MessageTypes{
   request,
   initServer,
   serverInited,
+  serverInitError,
   initHttpProcessor,
   httpProcessorInited,
   httpProcessorInitError,
@@ -46,6 +46,12 @@ class MessageServerInited extends Message{
   MessageServerInited(int id):super(id);
   @override
   MessageTypes getType() => MessageTypes.serverInited;
+}
+
+class MessageServerInitError extends Message{
+  MessageServerInitError(int id):super(id);
+  @override
+  MessageTypes getType() => MessageTypes.serverInitError;
 }
 
 class MessageInitHttpProcessor extends Message{

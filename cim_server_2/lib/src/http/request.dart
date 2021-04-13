@@ -3,8 +3,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cim_server_2/src/http/body.dart';
+import 'package:cim_server_2/src/http/request_or_response.dart';
 
-class Request{
+class Request implements RequestOrResponse{
   static Future<Request> prepare(HttpRequest request) async{
     var headers = request.headers;
     var method = request.method;
