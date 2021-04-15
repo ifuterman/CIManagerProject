@@ -1,13 +1,12 @@
-import 'package:cim_client2/apps/showroom/showroom.dart';
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
-import 'package:vfx_flutter_common/utils.dart';
 
-import 'home_view.dart';
-import 'splash_view.dart';
+import 'home_view_controller.dart';
+import 'show_room_view.dart';
+import 'splash_view_controller.dart';
 
 
 class ShowRoomViewController extends AppGetxController
@@ -16,35 +15,39 @@ class ShowRoomViewController extends AppGetxController
   @override
   get defaultGetPageBuilder => () => ShowRoomView();
 
-  late _State _state;
+  late State _state;
+
+  get state => _state;
 
   void mainState() {
-    if(_state is! _MainState){
+    if(_state != State.main){
       Get.back();
     }
-    _state = _MainState();
+    _state = State.main;
   }
 
   void splashState() {
-    if(_state is _MainState){
-      Get.to(() => SplashView());
-    }else{
-      Get.off(() => SplashView());
+    if(_state == State.main){
+      SmartNavigation.put(SplashViewController()..toPage(
+        onClose: (c, {args}) {
+          Get.back();
+          _state = State.main;
+        }
+      ));
     }
-    _state = _SplashState();
+    _state = State.splash;
   }
 
   void homeState() {
-    if(_state is _MainState){
-      Get.to(() => HomeView());
-    }else{
-      Get.off(() => HomeView());
+    if(_state == State.main){
+      SmartNavigation.put(HomeViewController()..toPage(
+          onClose: (c, {args}) {
+            Get.back();
+            _state = State.main;
+          }
+      ));
     }
-    _state = _HomeState();
-  }
-
-  void back() {
-    mainState();
+    _state = State.home;
   }
 
   @override
@@ -55,23 +58,27 @@ class ShowRoomViewController extends AppGetxController
 
 }
 
-abstract class _State extends Equatable{
-  _State({required this.title, required this.icon});
+abstract class State extends Equatable{
+  State({required this.title, required this.icon});
   final String title;
   final Icon icon;
+
+  static final main = _MainState();
+  static final splash = _SplashState();
+  static final home = _HomeState();
 
   @override
   List<Object> get props => [title];
 }
 
-class _MainState extends _State {
-  _MainState() : super(title: 'main', icon: Icon(Icons.login));
+class _MainState extends State {
+  _MainState() : super(title: 'main', icon: Icon(Icons.home));
 }
 
-class _SplashState extends _State {
-  _SplashState() : super(title: 'main', icon: Icon(Icons.login));
+class _SplashState extends State {
+  _SplashState() : super(title: 'main', icon: Icon(Icons.stream));
 }
 
-class _HomeState extends _State {
+class _HomeState extends State {
   _HomeState() : super(title: 'main', icon: Icon(Icons.login));
 }

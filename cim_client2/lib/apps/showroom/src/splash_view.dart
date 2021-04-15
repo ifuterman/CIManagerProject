@@ -4,8 +4,10 @@ import 'package:cim_client2/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cim_client2/core/extensions.dart';
 
+import 'splash_view_controller.dart';
+
 ///
-class SplashView extends AppGetView<ShowRoomViewController> {
+class SplashView extends AppGetView<SplashViewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class SplashView extends AppGetView<ShowRoomViewController> {
               Text('$runtimeType'),
               10.h(),
               ElevatedButton(
-                onPressed: c.back,
+                onPressed: c.close,
                 child: Text('home'),
               ),
             ],

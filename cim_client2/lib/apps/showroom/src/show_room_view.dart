@@ -1,11 +1,12 @@
-import 'package:cim_client2/apps/showroom/src/show_room_view_controller.dart';
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:cim_client2/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cim_client2/core/extensions.dart';
 
+import 'show_room_view_controller.dart' as ctrl;
+
 ///
-class ShowRoomView extends AppGetView<ShowRoomViewController>  {
+class ShowRoomView extends AppGetView<ctrl.ShowRoomViewController>  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,14 +16,16 @@ class ShowRoomView extends AppGetView<ShowRoomViewController>  {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: c.splashState,
-                child: Text('splash'),
+                icon: ctrl.State.splash.icon,
+                label: Text('splash'),
               ),
               10.h(),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: c.homeState,
-                child: Text('home'),
+                icon: ctrl.State.home.icon,
+                label: Text('home'),
               ),
             ],
           ),

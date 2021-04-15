@@ -1,7 +1,7 @@
-import 'package:cim_client2/apps/showroom/showroom.dart';
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
 
+import 'show_room_view_controller.dart';
 import 'splash_view.dart';
 
 class SplashViewController extends AppGetxController

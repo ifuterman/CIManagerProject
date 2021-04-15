@@ -3,10 +3,10 @@ import 'package:cim_client2/core/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cim_client2/core/extensions.dart';
 
-import 'show_room_view_controller.dart';
+import 'home_view_controller.dart';
 
 ///
-class HomeView extends AppGetView<ShowRoomViewController>  {
+class HomeView extends AppGetView<HomeViewController>  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class HomeView extends AppGetView<ShowRoomViewController>  {
               Text('$runtimeType'),
               10.h(),
               ElevatedButton(
-                onPressed: c.back,
+                onPressed: c.close,
                 child: Text('home'),
               ),
             ],
