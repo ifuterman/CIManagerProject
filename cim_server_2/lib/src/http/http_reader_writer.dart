@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:collection';
 
-import 'package:alfred/alfred.dart';
 import 'package:cim_server_2/src/http/http_processor.dart';
 import 'package:cim_server_2/src/http/response.dart';
 
@@ -16,6 +16,8 @@ class SendPortId{
   SendPortId(this.id, this.port);
 }
 class HttpReaderWriter{
+  static Duration requestTimeout = Duration(seconds: 30);//Timeout for processing http request
+  static Duration processorTimeout = Duration(minutes: 20);//Timeout for completing processor isolate working cycle for processing 1 request
   static SendPort? _callerPort;
   static int _id = 0;
   static List<Isolate> processors = List.empty(growable: true);
@@ -23,17 +25,21 @@ class HttpReaderWriter{
   static Queue<HttpRequest> requestQueue = Queue();
   static Queue<SendPortId> processorsQueue = Queue();
   static Map<int, HttpRequest> httpRequestsMap = {};
+  static Map<int, Timer> timeoutMap = {};
   static HttpServer? server;
+  static Type? channelType;
+  static ReceivePort? receivePort;
   static void readIsolateEntryPoint(MessageInitServer messageInitServer) async {
-    var channelType = messageInitServer.applicationChannel;
+    channelType = messageInitServer.applicationChannel;
     _id = messageInitServer.id;
-    var receivePort = ReceivePort(); //Регистрация порта для приёмки сообщений
+    receivePort = ReceivePort(); //Регистрация порта для приёмки сообщений
     _callerPort = messageInitServer.callerPort;
+    requestTimeout = messageInitServer.timeout;
+    processorTimeout = requestTimeout * 10;
 /*    _callerPort!.send(MessageSendPort(receivePort.sendPort,
         _id)); //Передача порта, через который будем получать сообщения*/
     for(var i = 0; i < messageInitServer.threadsCount; i++){
-      var processorMessage = MessageInitHttpProcessor(i, receivePort.sendPort, channelType);
-      var isolate = await Isolate.spawn<MessageInitHttpProcessor>(HttpProcessor.processorEntryPoint, processorMessage);
+      var isolate = await _spawn(i);
       processors.add(isolate);
     }
     try {
@@ -51,9 +57,13 @@ class HttpReaderWriter{
     }
     server!.listen(requestHandler);
     _callerPort!.send(MessageServerInited(_id));
-    receivePort.listen(mainProcessListener);
+    receivePort!.listen(mainProcessListener);
   }
-
+  static Future<Isolate> _spawn(int id) async{
+    var processorMessage = MessageInitHttpProcessor(id, receivePort!.sendPort, channelType!);
+    var isolate = await Isolate.spawn<MessageInitHttpProcessor>(HttpProcessor.processorEntryPoint, processorMessage);
+    return isolate;
+  }
   static void httpProcessorListener(Message message)async{
 
   }
@@ -61,7 +71,31 @@ class HttpReaderWriter{
   static Future requestHandler(HttpRequest httpRequest) async{
     print('[HttpRequest received: ${httpRequest.uri}]');
     requestQueue.add(httpRequest);
-    unawaited (processRequest());
+    var timer = Timer(requestTimeout, ()=>httpRequestTimeout(httpRequest));
+    await processRequest();
+  }
+  static void httpRequestTimeout(HttpRequest request){
+    print('[HttpReaderWriter.httpRequestTimeout]');
+    if(requestQueue.contains(request)){//If request in requestQueue, it has not been processed yet
+      requestQueue.remove(request);
+    }
+    else if(!httpRequestsMap.containsValue(request)){//All requests that have been sent to the processor and processing has not completed should be in httpRequestsMap
+      return;
+    }
+    else{
+      var id = -1;
+      for(var entry in httpRequestsMap.entries){
+        if(entry.value == request){
+          id = entry.key;
+          break;
+        }
+      }
+      if(id < 0){//Formal check, this situation is impossible
+        return;
+      }
+      httpRequestsMap.remove(id);
+    }
+    sendResponse(request.response, Response.requestTimeout());
   }
 
   static Future mainProcessListener(dynamic message) async{
@@ -84,18 +118,26 @@ class HttpReaderWriter{
       }
       case MessageTypes.processorReady:{
         message = message as MessageHttpProcessorReady;
+        var timer = timeoutMap[message.id];
+        if(timer != null){
+          timer.cancel();
+        }
         var port = processorPorts[message.id];
         if(port == null){
           print('[HttpReaderWriter.mainProcessListener]SendPort is null!');
           break;
         }
         processorsQueue.add(SendPortId(message.id,port));
-        unawaited(processRequest());
+        await processRequest();
         break;
       }
       case MessageTypes.httpResponse:{
         message = message as MessageHttpResponse;
-        unawaited(processResponse(message.id, message.response));
+        var timer = timeoutMap[message.id];
+        if(timer != null){
+          timer.cancel();
+        }
+        await processResponse(message.id, message.response);
         break;
       }
       default:{
@@ -115,14 +157,24 @@ class HttpReaderWriter{
     var request = await Request.prepare(httpRequest);
     httpRequestsMap[sendPortId.id] = httpRequest;
     var message = MessageHttpRequest(request, _id);
+    timeoutMap[sendPortId.id] = Timer(processorTimeout, ()=>processorTimeoutCallback(sendPortId.id));
     sendPortId.port.send(message);
   }
+  static void processorTimeoutCallback(int id) async{
+    print('[HttpReaderWriter.processorTimeoutCallback]');
+    var isolate = processors[id];
+    isolate.kill(priority: Isolate.immediate);
+    isolate = await _spawn(id);
+    processors[id] = isolate;
+  }
   static Future processResponse(int id, Response response) async{
-    var httpRequest = httpRequestsMap.remove(id);;
+    var httpRequest = httpRequestsMap.remove(id);
     if(httpRequest == null){
       return;
     }
-    var httpResponse = httpRequest.response;
+    await sendResponse(httpRequest.response, response);
+  }
+  static Future sendResponse(HttpResponse httpResponse, Response response)async{
     var headers = response.headers;
     var keys = headers.keys;
     for(var key in keys){
@@ -134,24 +186,23 @@ class HttpReaderWriter{
     }
     httpResponse.statusCode = response.status;
     var body = response.body;
-    if(body.rawBody.isNotEmpty) {
-      switch(response.body.type){
-        case BodyTypes.text:
-          httpResponse.headers.contentType = ContentType.text;
-          httpResponse.write(body.asString());
-          break;
-        case BodyTypes.json:
-          httpResponse.headers.contentType = ContentType.json;
-          httpResponse.write(body.asJsonMap());
-          break;
-        case BodyTypes.raw:
-          httpResponse.headers.contentType = ContentType.binary;
-          httpResponse.write(body.rawBody);
-          break;
-        case BodyTypes.empty:
-          break;
-      }
-
+    switch(response.body.type){
+      case BodyTypes.text:
+        httpResponse.headers.contentType = ContentType.text;
+        httpResponse.write(body.asString());
+        break;
+      case BodyTypes.json:
+        httpResponse.headers.contentType = ContentType.json;
+        httpResponse.write(body.asJsonMap());
+        break;
+      case BodyTypes.raw:
+        httpResponse.headers.contentType = ContentType.binary;
+        httpResponse.write(body.rawBody);
+        break;
+      case BodyTypes.empty:
+        httpResponse.headers.contentType = ContentType.text;
+        httpResponse.write('');
+        break;
     }
     await httpResponse.close();
   }

@@ -27,4 +27,8 @@ class Response implements RequestOrResponse{
     body ??= Body.empty();
     this.body = body;
   }
+  Response.requestTimeout({Body? body}):status = HttpStatus.requestTimeout{
+    body ??= Body.empty();
+    this.body = body;
+  }
 }
