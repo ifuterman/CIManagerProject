@@ -82,7 +82,7 @@ class HttpReaderWriter{
         processorsQueue.add(SendPortId(msg.id, msg.sendPort));
         break;
       }
-      case MessageTypes.processorReady:{
+     case MessageTypes.processorReady:{
         message = message as MessageHttpProcessorReady;
         var port = processorPorts[message.id];
         if(port == null){
@@ -90,12 +90,13 @@ class HttpReaderWriter{
           break;
         }
         processorsQueue.add(SendPortId(message.id,port));
-        unawaited(processRequest());
+        await processRequest();
         break;
       }
       case MessageTypes.httpResponse:{
         message = message as MessageHttpResponse;
-        unawaited(processResponse(message.id, message.response));
+
+        await processResponse(message.id, message.response);
         break;
       }
       default:{
@@ -118,7 +119,7 @@ class HttpReaderWriter{
     sendPortId.port.send(message);
   }
   static Future processResponse(int id, Response response) async{
-    var httpRequest = httpRequestsMap.remove(id);;
+    var httpRequest = httpRequestsMap.remove(id);
     if(httpRequest == null){
       return;
     }

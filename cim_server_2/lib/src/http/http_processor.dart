@@ -74,6 +74,6 @@ class HttpProcessor{
     var response = router!.processRequest(request);
     var responseMessage = MessageHttpResponse(response, id);
     callerPort!.send(responseMessage);
-//    callerPort!.send(MessageHttpProcessorReady(id));
+    callerPort!.send(MessageHttpProcessorReady(id));
   }
 }
