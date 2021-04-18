@@ -7,6 +7,11 @@ import 'package:cim_server_2/src/http/request_or_response.dart';
 import 'package:cim_server_2/src/http/response.dart';
 import 'package:cim_server_2/src/http/router.dart';
 
+class TestAnnotation{
+  const TestAnnotation(this.name);
+  final String name;
+}
+
 class TestController extends Controller{
   @override
   RequestOrResponse handle(Request request) {
@@ -24,5 +29,6 @@ class AppChannel extends ApplicationChannel{
         .link(() => TestController());
     return router;
   }
-
+  @TestAnnotation('xxx')
+  int variable = 0;
 }
