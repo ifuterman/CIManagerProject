@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cim_server_2/src/http/application_channel.dart';
 import 'package:cim_server_2/src/http/controller.dart';
 import 'package:cim_server_2/src/http/request.dart';
@@ -8,6 +10,7 @@ import 'package:cim_server_2/src/http/router.dart';
 class TestController extends Controller{
   @override
   RequestOrResponse handle(Request request) {
+    sleep(Duration(seconds: 30));
     return Response.ok();
   }
   

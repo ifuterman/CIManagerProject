@@ -22,9 +22,11 @@ class HttpReaderWriter{
   static int _id = 0;
   static List<Isolate> processors = List.empty(growable: true);
   static Map<int, SendPort> processorPorts = {};
-  static Queue<HttpRequest> requestQueue = Queue();
+//  static Queue<HttpRequest> requestQueue = Queue();
+  static Queue<MapEntry<HttpRequest, Timer>> requestQueue = Queue();
   static Queue<SendPortId> processorsQueue = Queue();
-  static Map<int, HttpRequest> httpRequestsMap = {};
+//  static Map<int, HttpRequest> httpRequestsMap = {};
+  static Map<int, MapEntry<HttpRequest, Timer>> httpRequestsMap = {};
   static Map<int, Timer> timeoutMap = {};
   static HttpServer? server;
   static Type? channelType;
@@ -70,32 +72,45 @@ class HttpReaderWriter{
 
   static Future requestHandler(HttpRequest httpRequest) async{
     print('[HttpRequest received: ${httpRequest.uri}]');
-    requestQueue.add(httpRequest);
     var timer = Timer(requestTimeout, ()=>httpRequestTimeout(httpRequest));
+    var entry = MapEntry(httpRequest, timer);
+//    requestQueue.add(httpRequest);
+    requestQueue.add(entry);
     await processRequest();
   }
   static void httpRequestTimeout(HttpRequest request){
     print('[HttpReaderWriter.httpRequestTimeout]');
-    if(requestQueue.contains(request)){//If request in requestQueue, it has not been processed yet
-      requestQueue.remove(request);
+    /*if(requestQueue.contains(requestEntry)){//If request in requestQueue, it has not been processed yet
+
+      requestQueue.remove(requestEntry);
+    }*/
+    var entries = requestQueue.toList();
+    MapEntry<HttpRequest, Timer>? requiredEntry = null;
+    for(var entry in entries){
+      if(entry.key == request)
+        {
+          requiredEntry = entry;
+          break;
+        }
     }
-    else if(!httpRequestsMap.containsValue(request)){//All requests that have been sent to the processor and processing has not completed should be in httpRequestsMap
-      return;
+    if(requiredEntry != null){
+      requestQueue.remove(requiredEntry);
     }
-    else{
+    else {
       var id = -1;
-      for(var entry in httpRequestsMap.entries){
-        if(entry.value == request){
-          id = entry.key;
+      for (var mapEntry in httpRequestsMap.entries) {
+        if (mapEntry.value.key == request) {
+          id = mapEntry.key;
+          requiredEntry = mapEntry.value;
           break;
         }
       }
-      if(id < 0){//Formal check, this situation is impossible
+      if(id < 0){
         return;
       }
       httpRequestsMap.remove(id);
     }
-    sendResponse(request.response, Response.requestTimeout());
+    sendResponse(requiredEntry!.key.response, Response.requestTimeout());
   }
 
   static Future mainProcessListener(dynamic message) async{
@@ -153,9 +168,10 @@ class HttpReaderWriter{
       return;
     }
     var sendPortId = processorsQueue.removeFirst();
-    var httpRequest = requestQueue.removeFirst();
+    var entry = requestQueue.removeFirst();
+    var httpRequest = entry.key;
     var request = await Request.prepare(httpRequest);
-    httpRequestsMap[sendPortId.id] = httpRequest;
+    httpRequestsMap[sendPortId.id] = entry;
     var message = MessageHttpRequest(request, _id);
     timeoutMap[sendPortId.id] = Timer(processorTimeout, ()=>processorTimeoutCallback(sendPortId.id));
     sendPortId.port.send(message);
@@ -168,10 +184,12 @@ class HttpReaderWriter{
     processors[id] = isolate;
   }
   static Future processResponse(int id, Response response) async{
-    var httpRequest = httpRequestsMap.remove(id);
-    if(httpRequest == null){
+    var entry = httpRequestsMap.remove(id);
+    if(entry == null){
       return;
     }
+    entry.value.cancel();
+    var httpRequest = entry.key;
     await sendResponse(httpRequest.response, response);
   }
   static Future sendResponse(HttpResponse httpResponse, Response response)async{
@@ -201,7 +219,6 @@ class HttpReaderWriter{
         break;
       case BodyTypes.empty:
         httpResponse.headers.contentType = ContentType.text;
-        httpResponse.write('');
         break;
     }
     await httpResponse.close();
