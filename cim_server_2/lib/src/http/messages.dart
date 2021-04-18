@@ -32,12 +32,13 @@ class MessageSendPort extends Message{
 }
 
 class MessageInitServer extends Message{
+  Duration timeout;
   int threadsCount;
   String host;
   int serverPort;
   SendPort callerPort;
   Type applicationChannel;
-  MessageInitServer( this.callerPort,this.threadsCount, this.host, this.serverPort, int id, this.applicationChannel):super(id);
+  MessageInitServer( this.callerPort,this.threadsCount, this.host, this.serverPort, int id, this.applicationChannel, this.timeout):super(id);
   @override
   MessageTypes getType() => MessageTypes.initServer;
 }

@@ -8,7 +8,7 @@ import 'package:cim_server_2/src/http/server.dart';
 void main(List<String> args) async {
   var config = ServerConfiguration;
   var server = Server<AppChannel>(config.host, config.port);
-  await server.start();
+  await server.start(timeout: Duration(seconds: 30));
 /*  var parser = ArgParser()..addOption('port', abbr: 'p');
   var result = parser.parse(args);
 
