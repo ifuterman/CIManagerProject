@@ -22,10 +22,11 @@ class Server<T extends ApplicationChannel>{
   late SendPort _readPort;
   late StreamSubscription _subscription;
 //  static Future<Server> onInit(Server server) async {return server;}
-    Future start ([int count = 2]) async{
+    Future start ({int count = 2, Duration? timeout}) async{
+      timeout ??= Duration(seconds: 30);
       var type = reflectType(T).reflectedType;
       var callerPort = ReceivePort();
-      var initMessage = MessageInitServer(callerPort.sendPort, count, host, port, servers.length, type);
+      var initMessage = MessageInitServer(callerPort.sendPort, count, host, port, servers.length, type, timeout);
       _readIsolate = await Isolate.spawn<MessageInitServer>(HttpReaderWriter.readIsolateEntryPoint, initMessage);
       _subscription = callerPort.listen(callbackReadIsolateListener);
       servers.add(this);
