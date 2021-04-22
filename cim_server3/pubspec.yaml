@@ -8,7 +8,7 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  liquidart: 5.0.0-b7
+  liquidart: ^5.0.0-b7
   cim_protocol:
     path: ../cim_protocol-0.1.0/
 #  path: ^1.7.0

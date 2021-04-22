@@ -14,3 +14,5 @@ void main(List<String> arguments) async{
   final count = Platform.numberOfProcessors ~/ (Platform.numberOfProcessors / 2);
   await app.start(numberOfInstances: count > 0 ? count : 1, consoleLogging: config.console_logging);
 }
+
+
