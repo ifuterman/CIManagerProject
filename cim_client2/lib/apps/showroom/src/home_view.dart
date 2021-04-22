@@ -20,7 +20,7 @@ class HomeView extends AppGetView<HomeViewController>  {
               10.h(),
               ElevatedButton(
                 onPressed: c.close,
-                child: Text('home'),
+                child: Text('back'),
               ),
             ],
           ),
