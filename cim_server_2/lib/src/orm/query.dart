@@ -3,15 +3,16 @@ import 'dart:mirrors';
 import 'package:cim_server_2/src/orm/annotations.dart';
 import 'package:cim_server_2/src/orm/connection.dart';
 
-void Test(){
-
-  var connection = Connection('host', 1, 'databaseName');
-  var query = Query<TestTable>(connection).where(expression);
-}
 
 class ManagedObject<T>{
+  final T _instance = reflectClass(T).newInstance(Symbol.empty,List.empty()).reflectee;
+
   @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+  dynamic noSuchMethod(Invocation invocation) {
+    var instanceMirror = reflect(_instance);
+    var result = instanceMirror.delegate(invocation);
+    return result;
+  }
   ManagedObject();
   static ManagedObject makeInstance(){
     throw UnimplementedError();
@@ -33,14 +34,28 @@ class Predicate <T>{
 
 }
 
-class Expression <T>{
-  Expression(Predicate Function(T type) function);
+class Expression <T, InstanceType>{
+  Expression(InstanceType);
+  late String value;
+  Expression equalTo(T value){
+    return this;
+  }
 }
-class Query<T extends ManagedData>{
-  T value = T();
+class Query<InstanceType extends ManagedObject>{
+  List<Expression> whereClause = List.empty(growable: true);
   final Connection _connection;
   Query(this._connection);
-  Query where(Expression expression){
-    return this;
- }
+  Expression<T, InstanceType> where<T>(
+      T Function(InstanceType type) propertyIdentifier){
+    var funcMirror = reflect(propertyIdentifier);
+    var expression = Expression<T, InstanceType>(propertyIdentifier);
+    whereClause.add(expression);
+    return expression;
+  }
+}
+
+void Test(){
+
+  var connection = Connection('host', 1, 'databaseName');
+  var query = Query<TestTable>(connection).where((x) => x.id);
 }

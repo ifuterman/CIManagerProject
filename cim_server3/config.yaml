@@ -1,0 +1,9 @@
+server_host: localhost
+server_port: 8888
+console_logging: true
+database:
+  host: 45.86.183.142
+  port: 5432
+  databaseName: cim_database
+  password: cimtestserver
+  username: cimserver

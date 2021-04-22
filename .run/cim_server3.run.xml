@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="cim_server3" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+    <option name="filePath" value="$PROJECT_DIR$/cim_server3/bin/cim_server3.dart" />
+    <method v="2" />
+  </configuration>
+</component>
