@@ -1,4 +1,5 @@
 import 'package:cim_client2/apps/home/src/home_view_controller.dart';
+import 'package:cim_client2/apps/showroom/src/show_room_view_controller.dart';
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:cim_client2/core/routes.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -30,13 +31,21 @@ class GlobalService extends AppGetxService {
         setWindowTitle('title'.tr());
       }
     });
-    _start();
+    // _start();
+    _debugStart();
   }
 
   void _start() {
     delayMilli(2000).then((_) {
       SmartNavigation.put<HomeViewController>(
           HomeViewController()..offAllPage(transition: Transition.fadeIn));
+    });
+  }
+
+  void _debugStart() {
+    delayMilli(2000).then((_) {
+      SmartNavigation.put<ShowRoomViewController>(
+          ShowRoomViewController()..offAllPage(transition: Transition.fadeIn));
     });
   }
 }
