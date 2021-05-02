@@ -30,9 +30,9 @@ class ShowRoomView extends AppGetView<ctrl.ShowRoomViewController>  {
               ),
               10.h(),
               ElevatedButton.icon(
-                onPressed: c.homeState,
-                icon: ctrl.State.home.icon,
-                label: Text('to_excel'.tr()),
+                onPressed: c.excelState,
+                icon: ctrl.State.excel.icon,
+                label: Text(ctrl.State.excel.key.tr()),
               ),
             ],
           ),
