@@ -12,7 +12,7 @@ class ExcelViewController extends AppGetxService
 
   late CacheProvider _cache;
 
-  final data$ = Rx<ExcelPage>(ExcelPage.nil);
+  final data$ = Rx<ExcelPage>(ExcelPage.empty);
 
   @override
   get defaultGetPageBuilder => () => ExcelView();
@@ -20,6 +20,7 @@ class ExcelViewController extends AppGetxService
   @override
   void onInit() {
     super.onInit();
+    debugPrint('$now: ExcelViewController.onInit');
     _cache = Get.find<CacheProvider>();
   }
 

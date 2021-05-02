@@ -11,7 +11,7 @@ class ExcelPage extends Equatable {
     this.height = 10 + 1,
   }) : captions = ExcelRow(length: width, index: startRowIndex);
 
-  static final nil = ExcelPage(path: '', title: '');
+  static final empty = ExcelPage(path: '', title: '', width: 0, height: 0);
 
   /// File path
   final String path;
@@ -37,16 +37,18 @@ class ExcelPage extends Equatable {
   /// Other rows in sample
   final data = <ExcelRow>[];
 
+  final whole = <ExcelRow>[];
+
   @override
   List<Object> get props => [
         path,
         title,
-        startRowIndex,
-        startColumnIndex,
-        width,
-        height,
-        captions,
-        data
+        'start_row: $startRowIndex',
+        'start_col: $startColumnIndex',
+        'width: $width',
+        'height: $height',
+        'captions: $captions',
+        'data: $data'
       ];
 }
 
@@ -62,7 +64,7 @@ class ExcelRow extends Equatable {
   final data = <int, dynamic>{};
 
   @override
-  List<Object> get props => [length, data];
+  List<Object> get props => ['length: $length', 'index: $index', 'data: $data'];
 }
 
 ///
@@ -71,5 +73,5 @@ class ExcelDataChunk extends Equatable {
   final invalid = <ExcelRow>[];
 
   @override
-  List<Object> get props => [valid, invalid];
+  List<Object> get props => ['valid: $valid', 'invalid: $invalid'];
 }

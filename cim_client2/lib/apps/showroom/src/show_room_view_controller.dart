@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
 
-import 'excel_view_controller.dart';
 import 'home_view_controller.dart';
 import 'show_room_view.dart';
 import 'splash_view_controller.dart';
+import 'xcel_view_controller.dart';
 
 
 class ShowRoomViewController extends AppGetxController
@@ -53,15 +53,27 @@ class ShowRoomViewController extends AppGetxController
 
   void excelState() {
     if(_state == State.main){
-      SmartNavigation.put(ExcelViewController()..toPage(
+      SmartNavigation.put(XcelViewController()..toPage(
           onClose: (c, {args}) {
             Get.back();
             _state = State.main;
           }
       ));
+      _state = State.excel;
     }
-    _state = State.home;
   }
+
+  // void excelState() {
+  //   if(_state == State.main){
+  //     SmartNavigation.put(ExcelViewController()..toPage(
+  //         onClose: (c, {args}) {
+  //           Get.back();
+  //           _state = State.main;
+  //         }
+  //     ));
+  //   }
+  //   _state = State.excel;
+  // }
 
   @override
   void onInit() {
@@ -99,5 +111,5 @@ class _HomeState extends State {
 }
 
 class _ExcelState extends State {
-  _ExcelState() : super(key: 'excel', icon: Icon(Icons.subscript));
+  _ExcelState() : super(key: 'to_excel', icon: Icon(Icons.subscript));
 }
