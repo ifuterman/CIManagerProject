@@ -18,15 +18,13 @@ class ExcelView extends AppGetView<ExcelViewController> {
                 children: List.generate(5, (index) => Container()),
               ),
               Obx(() {
-                final len = c.data$().height;
-                debugPrint('$now: ExcelView.build: len = $len');
+                final rowCount = c.data$().rowCount;
                 return Column(
-                    children: List.generate(len, (i) {
+                    children: List.generate(rowCount, (i) {
                   final row = c.data$().data[i];
-                  debugPrint('$now: ExcelView.build: i = $i, row = $row');
-                  final rLen = row.data.values.length;
+                  final colCount = c.data$().columnCount;
                   return Row(
-                    children: List.generate(rLen, (j) {
+                    children: List.generate(colCount, (j) {
                       return Container(
                         padding: EdgeInsets.all(2),
                         child: Text('${row.data.values.toList()[j]}'),

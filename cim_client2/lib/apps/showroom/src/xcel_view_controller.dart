@@ -57,8 +57,8 @@ class XcelViewController extends AppGetxController
   void _update() {
     _cache
         .fetchExcelPage(
-      width: 3,
-      height: 2,
+      columnCount: 10,
+      rowCount: 10,
       startRowIndex: _startRow,
       startColumnIndex: _startCol,
     )

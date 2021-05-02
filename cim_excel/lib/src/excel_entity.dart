@@ -7,11 +7,11 @@ class ExcelPage extends Equatable {
     required this.title,
     this.startRowIndex = 0,
     this.startColumnIndex = 0,
-    this.width = 10,
-    this.height = 10 + 1,
-  }) : captions = ExcelRow(length: width, index: startRowIndex);
+    this.columnCount = 10,
+    this.rowCount = 11,
+  }) : captions = ExcelRow(length: columnCount, index: startRowIndex);
 
-  static final empty = ExcelPage(path: '', title: '', width: 0, height: 0);
+  static final empty = ExcelPage(path: '', title: '', columnCount: 0, rowCount: 0);
 
   /// File path
   final String path;
@@ -26,10 +26,10 @@ class ExcelPage extends Equatable {
   final int startColumnIndex;
 
   /// Sample width (in columns)
-  final int width;
+  final int columnCount;
 
   /// Sample height (in rows)
-  final int height;
+  final int rowCount;
 
   /// Captions (first row in sample)
   final ExcelRow captions;
@@ -45,8 +45,8 @@ class ExcelPage extends Equatable {
         title,
         'start_row: $startRowIndex',
         'start_col: $startColumnIndex',
-        'width: $width',
-        'height: $height',
+        'width: $columnCount',
+        'height: $rowCount',
         'captions: $captions',
         'data: $data'
       ];
