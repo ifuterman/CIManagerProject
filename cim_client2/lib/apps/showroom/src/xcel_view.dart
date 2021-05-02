@@ -38,6 +38,28 @@ class XcelView extends AppGetView<XcelViewController>  {
                   }),
                 );
               }),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: c.rowUp,
+                    child: Text('row up'.tr()),
+                  ),
+                  ElevatedButton(
+                    onPressed: c.rowDown,
+                    child: Text('row down'.tr()),
+                  ),
+                  ElevatedButton(
+                    onPressed: c.colUp,
+                    child: Text('col up'.tr()),
+                  ),
+                  ElevatedButton(
+                    onPressed: c.colDown,
+                    child: Text('col down'.tr()),
+                  ),
+                ],
+              ),
               ElevatedButton(
                 onPressed: c.close,
                 child: Text('back'.tr()),

@@ -37,20 +37,21 @@ class CacheProviderImpl extends GetConnect implements CacheProvider {
         width: width,
         height: height);
 
-    debugPrint('$now: CacheProviderImpl.fetchExcelPage.0: w = $width, h = $height');
+    debugPrint('$now: CacheProviderImpl.fetchExcelPage.0: w = $width, h = $height, '
+        'startRow = $startRowIndex, startCol = $startColumnIndex');
     for (var table in excel.tables.keys) {
       debugPrint('$now: CacheProviderImpl.fetchExcelPage.1: $table');
       final sheet = excel.tables[table];
-      for (var ri = startRowIndex; ri < height; ++ri) {
+      for (var ri = 0; ri < height; ++ri) {
         // sheet!.row(ri) returns all the data from Library!
-        final List<Data?> fullRow = sheet!.row(ri);
+        final List<Data?> fullRow = sheet!.row(ri+startRowIndex);
         // debugPrint('$now: CacheProviderImpl.fetchExcelPage.2: fullRow = $fullRow\n---------');
         if (ri > 0) {
           page.data.add(ExcelRow(length: width, index: ri-1));
         }
         for (var ci = 0; ci < width; ++ci) {
           final map = <int, dynamic>{};
-          map[ci] = fullRow[ci]?.value;
+          map[ci] = fullRow[ci+startColumnIndex]?.value;
           debugPrint('$now: CacheProviderImpl.fetchExcelPage: RC[$ri:$ci] = ${map[ci]}');
           if (ri == 0) {
             page.captions.data[ci] = map[ci];
@@ -58,7 +59,7 @@ class CacheProviderImpl extends GetConnect implements CacheProvider {
           } else {
             // final er = ExcelRow(length: width, index: ri);
             // er.data.assignAll(map);
-            // debugPrint('$now: CacheProviderImpl.fetchExcelPage: one row = ${er}');
+            debugPrint('$now: CacheProviderImpl.fetchExcelPage: ri-1 = ${ri-1}, ci = $ci');
             page.data[ri-1].data[ci] = map[ci];
             debugPrint('$now: CacheProviderImpl.fetchExcelPage: page.data = ${page.data}');
           }

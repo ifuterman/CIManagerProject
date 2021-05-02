@@ -12,7 +12,6 @@ import 'xcel_view.dart';
 
 class XcelViewController extends AppGetxController
     with SmartNavigationMixin<XcelViewController> {
-
   XcelViewController({CacheProvider? cacheProvider})
       : this._cache = cacheProvider ?? Get.find<CacheProvider>();
 
@@ -22,16 +21,49 @@ class XcelViewController extends AppGetxController
 
   final state = State.excel;
 
+  var _startRow = 0;
+  var _startCol = 0;
+
   @override
   get defaultGetPageBuilder => () => XcelView();
+
+  void rowUp() {
+    _startRow += 1;
+    _update();
+  }
+
+  void rowDown() {
+    _startRow = _startRow > 0 ? _startRow - 1 : _startRow;
+    _update();
+  }
+
+  void colUp() {
+    _startCol += 1;
+    _update();
+  }
+
+  void colDown() {
+    _startCol = _startCol > 0 ? _startCol - 1 : _startCol;
+    _update();
+  }
 
   @override
   void onReady() {
     super.onReady();
-    _cache.fetchExcelPage(width: 3, height: 2).then((value) {
-      page$(value.data);
-    });
+    _update();
     debugPrint('$now: ExcelViewController.onReady');
   }
 
+  void _update() {
+    _cache
+        .fetchExcelPage(
+      width: 3,
+      height: 2,
+      startRowIndex: _startRow,
+      startColumnIndex: _startCol,
+    )
+        .then((value) {
+      page$(value.data);
+    });
+  }
 }
