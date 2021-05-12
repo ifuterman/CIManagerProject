@@ -6,9 +6,13 @@ import 'package:cim_server_2/src/orm/connection.dart';
 
 class ManagedObject<T>{
   final T _instance = reflectClass(T).newInstance(Symbol.empty,List.empty()).reflectee;
+  bool trace = false;
 
   @override
   dynamic noSuchMethod(Invocation invocation) {
+    if(trace){
+      print('trace key');
+    }
     var instanceMirror = reflect(_instance);
     var result = instanceMirror.delegate(invocation);
     return result;
@@ -45,12 +49,16 @@ class Query<InstanceType extends ManagedObject>{
   List<Expression> whereClause = List.empty(growable: true);
   final Connection _connection;
   Query(this._connection);
-  Expression<T, InstanceType> where<T>(
-      T Function(InstanceType type) propertyIdentifier){
+  void where(
+      dynamic Function(InstanceType type) propertyIdentifier){
+    var instanceMirror = reflectClass(InstanceType);
+    var instance = instanceMirror.newInstance(Symbol.empty,List.empty()).reflectee;
+//    (instance as ManagedObject).trace = true;
+    propertyIdentifier.call(instance);
     var funcMirror = reflect(propertyIdentifier);
-    var expression = Expression<T, InstanceType>(propertyIdentifier);
-    whereClause.add(expression);
-    return expression;
+//    var expression = Expression<T, InstanceType>(propertyIdentifier);
+//    whereClause.add(expression);
+//    return expression;
   }
 }
 
