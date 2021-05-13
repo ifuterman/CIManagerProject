@@ -30,7 +30,7 @@ class ShowRoomViewController extends AppGetxController
   void splashState() {
     if(_state == State.main){
       SmartNavigation.put(SplashViewController()..toPage(
-        onClose: (c, {args}) {
+        onClose: (c, {Map<String, dynamic>? args}) {
           Get.back();
           _state = State.main;
         }
@@ -42,7 +42,7 @@ class ShowRoomViewController extends AppGetxController
   void homeState() {
     if(_state == State.main){
       SmartNavigation.put(HomeViewController()..toPage(
-          onClose: (c, {args}) {
+          onClose: (c, {Map<String, dynamic>? args}) {
             Get.back();
             _state = State.main;
           }
@@ -54,7 +54,7 @@ class ShowRoomViewController extends AppGetxController
   void excelState() {
     if(_state == State.main){
       SmartNavigation.put(XcelViewController()..toPage(
-          onClose: (c, {args}) {
+          onClose: (c, {Map<String, dynamic>? args}) {
             Get.back();
             _state = State.main;
           }
