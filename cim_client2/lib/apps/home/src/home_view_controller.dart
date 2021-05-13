@@ -100,7 +100,7 @@ class HomeViewController extends AppGetxController
     // }
 
     SmartNavigation.put(ExcelViewController()..toPage(
-      onClose: (c, {args}){
+      onClose: (c, {Map<String, dynamic>? args}){
         Get.back();
       }
     ));

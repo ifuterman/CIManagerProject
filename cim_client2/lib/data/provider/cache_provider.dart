@@ -12,8 +12,8 @@ abstract class CacheProvider {
   Future<Boolean<ExcelPage>> fetchExcelPage({
     int startRowIndex = 0,
     int startColumnIndex = 0,
-    int width = 10,
-    int height = 10 + 1,
+    int columnCount = 10,
+    int rowCount = 10 + 1,
   });
 }
 
@@ -22,8 +22,8 @@ class CacheProviderImpl extends GetConnect implements CacheProvider {
   Future<Boolean<ExcelPage>> fetchExcelPage({
     int startRowIndex = 0,
     int startColumnIndex = 0,
-    int width = 10,
-    int height = 10 + 1,
+    int columnCount = 10,
+    int rowCount = 11,
   }) async {
     ByteData data = await rootBundle.load("assets/files/demo.xlsx");
     var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
@@ -34,29 +34,29 @@ class CacheProviderImpl extends GetConnect implements CacheProvider {
         title: 'title',
         startColumnIndex: startColumnIndex,
         startRowIndex: startRowIndex,
-        width: width,
-        height: height);
+        columnCount: columnCount,
+        rowCount: rowCount);
 
     for (var table in excel.tables.keys) {
-      debugPrint('$now: CacheProviderImpl.fetchExcelPage: $table');
-      final sh = excel.tables[table];
-      for (var i = startRowIndex; i < height; ++i) {
-        final List<Data?> row = sh!.row(i);
-        for (var k = 0; k < width; ++k) {
+      final sheet = excel.tables[table];
+      for (var ri = 0; ri < rowCount; ++ri) {
+        final List<Data?> fullRow = sheet!.row(ri+startRowIndex);
+        if (ri > 0) {
+          page.data.add(ExcelRow(length: columnCount, index: ri-1));
+        }
+        for (var ci = 0; ci < columnCount; ++ci) {
           final map = <int, dynamic>{};
-          map[k] = row[k]?.value;
-          if (i == 0) {
-            page.captions.data.assignAll(map);
+          map[ci] = fullRow[ci+startColumnIndex]?.value;
+          if (ri == 0) {
+            page.captions.data[ci] = map[ci];
           } else {
-            final er = ExcelRow(length: width, index: i);
-            er.data.assignAll(map);
-            page.data.add(er);
+            page.data[ri-1].data[ci] = map[ci];
           }
         }
       }
       break;
     }
-    debugPrint('$now: >> CacheProviderImpl.fetchExcelPage: $page');
+    page.whole.assignAll([page.captions, ...page.data]);
     return True(data: page);
   }
 }
