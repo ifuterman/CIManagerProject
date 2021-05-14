@@ -1,4 +1,4 @@
-import 'package:cim_server_2/src/orm/database_types.dart';
+import 'package:cim_server_2/src/orm/src/database_types.dart';
 
 class Table{
   final String name;

@@ -85,7 +85,7 @@ class HttpReaderWriter{
       requestQueue.remove(requestEntry);
     }*/
     var entries = requestQueue.toList();
-    MapEntry<HttpRequest, Timer>? requiredEntry = null;
+    MapEntry<HttpRequest, Timer>? requiredEntry;
     for(var entry in entries){
       if(entry.key == request)
         {

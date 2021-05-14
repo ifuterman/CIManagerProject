@@ -15,7 +15,6 @@ class Server<T extends ApplicationChannel>{
   int _id = 0;
   final String _host;
   final int _port;
-//  Server._(this._id, this._host, this._port, int threadsCount, this._readIsolate, this._subscription, {this.onInit});
   String get host => _host;
   int get port => _port;
   late Isolate _readIsolate;
