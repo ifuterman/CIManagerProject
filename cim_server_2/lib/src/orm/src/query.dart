@@ -1,75 +1,12 @@
 
 import 'dart:mirrors';
 
+import 'expression.dart';
 import 'managed_object.dart';
 import 'package:cim_server_2/src/orm/src/annotations.dart';
 import 'package:cim_server_2/src/orm/src/connection.dart';
 import 'package:postgres/postgres.dart';
-
-
-
-
-
-
-
-class Predicate {
-  dynamic value;
-  Predicate(this.value);
-}
-
-class EqualPredicate extends Predicate{
-  EqualPredicate(dynamic value):super(value);
-}
-
-class MorePredicate extends Predicate{
-
-  MorePredicate(dynamic value):super(value);
-}
-
-class LessPredicate extends Predicate{
-  LessPredicate(dynamic value):super(value);
-}
-
-class NotEqualPredicate extends Predicate{
-  NotEqualPredicate(dynamic value):super(value);
-}
-
-enum ExpressionTypes{
-  and,
-  or
-}
-class Expression {
-  ExpressionTypes get expressionType => ExpressionTypes.and;
-  Symbol key;
-  final predicates = List<Predicate>.empty(growable: true);
-  Expression(this.key);
-  Expression equalTo(dynamic value){
-    predicates.add(EqualPredicate(value));
-    return this;
-  }
-  Expression notEqual(dynamic value){
-    predicates.add(NotEqualPredicate(value));
-    return this;
-  }
-  Expression moreThen(dynamic value){
-    predicates.add(MorePredicate(value));
-    return this;
-  }
-
-  Expression lessThen(dynamic value){
-    predicates.add(LessPredicate(value));
-    return this;
-  }
-}
-
-class OrExpression extends Expression{
-  OrExpression(Symbol key): super(key);
-
-  @override
-  ExpressionTypes get expressionType => ExpressionTypes.or;
-}
-
-class WrongMetadataStructure extends Error{}
+import 'exceptions.dart';
 
 class Query<InstanceType extends ManagedObject>{
   List<Expression> whereClause = List.empty(growable: true);
@@ -78,14 +15,20 @@ class Query<InstanceType extends ManagedObject>{
   Expression where(
       dynamic Function(InstanceType type) propertyIdentifier){
     var key = traceKey(propertyIdentifier);
-    var expression = Expression(key);
+    var expression;
+    if(whereClause.isEmpty){
+      expression = Expression(key, expressionType: ExpressionTypes.first);
+    }
+    else{
+      expression = Expression(key);
+    }
     whereClause.add(expression);
     return expression;
   }
 
   Expression orWhere(dynamic Function(InstanceType type) propertyIdentifier){
     var key = traceKey(propertyIdentifier);
-    var expression = OrExpression(key);
+    var expression = Expression(key, expressionType: ExpressionTypes.or);
     whereClause.add(expression);
     return expression;
   }
@@ -103,6 +46,12 @@ class Query<InstanceType extends ManagedObject>{
   Future<List<InstanceType>> select() async{
     var table = getTableName();
     var query = 'SELECT * FROM $table';
+    if(whereClause.isNotEmpty){
+      query += ' WHERE ';
+      for(var i = 0; i < whereClause.length; i++) {
+        query += whereClause[i].buildQuery();
+      }
+    }
     var result = await sendQuery(query);
     return parseResult(result);
   }
@@ -132,7 +81,6 @@ class Query<InstanceType extends ManagedObject>{
       await _connection.open();
     }
     var result = await _connection.query(query);
-    print(result);
     return result;
   }
 

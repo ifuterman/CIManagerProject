@@ -12,7 +12,7 @@ void main(List<String> args) async {
   await server.start(timeout: Duration(seconds: 30));*/
   var connection = Connection('45.86.183.142', 5432, 'cim_database', username: 'cimserver', password: 'cimtestserver');
   var query = Query<TestTable>(connection)
-    ..where((x) => x.id).equalTo(0);
+    ..where((x) => x.id).equalTo(159);
   var r = await query.select();
 
 }
