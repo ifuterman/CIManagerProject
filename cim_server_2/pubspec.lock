@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "20.0.0"
-  alfred:
-    dependency: "direct main"
-    description:
-      name: alfred
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.3+2"
   analyzer:
     dependency: transitive
     description:
@@ -99,13 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-  enum_to_string:
-    dependency: transitive
-    description:
-      name: enum_to_string
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   file:
     dependency: transitive
     description:
@@ -180,13 +166,6 @@ packages:
     dependency: transitive
     description:
       name: mime
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  mime_type:
-    dependency: transitive
-    description:
-      name: mime_type
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"

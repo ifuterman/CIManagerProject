@@ -9,9 +9,13 @@ import 'package:postgres/postgres.dart';
 import 'exceptions.dart';
 
 class Query<InstanceType extends ManagedObject>{
+  late InstanceType values;
   List<Expression> whereClause = List.empty(growable: true);
-  final Connection _connection;
-  Query(this._connection);
+  Connection _connection;
+  Query(this._connection){
+    var instanceMirror = reflectClass(InstanceType);
+    values = instanceMirror.newInstance(Symbol.empty,List.empty()).reflectee;
+  }
   Expression where(
       dynamic Function(InstanceType type) propertyIdentifier){
     var key = traceKey(propertyIdentifier);
@@ -52,8 +56,79 @@ class Query<InstanceType extends ManagedObject>{
         query += whereClause[i].buildQuery();
       }
     }
-    var result = await sendQuery(query);
+//    var result = await sendQuery(query);
+    checkConnection();
+    var result = await _connection.query(query);
     return parseResult(result);
+  }
+
+  Future<int> delete() async{
+    var table = getTableName();
+    var query = 'DELETE FROM $table';
+    if(whereClause.isNotEmpty){
+      query += ' WHERE ';
+      for(var i = 0; i < whereClause.length; i++) {
+        query += whereClause[i].buildQuery();
+      }
+    }
+    checkConnection();
+    var result = await _connection.execute(query);
+    return result;
+  }
+
+  Future<int> insert() async{
+    var table = getTableName();
+    var query = 'INSERT INTO $table';
+    var classMirror = reflectClass(InstanceType);
+    var columns = List<Symbol>.empty(growable: true);
+    if(classMirror.superinterfaces.isEmpty){
+      throw WrongMetadataStructure();
+    }
+    classMirror = classMirror.superinterfaces[0];
+    if(classMirror is! ManagedObject){
+      throw WrongMetadataStructure();
+    }
+    for(var key in classMirror.declarations.keys){
+      var declaration = classMirror.declarations[key];
+      if(declaration is! VariableMirror){
+        continue;
+      }
+      columns.add(key);
+    }
+    if(columns.isNotEmpty){
+      var strValues = List<String>.empty(growable: true);
+      var instanceMirror = reflect(values);
+      query += '(';
+      for(var i = 0; i < columns.length; i++){
+        var value = instanceMirror.getField(columns[i]);
+        query += ' ${MirrorSystem.getName(columns[i])},';
+        if(value.reflectee == null){
+          strValues.add('NULL');
+          continue;
+        }
+        strValues.add(value.toString());
+      }
+      var index = query.lastIndexOf(',');
+      query = query.replaceRange(index, query.length, ')');
+      query += 'VALUES(';
+      for(var i = 0; i < strValues.length; i++){
+        query += ' ${strValues[i]},';
+      }
+      query = query.replaceRange(index, query.length, ')');
+    }
+    var result = await _connection.execute(query);
+    return result;
+  }
+
+  void checkConnection() async{
+    if(!_connection.isClosed){
+      return;
+    }
+    //_connection = Connection(host, port, databaseName)
+    _connection = Connection(_connection.host, _connection.port, _connection.databaseName,
+        username: _connection.username, password: _connection.password, timeoutInSeconds: _connection.timeoutInSeconds,
+    queryTimeoutInSeconds: _connection.queryTimeoutInSeconds, isUnixSocket: _connection.isUnixSocket,
+      timeZone: _connection.timeZone, useSSL: _connection.useSSL);
   }
 
   String getTableName(){
@@ -75,14 +150,10 @@ class Query<InstanceType extends ManagedObject>{
     return tableName;
   }
 
-  Future<PostgreSQLResult> sendQuery(String query) async{
-
-    if(_connection.isClosed) {
-      await _connection.open();
-    }
+  /*Future<PostgreSQLResult> sendQuery(String query) async{
     var result = await _connection.query(query);
     return result;
-  }
+  }*/
 
   List<InstanceType> parseResult(PostgreSQLResult result){
     var instances = List<InstanceType>.empty(growable: true);
