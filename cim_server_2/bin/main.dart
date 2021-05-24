@@ -7,13 +7,12 @@ import 'package:cim_server_2/src/orm/orm.dart';
 
 
 void main(List<String> args) async {
-  /*var config = ServerConfiguration;
+  var config = ServerConfiguration;
   var server = Server<AppChannel>(config.host, config.port);
-  await server.start(timeout: Duration(seconds: 30));*/
-  var connection = Connection('45.86.183.142', 5432, 'cim_database', username: 'cimserver', password: 'cimtestserver');
-  var query = Query<TestTable>(connection)
+  await server.start(timeout: Duration(seconds: 30));
+  /*var query = Query<TestTable>(connection)
     ..where((x) => x.id).equalTo(159);
-  var r = await query.select();
+  var r = await query.select();*/
 
 }
 

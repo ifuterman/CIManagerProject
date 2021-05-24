@@ -7,12 +7,15 @@ import 'messages.dart';
 import 'http_reader_writer.dart';
 
 class Server<T extends ApplicationChannel>{
-  static final servers = List<Server>.empty(growable: true);
-  Function(Server)? onInit;
-  Server(this._host, this._port){
+//  static final servers = List<Server>.empty(growable: true);
+  static Server? _server;
+//  late SendPort sendPort;
+  Function()? onInit;
+  Server(this._host, this._port);
+  /*Server(this._host, this._port){
     _id = servers.length;
-  }
-  int _id = 0;
+  }*/
+//  int _id = 0;
   final String _host;
   final int _port;
   String get host => _host;
@@ -25,14 +28,20 @@ class Server<T extends ApplicationChannel>{
       timeout ??= Duration(seconds: 30);
       var type = reflectType(T).reflectedType;
       var callerPort = ReceivePort();
-      var initMessage = MessageInitServer(callerPort.sendPort, count, host, port, servers.length, type, timeout);
+      var initMessage = MessageInitServer(callerPort.sendPort, count, host, port, 0, type, timeout);
       _readIsolate = await Isolate.spawn<MessageInitServer>(HttpReaderWriter.readIsolateEntryPoint, initMessage);
       _subscription = callerPort.listen(callbackReadIsolateListener);
-      servers.add(this);
+      _server = this;
+//      servers.add(this);
+//      return servers.length;
 //      _readIsolate.resume(_readIsolate.pauseCapability);
   }
 
-
+  Future stop() async{
+//      _readIsolate.kill();
+    _readPort.send(MessageStopServer(0));
+    await _subscription.cancel();
+  }
   static void callbackReadIsolateListener(dynamic message){
     if(message is! Message){
       print('[Server.callbackReadIsolateListener]: wrong message $message');
@@ -41,10 +50,9 @@ class Server<T extends ApplicationChannel>{
     switch(message.getType()){
       case MessageTypes.sendPort:{
         var msg = message as MessageSendPort;
-        var server = servers[msg.id];
-        server._readPort = msg.port;
-        if(server.onInit != null) {
-          server.onInit!(server);
+        _server!._readPort = msg.port;
+        if(_server!.onInit != null) {
+          _server!.onInit!();
         }
         break;
       }

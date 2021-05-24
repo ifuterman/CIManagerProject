@@ -10,11 +10,11 @@ class Linkable{
     links.add(getter);
     return this;
   }
-  Response handle(Request request){
+  Future<Response> handle(Request request) async{
     for(var i = 0; i < links.length; i++){
       var getter = links[i];
       var controller = getter();
-      var result = controller.handle(request);
+      var result = await controller.handle(request);
       if(result is Response){
         return result;
       }
@@ -34,11 +34,11 @@ class Router{
     linksMap[uri] = link;
     return link;
   }
-  Response processRequest(Request request){
+  Future<Response> processRequest(Request request) async{
     var link = linksMap[request.uri];
     if(link == null){
       return Response.notFound();
     }
-    return link.handle(request);
+    return await link.handle(request);
   }
 }

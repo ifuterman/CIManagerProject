@@ -56,6 +56,11 @@ class HttpProcessor{
         unawaited(processRequest(message.request));
         break;
       }
+      case MessageTypes.stopServer:{
+        channel!.finalise();
+        await subscription!.cancel();
+        break;
+      }
       default:{
         print('Unhandled message: ${message.getType()}');
       }
@@ -71,7 +76,7 @@ class HttpProcessor{
       callerPort!.send(message);
       return;
     }*/
-    var response = router!.processRequest(request);
+    var response = await router!.processRequest(request);
     var responseMessage = MessageHttpResponse(response, id);
     callerPort!.send(responseMessage);
     callerPort!.send(MessageHttpProcessorReady(id));

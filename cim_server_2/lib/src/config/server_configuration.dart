@@ -15,5 +15,10 @@ class _ServerConfiguration extends Configuration{
 
   int get port => _map['server_port'];
   String get host => _map['server_host'];
+  String get database_host => _map['database']['host'];
+  int get database_port => _map['database']['port'];
+  String get database_dbname => _map['database']['database'];
+  String get database_username => _map['database']['username'];
+  String get database_password => _map['database']['password'];
 
 }

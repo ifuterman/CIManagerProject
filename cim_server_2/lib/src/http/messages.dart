@@ -15,7 +15,8 @@ enum MessageTypes{
   httpProcessorInited,
   httpProcessorInitError,
   processorReady,
-  httpResponse
+  httpResponse,
+  stopServer
 }
 abstract class Message{
   MessageTypes getType();
@@ -29,6 +30,12 @@ class MessageSendPort extends Message{
   MessageSendPort(this.port, int id):super(id);
   @override
   MessageTypes getType() => MessageTypes.sendPort;
+}
+
+class MessageStopServer extends Message{
+  MessageStopServer(int id):super(id);
+  @override
+  MessageTypes getType() => MessageTypes.stopServer;
 }
 
 class MessageInitServer extends Message{
@@ -66,8 +73,6 @@ class MessageInitHttpProcessor extends Message{
 class MessageHttpRequest extends Message{
   Request request;
   MessageHttpRequest(this.request, int id):super(id);
-
-
   @override
   MessageTypes getType() => MessageTypes.request;
 }

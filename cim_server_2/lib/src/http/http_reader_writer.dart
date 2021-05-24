@@ -66,9 +66,9 @@ class HttpReaderWriter{
     var isolate = await Isolate.spawn<MessageInitHttpProcessor>(HttpProcessor.processorEntryPoint, processorMessage);
     return isolate;
   }
-  static void httpProcessorListener(Message message)async{
+  /*static void httpProcessorListener(Message message)async{
 
-  }
+  }*/
 
   static Future requestHandler(HttpRequest httpRequest) async{
     print('[HttpRequest received: ${httpRequest.uri}]');
@@ -112,7 +112,6 @@ class HttpReaderWriter{
     }
     sendResponse(requiredEntry!.key.response, Response.requestTimeout());
   }
-
   static Future mainProcessListener(dynamic message) async{
     if(message is! Message){
       print('[Server.callbackReadIsolateListener]: wrong message $message');
@@ -153,6 +152,14 @@ class HttpReaderWriter{
           timer.cancel();
         }
         await processResponse(message.id, message.response);
+        break;
+      }
+      case MessageTypes.stopServer:{
+        await server!.close();
+        receivePort!.close();
+        for(var port in processorPorts.values){
+          port.send(MessageStopServer(0));
+        }
         break;
       }
       default:{
