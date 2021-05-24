@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'dart:mirrors';
-import 'package:cim_server_2/src/http/application_channel.dart';
+import 'application_channel.dart';
 
 import 'messages.dart';
 import 'http_reader_writer.dart';

@@ -1,6 +1,6 @@
-import 'package:cim_server_2/src/http/controller.dart';
-import 'package:cim_server_2/src/http/request.dart';
-import 'package:cim_server_2/src/http/response.dart';
+import 'controller.dart';
+import 'request.dart';
+import 'response.dart';
 
 typedef controllerGetter = Controller Function();
 

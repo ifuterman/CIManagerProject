@@ -1,6 +1,6 @@
 import 'package:cim_server_2/src/app_channel.dart';
 import 'package:cim_server_2/src/config/server_configuration.dart';
-import 'package:cim_server_2/src/http/server.dart';
+import 'package:cim_server_2/src/http/http.dart';
 import 'package:cim_server_2/src/orm/orm.dart';
 
 

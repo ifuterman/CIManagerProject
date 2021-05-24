@@ -2,10 +2,9 @@ import 'dart:async';
 import 'dart:isolate';
 import 'dart:mirrors';
 
-import 'package:alfred/alfred.dart';
-import 'package:cim_server_2/src/http/request.dart';
-import 'package:cim_server_2/src/http/messages.dart';
-import 'package:cim_server_2/src/http/router.dart';
+import 'request.dart';
+import 'messages.dart';
+import 'router.dart';
 
 import 'application_channel.dart';
 
@@ -53,7 +52,7 @@ class HttpProcessor{
     switch(message.getType()){
       case MessageTypes.request:{
         message = message as MessageHttpRequest;
-        unawaited(processRequest(message.request));
+        processRequest(message.request);
         break;
       }
       case MessageTypes.stopServer:{
@@ -66,7 +65,7 @@ class HttpProcessor{
       }
     }
   }
-  static Future processRequest(Request request) async{
+  static void processRequest(Request request) async{
     print('[HttpProcessor.processRequest] request received:${request.uri}');
 /*    var headers = request.headers;
     var contentType = headers[HttpHeaders.contentTypeHeader];

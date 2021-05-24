@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:cim_server_2/src/http/http_processor.dart';
-import 'package:cim_server_2/src/http/response.dart';
+import 'http_processor.dart';
+import 'response.dart';
 
 import 'body.dart';
 import 'request.dart';

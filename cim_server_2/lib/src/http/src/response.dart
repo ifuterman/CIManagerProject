@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:cim_server_2/src/http/body.dart';
-import 'package:cim_server_2/src/http/request_or_response.dart';
+import 'body.dart';
+import 'request_or_response.dart';
 
 class Response implements RequestOrResponse{
   int status;

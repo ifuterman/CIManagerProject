@@ -1,6 +1,6 @@
 import 'dart:isolate';
 
-import 'package:cim_server_2/src/http/response.dart';
+import 'response.dart';
 
 import 'request.dart';
 
