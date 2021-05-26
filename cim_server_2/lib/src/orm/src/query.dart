@@ -116,8 +116,10 @@ class Query<InstanceType extends ManagedObject>{
       }
       query = query.replaceRange(index, query.length, ')');
     }
-    var result = await _connection.execute(query);
-    return result;
+    var result = await _connection.query(query);
+    var instances = parseResult(result);
+ //   var result = await _connection.execute(query);
+    return instances.length;
   }
 
   void checkConnection() async{

@@ -5,3 +5,4 @@ export 'src/request_or_response.dart';
 export 'src/response.dart';
 export 'src/router.dart';
 export 'src/server.dart';
+export 'src/body.dart';

@@ -31,4 +31,8 @@ class Response implements RequestOrResponse{
     body ??= Body.empty();
     this.body = body;
   }
+  Response.conflict({Body? body}):status = HttpStatus.conflict{
+    body ??= Body.empty();
+    this.body = body;
+  }
 }

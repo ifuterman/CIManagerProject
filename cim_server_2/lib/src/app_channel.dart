@@ -1,6 +1,6 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
-import 'package:cim_server_2/src/controllers/check_connection_controller.dart';
+import 'package:cim_server_2/src/controllers/controllers.dart';
 import 'package:cim_server_2/src/http/http.dart';
 
 import 'config/server_configuration.dart';
@@ -21,6 +21,8 @@ class AppChannel extends ApplicationChannel{
     var router = Router();
     router.route(CIMRestApi.prepareCheckConnection())
         .link(() => CheckConnectionController(dbConnection));
+    router.route(CIMRestApi.prepareNewUser())
+        .link(() => UserNewController(dbConnection));
     return router;
   }
   @override

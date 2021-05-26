@@ -11,8 +11,17 @@ class Request implements RequestOrResponse{
     var method = request.method;
     var requestedUri = request.requestedUri;
     var uri = request.uri;
-    var rawBody = request.contentLength > 0 ? await request.first : Uint8List(0);
-    return Request(headers, method, requestedUri, uri, Body(rawBody));
+    Uint8List? rawBody;
+    var charSize = 2;
+    if(request.contentLength > 0){
+      rawBody = await request.first;
+      if(request.contentLength == rawBody.length){
+        charSize = 1;
+      }
+    }
+
+    rawBody ??=  Uint8List(0);
+    return Request(headers, method, requestedUri, uri, Body(rawBody, charSize));
   }
   HttpHeaders headers;
   String method;
