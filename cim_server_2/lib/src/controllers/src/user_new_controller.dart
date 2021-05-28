@@ -31,12 +31,12 @@ class UserNewController extends Controller{
       query = Query<CIMUserDB>(connection)
         ..values.username = user.login
         ..values.pwrd = user.password
-        ..values.role = user.role;
-      var count = await query.insert();
-      if(count == 0) {
+        ..values.role = user.role.toString();
+      var result = await query.insert();
+      if(result.isEmpty) {
         return Response.conflict();
       }
-//      user = newDBUser.toUser();
+      user = result[0].toUser();
       packet = CIMPacket.makePacket();
       if(packet == null){
         return Response.internalServerError(body: Body.fromMap({'message' : 'Can`t made the packet'}));

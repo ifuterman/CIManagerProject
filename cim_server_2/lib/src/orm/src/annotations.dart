@@ -1,4 +1,8 @@
 import 'package:cim_server_2/src/orm/src/database_types.dart';
+enum ValueTypes{
+  generated,
+  notGenerated
+}
 
 class Table{
   final String name;
@@ -6,6 +10,7 @@ class Table{
 }
 
 class Column{
+  final ValueTypes valueType;
   final DatabaseTypes type;
-  const Column({this.type = DatabaseTypes.auto});
+  const Column({this.valueType = ValueTypes.notGenerated, this.type = DatabaseTypes.auto});
 }

@@ -1,3 +1,4 @@
+import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server_2/src/app_channel.dart';
 import 'package:cim_server_2/src/config/server_configuration.dart';
 import 'package:cim_server_2/src/http/http.dart';
@@ -7,6 +8,8 @@ import 'package:cim_server_2/src/orm/orm.dart';
 
 
 void main(List<String> args) async {
+  var userRole = UserRoles.administrator;
+  print(userRole.toString());
   var config = ServerConfiguration;
   var server = Server<AppChannel>(config.host, config.port);
   await server.start(timeout: Duration(seconds: 30));

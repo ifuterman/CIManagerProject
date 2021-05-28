@@ -35,4 +35,12 @@ class Response implements RequestOrResponse{
     body ??= Body.empty();
     this.body = body;
   }
+  Response.forbidden({Body? body}):status = HttpStatus.forbidden{
+    body ??= Body.empty();
+    this.body = body;
+  }
+  Response.unauthorized({Body? body}):status = HttpStatus.unauthorized{
+    body ??= Body.empty();
+    this.body = body;
+  }
 }

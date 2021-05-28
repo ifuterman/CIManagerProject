@@ -7,6 +7,60 @@ import 'package:cim_server_2/src/orm/src/annotations.dart';
 import 'package:cim_server_2/src/orm/src/connection.dart';
 import 'package:postgres/postgres.dart';
 import 'exceptions.dart';
+/*
+* Класс Query описывает SQL запрос для POSTGRESQL и позволяет генерировать его в ORM стиле.
+* пример работы:
+* 1. Нужно создать класс-представление структуры таблицы, в этом классе аннотациями
+* @Table('users') - аннотация, указывающая имя таблицы в БД
+class _CIMUserDB{
+  @Column(valueType: ValueTypes.generated) - аннотация, указывающая,
+  * что поле id соответсвует столбцу id в таблице users в БД.
+  * valueType: ValueTypes.generated - указывает, что это значение генерирует БД
+  int? id;
+  @Column()
+  String? username;
+  @Column()
+  String? pwrd;
+  @Column()
+  String? role;
+}
+* 2. Класс для работы системы типизации. Все дополнительные функции реализуются именно в нём
+* class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{
+  CIMUser toUser(){
+    final user = CIMUser(username!, pwrd!);
+    try {
+      user.role =
+          UserRoles.values.firstWhere((element) => element.toString() == role);
+    }catch(e){user.role = UserRoles.patient;}
+      user.id = id!;
+      return user;
+    }
+  }
+* 3. Создается соединение с БД
+*var dbConnection = Connection(database_host, database_port,
+        database_name, username: 'username', password: 'password');
+*await dbConnection.open();
+* *********************************************************************
+* 4. Выполнение запроса SELECT
+* var query = Query<CIMUserDB>(connection)
+      ..where((x) => x.username).equalTo(user.login);
+  var userDBlist = await query.select();
+* Результатом выполнения будет List<CIMUserDB>. Выборка выполняется на основе
+* условий в where.
+* 5. Выполнение запроса DELETE
+* var query = Query<CIMUserDB>(connection)
+      ..where((x) => x.username).equalTo(user.login);
+  var userDBlist = await query.delete();
+* 6. Выполнение запроса INSERT
+* query = Query<CIMUserDB>(connection)
+        ..values.username = user.login
+        ..values.pwrd = user.password
+        ..values.role = user.role.toString();
+      var result = await query.insert();
+* Результатом выполнения будет List<CIMUserDB> с данными фактически отражающими заначение полей,
+* т.е. если есть поля с автогенерацией значений, они не указываются в конструкции ..values,
+* но фактические значения будут содержаться в результате запроса
+* */
 
 class Query<InstanceType extends ManagedObject>{
   late InstanceType values;
@@ -47,6 +101,15 @@ class Query<InstanceType extends ManagedObject>{
     }
     return key;
   }
+
+  Future<InstanceType?> selectOne() async{
+    var result = await select();
+    if(result.length != 1){
+      return null;
+    }
+    return result[0];
+  }
+
   Future<List<InstanceType>> select() async{
     var table = getTableName();
     var query = 'SELECT * FROM $table';
@@ -76,7 +139,7 @@ class Query<InstanceType extends ManagedObject>{
     return result;
   }
 
-  Future<int> insert() async{
+  Future<List<InstanceType>> insert() async{
     var table = getTableName();
     var query = 'INSERT INTO $table';
     var classMirror = reflectClass(InstanceType);
@@ -85,12 +148,23 @@ class Query<InstanceType extends ManagedObject>{
       throw WrongMetadataStructure();
     }
     classMirror = classMirror.superinterfaces[0];
-    if(classMirror is! ManagedObject){
+/*    if(classMirror is! ManagedObject){
       throw WrongMetadataStructure();
-    }
+    }*/
     for(var key in classMirror.declarations.keys){
       var declaration = classMirror.declarations[key];
       if(declaration is! VariableMirror){
+        continue;
+      }
+      if(declaration.metadata.isEmpty){
+        continue;
+      }
+      var metadata = declaration.metadata[0];
+      if(!metadata.hasReflectee || metadata.reflectee is! Column){
+        continue;
+      }
+      var columnAnnotation = metadata.reflectee as Column;
+      if(columnAnnotation.valueType == ValueTypes.generated){
         continue;
       }
       columns.add(key);
@@ -98,7 +172,7 @@ class Query<InstanceType extends ManagedObject>{
     if(columns.isNotEmpty){
       var strValues = List<String>.empty(growable: true);
       var instanceMirror = reflect(values);
-      query += '(';
+      query += ' (';
       for(var i = 0; i < columns.length; i++){
         var value = instanceMirror.getField(columns[i]);
         query += ' ${MirrorSystem.getName(columns[i])},';
@@ -106,20 +180,32 @@ class Query<InstanceType extends ManagedObject>{
           strValues.add('NULL');
           continue;
         }
-        strValues.add(value.toString());
+        if(value.reflectee is String){
+          strValues.add('\'${value.reflectee}\'');
+        }
+        else if(value.type.isEnum){
+          strValues.add('\'${value.reflectee.toString()}\'');
+        }
+        else {
+          strValues.add(value.reflectee.toString());
+        }
       }
       var index = query.lastIndexOf(',');
       query = query.replaceRange(index, query.length, ')');
-      query += 'VALUES(';
+      query += ' VALUES ( ';
       for(var i = 0; i < strValues.length; i++){
         query += ' ${strValues[i]},';
       }
+      index = query.lastIndexOf(',');
       query = query.replaceRange(index, query.length, ')');
     }
+    query += ' RETURNING *';
     var result = await _connection.query(query);
     var instances = parseResult(result);
+    return instances;
+//    var instances = parseResult(result);
  //   var result = await _connection.execute(query);
-    return instances.length;
+//    return instances.length;
   }
 
   void checkConnection() async{
@@ -170,8 +256,8 @@ class Query<InstanceType extends ManagedObject>{
         throw WrongMetadataStructure();
       }
       for(var i = 0; i < row.length; i++) {
-        instance.setField(
-            Symbol(row.columnDescriptions[i].columnName), row[i]);
+        var column = Symbol(row.columnDescriptions[i].columnName);
+        instance.setField(column, row[i]);
       }
       instances.add(instance.reflectee);
     }

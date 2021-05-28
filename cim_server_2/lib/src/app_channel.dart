@@ -1,6 +1,8 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server_2/src/controllers/controllers.dart';
+import 'package:cim_server_2/src/controllers/src/authorisation_controller.dart';
+import 'package:cim_server_2/src/controllers/src/check_role_controller.dart';
 import 'package:cim_server_2/src/http/http.dart';
 
 import 'config/server_configuration.dart';
@@ -21,7 +23,11 @@ class AppChannel extends ApplicationChannel{
     var router = Router();
     router.route(CIMRestApi.prepareCheckConnection())
         .link(() => CheckConnectionController(dbConnection));
+    router.route(CIMRestApi.prepareDebugDeleteUsers())
+        .link(() => DebugDeleteUsersController(dbConnection));
     router.route(CIMRestApi.prepareNewUser())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
         .link(() => UserNewController(dbConnection));
     return router;
   }
