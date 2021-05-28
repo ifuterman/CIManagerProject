@@ -1,4 +1,3 @@
-import 'dart:indexed_db';
 
 import 'package:cim_server_2/src/orm/orm.dart';
 import 'package:cim_server_2/src/orm/src/database_types.dart';
