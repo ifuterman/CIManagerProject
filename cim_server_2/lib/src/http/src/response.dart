@@ -43,4 +43,8 @@ class Response implements RequestOrResponse{
     body ??= Body.empty();
     this.body = body;
   }
+  Response.noContent({Body? body}):status = HttpStatus.noContent{
+    body ??= Body.empty();
+    this.body = body;
+  }
 }

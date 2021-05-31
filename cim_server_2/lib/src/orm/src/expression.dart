@@ -64,7 +64,13 @@ class Expression {
     }
     var strKey = MirrorSystem.getName(key);
     var res = '';
-    res += '$strKey ${predicates[0].buildQuery()}';
+    if(_expressionType == ExpressionTypes.and){
+      res += ' and';
+    }
+    else if(_expressionType == ExpressionTypes.or){
+      res += ' or';
+    }
+    res += ' $strKey ${predicates[0].buildQuery()}';
     if(predicates.length < 2){
       return res;
     }

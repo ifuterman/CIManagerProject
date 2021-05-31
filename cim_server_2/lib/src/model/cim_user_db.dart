@@ -5,12 +5,19 @@ import 'package:cim_server_2/src/orm/orm.dart';
 class CIMUserDB extends ManagedObject<_CIMUserDB> implements _CIMUserDB{
   CIMUser toUser(){
     final user = CIMUser(username!, pwrd!);
-    try {
-      user.role =
-          UserRoles.values.firstWhere((element) => element.toString() == role);
-    }catch(e){user.role = UserRoles.patient;}
+    user.role = getRole();
       user.id = id!;
       return user;
+    }
+    UserRoles getRole(){
+      if(role == null){
+        return UserRoles.unknown;
+      }
+      try {
+        var result = UserRoles.values.firstWhere((element) =>
+        element.toString() == role);
+        return result;
+      }catch(e){return UserRoles.unknown;}
     }
   }
 @Table('users')

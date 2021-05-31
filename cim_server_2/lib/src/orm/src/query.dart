@@ -1,6 +1,6 @@
 
 import 'dart:mirrors';
-
+import 'package:intl/intl.dart';
 import 'expression.dart';
 import 'managed_object.dart';
 import 'package:cim_server_2/src/orm/src/annotations.dart';
@@ -114,8 +114,8 @@ class Query<InstanceType extends ManagedObject>{
     var table = getTableName();
     var query = 'SELECT * FROM $table';
     if(whereClause.isNotEmpty){
-      query += ' WHERE ';
-      for(var i = 0; i < whereClause.length; i++) {
+      query += ' WHERE ${whereClause[0].buildQuery()}';
+      for(var i = 1; i < whereClause.length; i++) {
         query += whereClause[i].buildQuery();
       }
     }
@@ -137,6 +137,14 @@ class Query<InstanceType extends ManagedObject>{
     checkConnection();
     var result = await _connection.execute(query);
     return result;
+  }
+
+  Future<InstanceType?> insertOne() async {
+    var result = await insert();
+    if(result.length != 1){
+      return null;
+    }
+    return result[0];
   }
 
   Future<List<InstanceType>> insert() async{
@@ -185,6 +193,12 @@ class Query<InstanceType extends ManagedObject>{
         }
         else if(value.type.isEnum){
           strValues.add('\'${value.reflectee.toString()}\'');
+        }
+        else if (value.reflectee is DateTime){
+          var datetime = value.reflectee as DateTime;
+          var format = DateFormat('yyyy-MM-dd H:mm:ss');
+          var str = format.format(datetime);
+          strValues.add('\'$str\'');
         }
         else {
           strValues.add(value.reflectee.toString());

@@ -1,7 +1,8 @@
 enum UserRoles{
   administrator,
   doctor,
-  patient
+  patient,
+  unknown
 }
 
 class CIMUser{
