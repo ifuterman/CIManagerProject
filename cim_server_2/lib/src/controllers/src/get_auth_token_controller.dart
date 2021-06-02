@@ -67,7 +67,8 @@ class GetAuthTokenController extends Controller{
       info.refreshToken = token.refresh_token!;
       info.username = user.login;
       info.expiresIn = token.expiration;
-      info.role = userDB.getRole();
+//      info.role = userDB.getRole();
+      info.role = userDB.role;
       return Response.ok(body: Body.fromMap(info.toMap()));
     }catch(e){
       print('GetAuthToken.handle $e');

@@ -1,9 +1,6 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server_2/src/controllers/controllers.dart';
-import 'package:cim_server_2/src/controllers/src/authorisation_controller.dart';
-import 'package:cim_server_2/src/controllers/src/check_role_controller.dart';
-import 'package:cim_server_2/src/controllers/src/get_auth_token_controller.dart';
 import 'package:cim_server_2/src/http/http.dart';
 
 import 'config/server_configuration.dart';
@@ -28,10 +25,40 @@ class AppChannel extends ApplicationChannel{
         .link(() => CheckConnectionController(dbConnection));
     router.route(CIMRestApi.prepareDebugDeleteUsers())
         .link(() => DebugDeleteUsersController(dbConnection));
+    router.route(CIMRestApi.prepareDebugCleanDB())
+        .link(() => DebugCleanDBController(dbConnection));
+    router.route(CIMRestApi.prepareFirstUser())
+        .link(() => UserFirstController(dbConnection));
+    router.route(CIMRestApi.prepareRefreshToken())
+        .link(() => RefreshTokenController(dbConnection));
     router.route(CIMRestApi.prepareNewUser())
         .link(() => AuthorisationController(dbConnection))
         .link(() => CheckRoleController(dbConnection))
         .link(() => UserNewController(dbConnection));
+    router.route(CIMRestApi.prepareGetUser())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
+        .link(() => UserGetController(dbConnection));
+    router.route(CIMRestApi.prepareUpdateUser())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
+        .link(() => UserUpdateController(dbConnection));
+    router.route(CIMRestApi.prepareDoctorDelete())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
+        .link(() => DoctorDeleteController(dbConnection));
+    router.route(CIMRestApi.prepareDoctorNew())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
+        .link(() => DoctorNewController(dbConnection));
+    router.route(CIMRestApi.prepareDoctorGet())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
+        .link(() => DoctorGetController(dbConnection));
+    router.route(CIMRestApi.prepareDoctorUpdate())
+        .link(() => AuthorisationController(dbConnection))
+        .link(() => CheckRoleController(dbConnection))
+        .link(() => DoctorUpdateController(dbConnection));
     return router;
   }
   @override

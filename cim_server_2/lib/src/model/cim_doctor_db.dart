@@ -1,5 +1,3 @@
-import 'dart:indexed_db';
-
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:cim_server_2/src/orm/orm.dart';
 import 'package:cim_server_2/src/orm/src/database_types.dart';
@@ -7,7 +5,7 @@ import 'package:cim_server_2/src/orm/src/database_types.dart';
 
 class CIMDoctorDB extends ManagedObject<_CIMDoctorDB> implements _CIMDoctorDB{
   CIMDoctor toDoctor(){
-    final doctor = CIMDoctor(name ?? '', last_name ?? '', speciality ?? DoctorSpeciality.therapist,
+    final doctor = CIMDoctor(name ?? '', last_name ?? '', speciality,
       middleName: middle_name,
       birthDate: birth_date,
       email: email,
@@ -35,7 +33,7 @@ class _CIMDoctorDB{
   @Column()
   String? phones;
   @Column()
-  DoctorSpeciality? speciality;
+  DoctorSpeciality speciality = DoctorSpeciality.unknown;
   @Column()
   int? users_id;
 }

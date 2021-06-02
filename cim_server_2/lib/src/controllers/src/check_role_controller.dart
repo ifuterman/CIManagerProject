@@ -14,8 +14,11 @@ class CheckRoleController extends Controller{
   @override
   Future<RequestOrResponse> handle(Request request) async{
     try {
-      var token = request.headers[HttpHeaders.authorizationHeader]
-          .toString();
+      var header = request.headers[HttpHeaders.authorizationHeader];
+      if(header == null){
+        return Response.unauthorized(body: Body.fromMap({'message' : 'Header \'authorization\' is missed'}));
+      }
+      var token = header.toString();
       final list = token.split(' ');
       if(list.length != 2){
         return Response.badRequest();

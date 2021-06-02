@@ -12,7 +12,11 @@ class AuthorisationController extends Controller{
   @override
   Future<RequestOrResponse> handle(Request request) async{
     try {
-      var authString = request.headers[HttpHeaders.authorizationHeader].toString();
+      var header = request.headers[HttpHeaders.authorizationHeader];
+      if(header == null){
+        return Response.unauthorized(body: Body.fromMap({'message' : 'Header \'authorization\' is missed'}));
+      }
+      var authString = header.toString();
       authString = authString.toLowerCase();
       final list = authString.split(' ');
       if(list.length != 2){
@@ -26,13 +30,13 @@ class AuthorisationController extends Controller{
       if(token == null){
         return Response.unauthorized();
       }
-      if(token.expiration!.isAfter(DateTime.now().add(Duration(days: 1)))){
+      if(token.expiration!.isBefore(DateTime.now())){
         return Response.forbidden();
       }
       return request;
     }catch(e){
       print('AuthorisationController.handle $e');
-      return Response.internalServerError(body: Body.fromMap({"message" : e}));
+      return Response.internalServerError(body: Body.fromMap({'message' : e}));
     }
   }
 }

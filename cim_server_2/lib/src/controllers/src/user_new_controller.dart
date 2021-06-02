@@ -31,7 +31,8 @@ class UserNewController extends Controller{
       query = Query<CIMUserDB>(connection)
         ..values.username = user.login
         ..values.pwrd = user.password
-        ..values.role = user.role.toString();
+//        ..values.role = user.role.toString();
+        ..values.role = user.role;
       var result = await query.insert();
       if(result.isEmpty) {
         return Response.conflict();
@@ -42,9 +43,9 @@ class UserNewController extends Controller{
         return Response.internalServerError(body: Body.fromMap({'message' : 'Can`t made the packet'}));
       }
       if(!packet.addInstance(user)){
-        return Response.internalServerError(body : Body.fromMap({"message" : "add instance problem"}));
+        return Response.internalServerError(body : Body.fromMap({'message' : 'add instance problem'}));
       }
       return Response.ok(body: Body.fromMap(packet.map));
-    }catch(e) { return Response.internalServerError(body : Body.fromMap({"message" : e.toString()}));}
+    }catch(e) { return Response.internalServerError(body : Body.fromMap({'message' : e.toString()}));}
   }
 }

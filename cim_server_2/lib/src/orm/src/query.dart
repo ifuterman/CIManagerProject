@@ -160,6 +160,10 @@ class Query<InstanceType extends ManagedObject>{
       throw WrongMetadataStructure();
     }*/
     for(var key in classMirror.declarations.keys){
+      ManagedObject m = values;
+      if(!m.settersList.contains(key)){
+        continue;
+      }
       var declaration = classMirror.declarations[key];
       if(declaration is! VariableMirror){
         continue;
@@ -222,6 +226,86 @@ class Query<InstanceType extends ManagedObject>{
 //    return instances.length;
   }
 
+  Future<InstanceType?> updateOne() async {
+    var table = getTableName();
+    var query = 'UPDATE $table SET ';
+    var classMirror = reflectClass(InstanceType);
+    var columns = List<Symbol>.empty(growable: true);
+    if(classMirror.superinterfaces.isEmpty){
+      throw WrongMetadataStructure();
+    }
+    classMirror = classMirror.superinterfaces[0];
+/*    if(classMirror is! ManagedObject){
+      throw WrongMetadataStructure();
+    }*/
+    for(var key in classMirror.declarations.keys){
+      ManagedObject m = values;
+      if(!m.settersList.contains(key)){
+        continue;
+      }
+      var declaration = classMirror.declarations[key];
+      if(declaration is! VariableMirror){
+        continue;
+      }
+      if(declaration.metadata.isEmpty){
+        continue;
+      }
+      var metadata = declaration.metadata[0];
+      if(!metadata.hasReflectee || metadata.reflectee is! Column){
+        continue;
+      }
+      var columnAnnotation = metadata.reflectee as Column;
+      if(columnAnnotation.valueType == ValueTypes.generated){
+        continue;
+      }
+      columns.add(key);
+    }
+    if(columns.isNotEmpty){
+      var instanceMirror = reflect(values);
+      for(var i = 0; i < columns.length; i++){
+        var value = instanceMirror.getField(columns[i]);
+        query += ' ${MirrorSystem.getName(columns[i])} = ';
+        if(value.reflectee == null){
+          query += 'NULL,';
+          continue;
+        }
+        String strVal;
+        if(value.reflectee is String){
+          strVal = '\'${value.reflectee}\',';
+        }
+        else if(value.type.isEnum){
+          strVal = '\'${value.reflectee.toString()}\',';
+        }
+        else if (value.reflectee is DateTime){
+          var datetime = value.reflectee as DateTime;
+          var format = DateFormat('yyyy-MM-dd H:mm:ss');
+          var str = format.format(datetime);
+          strVal = '\'$str\',';
+        }
+        else {
+          strVal = '\'${value.reflectee.toString()}\',';
+        }
+        query += strVal;
+      }
+      var index = query.lastIndexOf(',');
+      query = query.replaceRange(index, query.length, '');
+      if(whereClause.isNotEmpty) {
+
+        query += ' WHERE ${whereClause[0].buildQuery()}';
+        for(var i = 1; i < whereClause.length; i++) {
+          query += whereClause[i].buildQuery();
+        }
+      }
+    }
+    query += ' RETURNING *';
+    var result = await _connection.query(query);
+    var instances = parseResult(result);
+    if(instances.isEmpty){
+      return null;
+    }
+    return instances[0];
+  }
+
   void checkConnection() async{
     if(!_connection.isClosed){
       return;
@@ -271,7 +355,18 @@ class Query<InstanceType extends ManagedObject>{
       }
       for(var i = 0; i < row.length; i++) {
         var column = Symbol(row.columnDescriptions[i].columnName);
-        instance.setField(column, row[i]);
+        var fieldMirror = instance.getField(column);
+        dynamic value = row[i];
+        if(fieldMirror.type.isEnum && value is String){
+          var classMirror = fieldMirror.type;
+          var reflection = classMirror.getField(#values).reflectee as List;
+          /*
+          * Код потенциально воняет. Происходит смена типа value со стринга на enum
+          * */
+          value = reflection.firstWhere((element) => element.toString() ==
+                value);///////
+        }
+        instance.setField(column, value);
       }
       instances.add(instance.reflectee);
     }

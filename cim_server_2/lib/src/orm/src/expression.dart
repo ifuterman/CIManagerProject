@@ -1,10 +1,22 @@
 import 'dart:mirrors';
 
+import 'package:intl/intl.dart';
+
 abstract class Predicate {
   dynamic value;
   Predicate(this.value);
   String buildQuery(){
-    var val = value.toString();
+    String val;
+    if(value is String){
+      val = value;
+    }
+    else if(value is DateTime){
+      var format = DateFormat('yyyy-MM-dd H:mm:ss');
+      val = format.format(value);
+    }
+    else {
+      val = value.toString();
+    }
     if(value is String){
       val = '\'$val\'';
     }
