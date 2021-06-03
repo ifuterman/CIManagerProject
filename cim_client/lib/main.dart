@@ -1,5 +1,6 @@
 import 'package:cim_client/cim_service.dart';
 import 'package:cim_client/data/cache_provider.dart';
+import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/pref_service.dart';
 import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/global_view_service.dart';
@@ -21,17 +22,20 @@ void main() async {
   final pref = Get.find<PreferenceService>();
   runApp(
     EasyLocalization(
-      supportedLocales: [
-        Locale('ru', 'RU') /*, Locale('de', 'DE')*/
+      supportedLocales: const <Locale>[
+        Locale('ru'),
       ],
-      path: 'assets/Localizations', // <-- change patch to your
-      fallbackLocale: Locale('ru', 'RU'),
+      path: 'assets/translations', // <-- change patch to your
+      fallbackLocale: const Locale('ru'),
       child: StreamBuilder<bool?>(
           initialData: pref.isDarkMode$.value,
           stream: pref.isDarkMode$.stream,
           builder: (context, snapshot) {
             final isDark = snapshot.data;
             return GetMaterialApp(
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 brightness: (isDark ?? false) ? Brightness.dark : Brightness.light,
@@ -54,6 +58,7 @@ Future initServices() async {
   print('starting services ...');
   // await GetStorage.init();
   final cache = await Get.putAsync<CacheProviderService>(() => CacheProviderService().init());
+  Get.put<DataProvider>(DataProviderImpl());
   await Get.putAsync(() => PreferenceService(cache).init());
   await Get.putAsync(() => CIMService().init());
   await Get.putAsync(() => GlobalViewService().init());

@@ -90,7 +90,7 @@ class AuthorizationViewController extends GetxController
     final simpleCandidate = CIMUser(login ?? '', password ?? '');
     return await _dataProvider!.getToken(simpleCandidate).then((value) {
       if (value.result == CIMErrors.ok) {
-        final token = value?.data!['access_token'] as String;
+        final token = value.data!['access_token'] as String;
         assert(null != token);
         _cacheProvider!.saveToken(token);
         delayMilli(10).then((_) => close(args: NavArgs.simple(true)));

@@ -69,7 +69,7 @@ class PatientExpansionPanel implements ExpansionPanel {
         Expanded(
           flex: 1,
           child: Container(
-            child: Text(item!.patient!.middleName!),
+            child: Text(item.patient.middleName!),
             margin: EdgeInsets.only(right: 2.0),
           ),
         ),
