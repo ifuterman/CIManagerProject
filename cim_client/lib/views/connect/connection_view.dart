@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
+import 'package:vfx_flutter_common/utils.dart';
 
 import 'connection_view_controller.dart';
 
@@ -63,7 +64,9 @@ class ConnectionView extends GetView<ConnectionViewController> {
               ),
               Container(
                 width: 200,
-                child: Obx(()=>TextField(
+                child: Obx((){
+                  debugPrint('$now: ConnectionView.getUpdatedView: ${controller.updateScreenTrigger}');
+                  return TextField(
                   controller: _controllerAddress,
                   textAlignVertical: TextAlignVertical.top,
                   obscureText: false,
@@ -74,7 +77,8 @@ class ConnectionView extends GetView<ConnectionViewController> {
                   onChanged: (value) {
                     controller.address = value;
                   },
-                )),
+                );
+                }),
               ),
               Text(
                 "server_port".tr(),
@@ -82,7 +86,9 @@ class ConnectionView extends GetView<ConnectionViewController> {
               ),
               Container(
                 width: 200,
-                child: Obx(()=>TextField(
+                child: Obx((){
+                  debugPrint('$now: ConnectionView.getUpdatedView: ${controller.updateScreenTrigger}');
+                  return TextField(
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                   ],
@@ -97,7 +103,8 @@ class ConnectionView extends GetView<ConnectionViewController> {
                   onChanged: (value) {
                     controller.port = int.parse(value);
                   },
-                )),
+                );
+                }),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 3.0),
