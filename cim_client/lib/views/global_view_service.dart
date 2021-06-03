@@ -1,3 +1,4 @@
+import 'package:cim_client/cim_errors.dart';
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/globals.dart';
@@ -5,7 +6,6 @@ import 'package:cim_client/views/auth/authorization_view_controller.dart';
 import 'package:cim_client/views/connect/connection_view_controller.dart';
 import 'package:cim_client/views/main/main_view_controller.dart';
 import 'package:cim_client/views/shared/routes.dart';
-import 'package:cim_client/cim_errors.dart';
 import 'package:cim_client/views/temp_start/src/temp_start_view_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -15,17 +15,16 @@ import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/utils.dart';
 
 abstract class NavArgs {
-
   static const defaultKey = '_default_nav_arg_';
   static const startNavKey = 'start_navigation';
   static const toNewUser = 'new_user';
 
-  static safeValue(Map<String, dynamic>? args, {String? key, defValue}){
+  static safeValue(Map<String, dynamic>? args, {String? key, defValue}) {
     key ??= defaultKey;
-    if(args!.containsKey(key) ?? false){
-      return args[key];
+    if (!(args?.containsKey(key) ?? false)) {
+      return defValue;
     }
-    return defValue;
+    return args![key];
   }
 
   static Map<String, dynamic> simple(value) => {defaultKey: value};
@@ -60,26 +59,36 @@ class GlobalViewService extends GetxService {
     });
   }
 
-  void _startTemp(){
+  void _startTemp() {
     Get.put<TempStartViewController>(TempStartViewController()
       ..toPage(
-          onClose: (c, {args}) {
-
-          }
-    ));
+          // onClose: (c, {args}) {
+          //
+          // }
+          ));
   }
 
   Future _start() async {
     provider!.checkConnection().then((value) {
       debugPrint('$now: GlobalViewService._start: $value');
       if (value == CIMErrors.ok) {
-        Get!.find<CacheProviderService>()!.storage!.write('connect', ConnectionStates.connected.index);
-        // connectionState$(ConnectionStates.connected);
-        _toAuthForm();
+        _toMainForm();
+        /*
+        TODO(vvk): По уму тут надо на авторизацию,но пока перекидываю
+          на [_toMainForm] для простоты. Оттуда есть переход на
+          авторизацию
+        * */
+        // Get.find<CacheProviderService>()
+        //     .storage!
+        //     .write('connect', ConnectionStates.connected.index);
+        // // connectionState$(ConnectionStates.connected);
+        // _toAuthForm();
       } else {
-        Get.find<CacheProviderService>()!.storage!.write('connect', ConnectionStates.disconnected.index);
+        Get.find<CacheProviderService>()
+            .storage!
+            .write('connect', ConnectionStates.disconnected.index);
         // connectionState$(ConnectionStates.disconnected);
-        String message = mapError![value]!.tr();
+        String message = mapError[value]!.tr();
         Get.defaultDialog(
           title: "error".tr(),
           middleText: message,
@@ -101,7 +110,8 @@ class GlobalViewService extends GetxService {
     final token = cache.fetchToken();
     print('$now: GlobalViewService._toAuthForm: token = $token');
     if (token == null) {
-      Get.put<AuthorizationViewController>(AuthorizationViewController()
+      Get.put<AuthorizationViewController>(
+        AuthorizationViewController()
           ..toPage(
               onClose: (c, {args}) {
                 debugPrint('$now: GlobalViewService._toAuthForm.CLOSE'
@@ -111,7 +121,7 @@ class GlobalViewService extends GetxService {
                 if (NavArgs.safeValue(args) == true) {
                   _toMainForm();
                 }
-                if(NavArgs.safeValue(args) == 'reconnect'){
+                if (NavArgs.safeValue(args) == 'reconnect') {
                   _toConnectForm();
                 }
               },
@@ -131,7 +141,8 @@ class GlobalViewService extends GetxService {
           onClose: (c, {args}) {
             Get.back();
             print('GlobalViewService._toMainForm.1: args = $args');
-            print('GlobalViewService._toMainForm.2: args = ${NavArgs.safeValue(args)}');
+            print(
+                'GlobalViewService._toMainForm.2: args = ${NavArgs.safeValue(args)}');
             if (NavArgs.safeValue(args) == 'clear_user') {
               cache.saveToken(null).then((value) {
                 _toAuthForm();
@@ -148,10 +159,10 @@ class GlobalViewService extends GetxService {
             Get.back();
             if (args == true) {
               _toAuthForm();
-            }else{
-              if(c.connectionState$.value != ConnectionStates.connected){
+            } else {
+              if (c.connectionState$.value != ConnectionStates.connected) {
                 SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-              }else{
+              } else {
                 _toAuthForm();
               }
             }

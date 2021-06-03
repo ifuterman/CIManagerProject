@@ -1,23 +1,22 @@
+import 'package:cim_client/cim_connection.dart';
+import 'package:cim_client/cim_errors.dart';
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
 import 'package:cim_client/views/global_view_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
-import 'package:get_storage/get_storage.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:vfx_flutter_common/smart_navigation.dart';
 import 'package:vfx_flutter_common/utils.dart';
-import 'package:cim_client/cim_connection.dart';
-import 'package:cim_client/cim_errors.dart';
 
 enum ConnectionStates { checking, connected, disconnected, unknown }
 
 class ConnectionViewController extends GetxController
     with SmartNavigationMixin<ConnectionViewController> {
   CIMConnection? connection;
+
   // CIMService service = Get.find();
   String? address;
   int? port;
@@ -26,8 +25,7 @@ class ConnectionViewController extends GetxController
   final _subs = CompositeSubscription();
 
   @override
-  GetPageBuilder get defaultGetPageBuilder => () => ConnectionView();
-
+  get defaultGetPageBuilder => () => ConnectionView();
 
   void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;
 
@@ -48,7 +46,8 @@ class ConnectionViewController extends GetxController
   }
 
   void cancelConnection() {
-    close(args: NavArgs.simple(false));
+    // close(args: NavArgs.simple(false));
+    onCheckConnection();
   }
 
   void init() {
@@ -61,7 +60,7 @@ class ConnectionViewController extends GetxController
   void onInit() {
     super.onInit();
     _subs.add(connectionState$.listen((v) {
-      Get!.find<CacheProviderService>()!.storage!.write('connect', v.index);
+      Get.find<CacheProviderService>().storage!.write('connect', v.index);
       updateScreen();
     }));
     init();
@@ -70,7 +69,10 @@ class ConnectionViewController extends GetxController
   @override
   void onReady() {
     super.onReady();
-    final i = Get!.find<CacheProviderService>()!.storage!.read('connect') as int ?? ConnectionStates.disconnected.index;
+    final i =
+        Get.find<CacheProviderService>().storage?.read('connect') as int? ??
+            ConnectionStates.disconnected.index;
+    debugPrint('$now: ConnectionViewController.onReady: i = $i');
     connectionState$(ConnectionStates.values.elementAt(i));
   }
 
@@ -82,6 +84,7 @@ class ConnectionViewController extends GetxController
   }
 
   void onCheckConnection() {
+    debugPrint('$now: ConnectionViewController.onCheckConnection');
     connection = CIMConnection(address: address, port: port);
     connection?.init();
 
@@ -93,7 +96,7 @@ class ConnectionViewController extends GetxController
         connectionState$(ConnectionStates.connected);
       } else {
         connectionState$(ConnectionStates.disconnected);
-        String message = mapError![value]!.tr();
+        String message = mapError[value]!.tr();
         Get.defaultDialog(
           title: "error".tr(),
           middleText: message,

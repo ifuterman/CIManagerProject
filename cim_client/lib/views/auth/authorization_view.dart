@@ -50,103 +50,109 @@ class _MainWidget extends GetView<AuthorizationViewController> {
       children: [
         Align(
           alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Obx(() {
-                if (service.userMode$.value == UserMode.first) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text('welcome_admin'.tr()),
-                  );
-                } else {
-                  return Container();
-                }
-              }),
-              Obx(() {
-                return Text(
-                  '${'user_name_title'.tr()} '
-                  '(${service.userMode$})',
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.right,
-                );
-              }),
-              Container(
-                child: TextField(
-                  controller: _controllerLogin,
-                  textAlignVertical: TextAlignVertical.top,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 400),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(() {
+                    if (service.userMode$.value == UserMode.first) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: Text('welcome_admin'.tr()),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }),
+                  Obx(() {
+                    return Text(
+                      '${'user_name_title'.tr()} '
+                      '(${service.userMode$})',
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.right,
+                    );
+                  }),
+                  Container(
+                    child: TextField(
+                      controller: _controllerLogin,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (v) => controller.enterData(
+                        login: _controllerLogin.text,
+                        password: _controllerPassword.text,
+                      ),
+                    ),
                   ),
-                  onChanged: (v) => controller.enterData(
-                    login: _controllerLogin.text,
-                    password: _controllerPassword.text,
+                  Text(
+                    'user_password_title'.tr(),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.right,
                   ),
-                ),
-              ),
-              Text(
-                'user_password_title'.tr(),
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.right,
-              ),
-              Container(
-                child: TextField(
-                  controller: _controllerPassword,
-                  textAlignVertical: TextAlignVertical.top,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
+                  Container(
+                    child: TextField(
+                      controller: _controllerPassword,
+                      textAlignVertical: TextAlignVertical.top,
+                      obscureText: !kDebugMode,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                      ),
+                      onChanged: (v) => controller.enterData(
+                        login: _controllerLogin.text,
+                        password: _controllerPassword.text,
+                      ),
+                    ),
                   ),
-                  onChanged: (v) => controller.enterData(
-                    login: _controllerLogin.text,
-                    password: _controllerPassword.text,
-                  ),
-                ),
-              ),
-              SizedBox(height: 5),
-              Obx(
-                () => ElevatedButton(
-                  child: Text("user_authorize_title".tr()),
-                  onPressed: controller.isValidData$.value
-                      ? () {
-                          controller.authoriseUser(
-                            login: _controllerPassword.text,
-                            password: _controllerLogin.text,
-                          );
-                        }
-                      : null,
+                  SizedBox(height: 5),
+                  Obx(
+                    () => ElevatedButton(
+                      child: Text("user_authorize_title".tr()),
+                      onPressed: controller.isValidData$.value
+                          ? () {
+                              controller.authoriseUser(
+                                login: _controllerPassword.text,
+                                password: _controllerLogin.text,
+                              );
+                            }
+                          : null,
 //              onPressed: () => viewModel.authorizeUser(),
-                ),
-              ),
-              TextButton(
-                child: Text(
-                  "connection_options".tr(),
-                  style: TextStyle(color: Colors.blue),
-                ),
-                onPressed: controller.reconnect,
-              ),
-              if (kDebugMode)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                      child: Text(
-                        "Clean DB",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                      onPressed: controller.clearDb,
                     ),
-                    TextButton(
-                      child: Text(
-                        "Profile",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                      onPressed: controller.openProfile,
+                  ),
+                  TextButton(
+                    child: Text(
+                      "connection_options".tr(),
+                      style: TextStyle(color: Colors.blue),
                     ),
-                  ],
-                )
-            ],
+                    onPressed: controller.reconnect,
+                  ),
+                  if (kDebugMode)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          child: Text(
+                            "Clean DB",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onPressed: controller.clearDb,
+                        ),
+                        TextButton(
+                          child: Text(
+                            "Profile",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          onPressed: controller.openProfile,
+                        ),
+                      ],
+                    )
+                ],
+              ),
+            ),
           ),
         ),
         Obx(() {

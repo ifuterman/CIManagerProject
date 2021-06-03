@@ -61,7 +61,7 @@ class NewUserView extends AppGetView<NewUserViewController> {
                     ),
                     DropdownButtonFormField<String>(
                       validator: (value){
-                        if (value == null || value!.isEmpty) {
+                        if (value == null || value.isEmpty) {
                           return 'Please enter роль';
                         }
                         return null;
@@ -85,7 +85,7 @@ class NewUserView extends AppGetView<NewUserViewController> {
                           ElevatedButton(
                             onPressed: () {
                               // Validate returns true if the form is valid, or false otherwise.
-                              if (_formKey!.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 c.processing();
                               }
                             },

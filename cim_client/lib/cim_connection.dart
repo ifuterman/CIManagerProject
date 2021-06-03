@@ -1,6 +1,8 @@
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
+import 'package:vfx_flutter_common/utils.dart';
 import 'cim_errors.dart';
 
 class CIMConnection extends GetConnect {
@@ -13,7 +15,9 @@ class CIMConnection extends GetConnect {
   Future<CIMErrors> checkConnection() async {
     Response res;
     try {
+      debugPrint('$now: CIMConnection.checkConnection.1');
       res = await get(CIMRestApi.prepareCheckConnection());
+      debugPrint('$now: CIMConnection.checkConnection.2');
       switch (res.status.code) {
         case HttpStatus.ok:
           return CIMErrors.ok;
@@ -21,6 +25,7 @@ class CIMConnection extends GetConnect {
           return CIMErrors.connectionErrorServerDbFault;
       }
     } catch (e) {
+      debugPrint('$now: CIMConnection.checkConnection.E $e');
       return CIMErrors.connectionErrorServerNotFound;
     }
     if (res.status.connectionError)
