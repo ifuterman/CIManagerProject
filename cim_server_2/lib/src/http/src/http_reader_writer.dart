@@ -45,8 +45,10 @@ class HttpReaderWriter{
       processors.add(isolate);
     }
     try {
+      /*server = await HttpServer.bind(
+          messageInitServer.host, messageInitServer.serverPort);*/
       server = await HttpServer.bind(
-          messageInitServer.host, messageInitServer.serverPort);
+          InternetAddress.anyIPv4, messageInitServer.serverPort);
     }catch(e){
       server = null;
     }
