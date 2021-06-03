@@ -62,6 +62,26 @@ class NotEqualPredicate extends Predicate{
   String getSign() => '!=';
 }
 
+class IsNotNullPredicate extends Predicate{
+  IsNotNullPredicate():super('');
+  @override
+  String getSign() => '!= NULL';
+  @override
+  String buildQuery(){
+    return getSign();
+  }
+}
+
+class IsNullPredicate extends Predicate{
+  IsNullPredicate():super('');
+  @override
+  String getSign() => '= NULL';
+  @override
+  String buildQuery(){
+    return getSign();
+  }
+}
+
 enum ExpressionTypes{
   first,
   and,
@@ -109,6 +129,14 @@ class Expression {
 
   Expression lessThen(dynamic value){
     predicates.add(LessPredicate(value));
+    return this;
+  }
+  Expression isNotNull(){
+    predicates.add(IsNotNullPredicate());
+    return this;
+  }
+  Expression isNull(){
+    predicates.add(IsNullPredicate());
     return this;
   }
 }
