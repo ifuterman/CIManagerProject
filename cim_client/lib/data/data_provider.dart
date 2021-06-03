@@ -59,6 +59,8 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate) async {
     Response res;
     try {
+      debugPrint(
+          '$now: DataProviderImpl.createFirstUser: ${candidate.login} / ${candidate.password}');
       final packet = CIMPacket.makePacket();
       packet?.addInstance(candidate);
       final _cacheProvider = Get.find<CacheProviderService>();
@@ -66,6 +68,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       final tokenStr = 'Bearer ${token}';
       final String authKey = 'Authorization';
       final authorisation = {authKey: tokenStr};
+      debugPrint('$now: DataProviderImpl.createFirstUser: authorisation = $authorisation');
       res = await post(
         CIMRestApi.prepareFirstUser(),
         packet?.map,

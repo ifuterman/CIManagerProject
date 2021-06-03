@@ -72,11 +72,17 @@ class GlobalViewService extends GetxService {
     provider!.checkConnection().then((value) {
       debugPrint('$now: GlobalViewService._start: $value');
       if (value == CIMErrors.ok) {
-        Get.find<CacheProviderService>()
-            .storage!
-            .write('connect', ConnectionStates.connected.index);
-        // connectionState$(ConnectionStates.connected);
-        _toAuthForm();
+        _toMainForm();
+        /*
+        TODO(vvk): По уму тут надо на авторизацию,но пока перекидываю
+          на [_toMainForm] для простоты. Оттуда есть переход на
+          авторизацию
+        * */
+        // Get.find<CacheProviderService>()
+        //     .storage!
+        //     .write('connect', ConnectionStates.connected.index);
+        // // connectionState$(ConnectionStates.connected);
+        // _toAuthForm();
       } else {
         Get.find<CacheProviderService>()
             .storage!

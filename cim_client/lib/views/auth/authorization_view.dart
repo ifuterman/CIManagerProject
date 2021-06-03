@@ -98,7 +98,7 @@ class _MainWidget extends GetView<AuthorizationViewController> {
                     child: TextField(
                       controller: _controllerPassword,
                       textAlignVertical: TextAlignVertical.top,
-                      obscureText: true,
+                      obscureText: !kDebugMode,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                       ),

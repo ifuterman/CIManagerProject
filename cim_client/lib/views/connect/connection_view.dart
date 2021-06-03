@@ -67,7 +67,7 @@ class ConnectionView extends GetView<ConnectionViewController> {
                   controller: _controllerAddress,
                   textAlignVertical: TextAlignVertical.top,
                   obscureText: false,
-                  enabled: controller.connectionState$.value == ConnectionStates.checking,
+                  // enabled: controller.connectionState$.value == ConnectionStates.checking,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(),
                   ),
@@ -87,7 +87,7 @@ class ConnectionView extends GetView<ConnectionViewController> {
                     FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                   ],
                   controller: _controllerPort,
-                  enabled: controller.connectionState$.value == ConnectionStates.checking,
+                  // enabled: controller.connectionState$.value == ConnectionStates.checking,
                   textAlignVertical: TextAlignVertical.top,
                   maxLines: 1,
                   obscureText: false,
