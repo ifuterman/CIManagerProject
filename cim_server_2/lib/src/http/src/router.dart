@@ -1,3 +1,5 @@
+import 'package:cim_server_2/src/http/http.dart';
+
 import 'controller.dart';
 import 'request.dart';
 import 'response.dart';
@@ -39,6 +41,11 @@ class Router{
     if(link == null){
       return Response.notFound();
     }
-    return await link.handle(request);
+    try{
+      return await link.handle(request);
+    }catch(e){
+      return Response.internalServerError(body: Body.fromMap({'Endpoint exception' : e.toString()}));
+    }
+
   }
 }
