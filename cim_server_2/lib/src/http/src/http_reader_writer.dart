@@ -199,6 +199,7 @@ class HttpReaderWriter{
     }
     entry.value.cancel();
     var httpRequest = entry.key;
+    print('response=> status: ${response.status}, body: ${response.body.asJsonMap()}');
     await sendResponse(httpRequest.response, response);
   }
   static Future sendResponse(HttpResponse httpResponse, Response response)async{
@@ -230,6 +231,8 @@ class HttpReaderWriter{
         httpResponse.headers.contentType = ContentType.text;
         break;
     }
+    print('httpResponse = ${httpResponse.statusCode} /\n${httpResponse.toString()} / '
+        '\n${httpResponse}');
     await httpResponse.close();
   }
 }

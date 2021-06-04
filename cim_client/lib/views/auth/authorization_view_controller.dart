@@ -60,20 +60,38 @@ class AuthorizationViewController extends GetxController
     debugPrint('$now: AuthorizationViewController.authoriseUser.1');
 
     _getToken(login: login, password: password).then((value) {
+      debugPrint('$now: AuthorizationViewController.authoriseUser. _getToken = $value');
       state$(AuthorisationState.ok);
       if(!value){
         debugPrint('$now: AuthorizationViewController.authoriseUser.2');
         // FIXME(vvk): [UserRoles] -> UserRole
         final candidate = CIMUser(login ?? '', password ?? '');
         _dataProvider?.createFirstUser(candidate).then((value) async {
+          debugPrint('$now: AuthorizationViewController.authoriseUser.3: ');
           if (value.result == CIMErrors.ok) {
-            await _getToken(login: login, password: password);
+            // await _getToken(login: login, password: password);
+            Get.snackbar('HORRAY!!!!!', 'create first: ${value.result}');
           } else {
-            Get.snackbar('', 'create first: ${value.result}');
+            Get.snackbar('MANAMANA', 'create first: ${value.result}');
           }
         });
       }
-      debugPrint('$now: AuthorizationViewController.authoriseUser.3');
+      debugPrint('$now: AuthorizationViewController.authoriseUser.4');
+    });
+  }
+
+  void createNewUser({String? login, String? password}) {
+    debugPrint('$now: AuthorizationViewController.createNewUser.2');
+    // FIXME(vvk): [UserRoles] -> UserRole
+    final candidate = CIMUser(login ?? '', password ?? '');
+    _dataProvider?.createFirstUser(candidate).then((value) async {
+      debugPrint('$now: AuthorizationViewController.createNewUser.3: RESULT = $value');
+      if (value.result == CIMErrors.ok) {
+        // await _getToken(login: login, password: password);
+        Get.snackbar('HORRAY!!!!!', 'create first: ${value.result}');
+      } else {
+        Get.snackbar('MANAMANA', 'create first: ${value.result}');
+      }
     });
   }
 

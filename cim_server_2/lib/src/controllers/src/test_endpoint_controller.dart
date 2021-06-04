@@ -8,6 +8,8 @@ class TestEnpointController extends Controller {
 
   @override
   Future<RequestOrResponse> handle(Request request) async {
-    return Response.ok(body: Body.fromMap(request.body.asJsonMap()));
+    print('request.body.1 = ${request.body}');
+    print('request.body.2 = ${request.body.asJsonMap()}');
+    return Response.ok(body: request.body);
   }
 }

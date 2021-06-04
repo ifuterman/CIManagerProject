@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cim_client/cim_errors.dart';
@@ -5,6 +6,7 @@ import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:vfx_flutter_common/utils.dart';
 
 // ignore: one_member_abstracts
@@ -52,11 +54,49 @@ class DataProviderImpl extends GetConnect implements DataProvider {
 
   @override
   void onInit() {
-    httpClient.baseUrl = "http://$_address:$_port";
+    // httpClient.baseUrl = "http://$_address:$_port";
+    httpClient.baseUrl = 'https://torexo-core.apddev.ru/api';
   }
 
   @override
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate) async {
+
+    var url = Uri.parse('http://$_address:$_port/test');
+
+    final packet = CIMPacket.makePacket();
+    packet?.addInstance(candidate);
+    print('Response status.url.1: ${url}');
+    // "instances": <Map<String, dynamic>>[
+    // {
+    // "instance": "CIMUser",
+    // "login": "qq",
+    // "password": "222",
+    // "id": 0,
+    // "role": "UserRoles.administrator"
+    // }
+    // ]
+    final body = <String, dynamic>{
+      "instance": "CIMUser",
+      "login": "qq",
+    };
+    print('Response status.body.1: ${body}');
+    print('Response status.body.rt.1: ${body.runtimeType}');
+    try {
+      var response = await http.post(
+          url,
+          body: jsonEncode(packet!.map),
+      );
+      // var response = await http.post(url, body: {"login": "frostyland@yandex.ru"});
+      print('Response status.2: ${response.statusCode}');
+      print('Response body.2 ${response.body}');
+    } catch (e) {
+      print('Response body.ERROR ${e}');
+    }
+
+    return Return(
+        result: CIMErrors.ok,
+        description: 'OKOKOK');
+
     Response res;
     try {
       debugPrint(
@@ -67,29 +107,37 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       final token = _cacheProvider.fetchToken();
       final tokenStr = 'Bearer ${token}';
       final String authKey = 'Authorization';
-      final authorisation = {authKey: tokenStr};
-      debugPrint('$now: DataProviderImpl.createFirstUser: authorisation = $authorisation');
+      // final authorisation = {authKey: tokenStr};
+      // debugPrint('$now: DataProviderImpl.createFirstUser: authorisation = $authorisation');
+      debugPrint('$now: DataProviderImpl.createFirstUser.000: ${packet?.map}');
       res = await post(
         CIMRestApi.prepareFirstUser(),
         packet?.map,
-        headers: authorisation,
       );
 
       debugPrint(
-          '$now: DataProviderImpl.createFirstUser: ${res.statusCode} / ${res.body}');
+          '$now: DataProviderImpl.createFirstUser: '
+              'STATUS: ${res.statusCode} / BODY ${res.body} / '
+              'ALL ${res.status} / ALL2 ${res.status.code}');
 
       switch (res.status.code) {
         case HttpStatus.ok:
           final data = res.body;
+          debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.1 = $data');
           final packet = CIMPacket.makePacketFromMap(data);
+          debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.2 = $packet');
           final user = packet?.getInstances()?[0] as CIMUser;
+          debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.3 = $user');
           return Return(result: CIMErrors.ok, data: user);
         case HttpStatus.internalServerError:
+          debugPrint('$now: DataProviderImpl.createFirstUser: INTERNAL');
           return Return(result: CIMErrors.connectionErrorServerDbFault);
         default:
+          debugPrint('$now: DataProviderImpl.createFirstUser: UNEXPECTED');
           return Return(result: CIMErrors.unexpectedServerResponse);
       }
     } catch (e) {
+      debugPrint('$now: DataProviderImpl.createFirstUser: EEEEEE');
       return Return(
           result: CIMErrors.unexpectedServerResponse,
           description: e.toString());
@@ -136,6 +184,8 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   @override
   Future<Return<CIMErrors, Map<String, dynamic>>> getToken(
       CIMUser candidate) async {
+    debugPrint('$now: DataProviderImpl.getToken: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
     Response res;
     try {
       final packet = CIMPacket.makePacket();
@@ -176,8 +226,6 @@ class DataProviderImpl extends GetConnect implements DataProvider {
         packet?.map,
         headers: authorisation,
       );
-      debugPrint(
-          '$now: DataProviderImpl.createFirstUser: ${res.statusCode} / ${res.body}');
       switch (res.status.code) {
         case HttpStatus.ok:
           final data = res.body;
@@ -209,6 +257,9 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       final tokenStr = 'Bearer ${token}';
       final String authKey = 'Authorization';
       final authorisation = {authKey: tokenStr};
+
+
+
       res = await post(
         CIMRestApi.preparePatientsNew(),
         packet!.map,
@@ -262,9 +313,22 @@ class DataProviderImpl extends GetConnect implements DataProvider {
 
   @override
   Future<CIMErrors> cleanDb() async {
+
+    // var url = Uri.parse('https://torexo-core.apddev.ru/api/code');
+    var url = Uri.parse('http://$_address:$_port/debug/clean_db');
+    print('Response status.1: ${url}');
+    var response = await http.post(url, body: {'body': 'shmody'});
+    // var response = await http.post(url, body: {"login": "frostyland@yandex.ru"});
+    print('Response status.1: ${response.statusCode}');
+    print('Response body.1: ${response.body}');
+
+    return CIMErrors.ok;
+
     Response res;
     try {
-      res = await get(CIMRestApi.prepareDebugCleanDB());
+      debugPrint('$now: DataProviderImpl.cleanDb.torexo');
+      res = await post('/code', {"login": "frostyland@yandex.ru"});
+      // res = await post(CIMRestApi.prepareDebugCleanDB(), {});
       debugPrint(
           '$now: DataProviderImpl.cleanDb ${res.statusCode} / ${res.body}');
       switch (res.status.code) {

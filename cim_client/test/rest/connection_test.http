@@ -65,7 +65,7 @@ Authorization: Token e821244f-c6d1-4457-b079-3913ef7858ed
 ###
 
 GET http://127.0.0.1:8888/debug/clean_db
-Authorization: Token e821244f-c6d1-4457-b079-3913ef7858ed
+#Authorization: Token e821244f-c6d1-4457-b079-3913ef7858ed
 Content-Type: application/json
 
 ###
@@ -80,8 +80,8 @@ Content-Type: application/json
       "instance" : "CIMUser",
       "login" : "admin_again2",
       "password" : "admin_again",
-      "id" : "0",
-      "role" : "0"
+      "id" : 0,
+      "role" : "UserRoles.administrator"
     }
   ]
 }
