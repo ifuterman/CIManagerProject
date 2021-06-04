@@ -214,17 +214,24 @@ class HttpReaderWriter{
     }
     httpResponse.statusCode = response.status;
     var body = response.body;
+
     switch(response.body.type){
       case BodyTypes.text:
         httpResponse.headers.contentType = ContentType.text;
-        httpResponse.write(body.asString());
+        var str = body.asString();
+        httpResponse.contentLength = str.length;
+        httpResponse.write(str);
         break;
       case BodyTypes.json:
         httpResponse.headers.contentType = ContentType.json;
-        httpResponse.write(body.asJsonMap());
+        var str = body.asString();
+        httpResponse.contentLength = str.codeUnits.length;
+        httpResponse.write(str);
+
         break;
       case BodyTypes.raw:
         httpResponse.headers.contentType = ContentType.binary;
+        httpResponse.contentLength = body.rawBody.lengthInBytes + 2;
         httpResponse.write(body.rawBody);
         break;
       case BodyTypes.empty:
