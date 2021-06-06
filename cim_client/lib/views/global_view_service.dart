@@ -10,34 +10,24 @@ import 'package:cim_client/views/temp_start/src/temp_start_view_controller.dart'
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/utils.dart';
 
-abstract class NavArgs {
-  static const defaultKey = '_default_nav_arg_';
-  static const startNavKey = 'start_navigation';
-  static const toNewUser = 'new_user';
+import 'shared/getx_helpers.dart';
 
-  static safeValue(Map<String, dynamic>? args, {String? key, defValue}) {
-    key ??= defaultKey;
-    if (!(args?.containsKey(key) ?? false)) {
-      return defValue;
-    }
-    return args![key];
-  }
 
-  static Map<String, dynamic> simple(value) => {defaultKey: value};
-}
-
-class GlobalViewService extends GetxService {
+class GlobalViewService extends AppGetxService {
+  
+  GlobalViewService({DataProvider? provider})
+      : _provider = provider ?? Get.find<DataProvider>(); 
+  
   static const initialRoute = AppRoutes.splash;
 
   static const initialArgs = <String, dynamic>{
     NavArgs.startNavKey: NavArgs.toNewUser,
   };
 
-  DataProvider? provider;
+  final DataProvider _provider;
 
   // final connectionState$ = Rx<ConnectionStates>(ConnectionStates.unknown);
 
@@ -46,7 +36,6 @@ class GlobalViewService extends GetxService {
   @override
   void onInit() {
     super.onInit();
-    provider = Get.put(DataProviderImpl());
   }
 
   @override
@@ -69,7 +58,7 @@ class GlobalViewService extends GetxService {
   }
 
   Future _start() async {
-    provider!.checkConnection().then((value) {
+    _provider.checkConnection().then((value) {
       debugPrint('$now: GlobalViewService._start: $value');
       if (value == CIMErrors.ok) {
         _toMainForm();
@@ -90,9 +79,10 @@ class GlobalViewService extends GetxService {
         // connectionState$(ConnectionStates.disconnected);
         String message = mapError[value]!.tr();
         Get.defaultDialog(
+          barrierDismissible: false,
           title: "error".tr(),
           middleText: message,
-          confirm: RaisedButton(
+          confirm: TextButton(
             child: Text("close".tr()),
             onPressed: () {
               Get.back();
@@ -157,15 +147,17 @@ class GlobalViewService extends GetxService {
       ..toPage(
           onClose: (c, {args}) {
             Get.back();
-            if (args == true) {
-              _toAuthForm();
-            } else {
-              if (c.connectionState$.value != ConnectionStates.connected) {
-                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-              } else {
-                _toAuthForm();
-              }
-            }
+            _toMainForm();
+            // if (args == true) {
+            //   _toMainForm();
+            //   // _toAuthForm();
+            // } else {
+            //   if (c.connectionState$.value != ConnectionStates.connected) {
+            //     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            //   } else {
+            //     _toAuthForm();
+            //   }
+            // }
           },
           args: {NavArgs.defaultKey: 'from $runtimeType._toConnectForm'}));
   }

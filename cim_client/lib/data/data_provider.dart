@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cim_client/cim_errors.dart';
 import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_protocol/cim_protocol.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +35,25 @@ class DataProviderImpl extends GetConnect implements DataProvider {
 
   @override
   Future<CIMErrors> checkConnection() async {
+
+    // final client = new HttpClient();
+    // client.connectionTimeout = Duration(seconds: 2);
+    // client.postUrl(url)
+    //     .then((request) {
+    //   request.headers.contentType = ContentType.json;
+    //   request.write(packet!.map);
+    //   return request.close();
+    // })
+    //     .then((response) async{
+    //   print('Response status: ${response.statusCode}');
+    //   var list = await response.first;
+    //   print('Response body: $list');
+    // });
+
     Response res;
     try {
+      print('$now: DataProviderImpl.checkConnection: ');
+      httpClient.timeout = Duration(seconds: 1);
       res = await get(CIMRestApi.prepareCheckConnection());
       debugPrint('$now: DataProviderImpl.checkConnection: res = $res');
       switch (res.status.code) {
@@ -54,14 +72,25 @@ class DataProviderImpl extends GetConnect implements DataProvider {
 
   @override
   void onInit() {
-    // httpClient.baseUrl = "http://$_address:$_port";
-    httpClient.baseUrl = 'https://torexo-core.apddev.ru/api';
+    httpClient.baseUrl = "http://$_address:$_port";
+    timeout = Duration(milliseconds: 2000);
+    // httpClient.baseUrl = 'https://torexo-core.apddev.ru/api';
   }
 
   @override
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate) async {
 
-    var url = Uri.parse('http://$_address:$_port/test');
+    // var url = Uri.parse('https://torexo-core.apddev.ru/api/info');
+    var url = Uri.parse('http://$_address:$_port/user/first');
+    // try {
+    //   print('$now: DataProviderImpl.createFirstUser: ');
+    //   var response = await dio.Dio().post(url.toString());
+    //   print(response);
+    //   print('$now: DataProviderImpl.createFirstUser: $response');
+    // } catch (e) {
+    //   print('$now: DataProviderImpl.createFirstUser: E = $e');
+    //   print(e);
+    // }
 
     final packet = CIMPacket.makePacket();
     packet?.addInstance(candidate);
@@ -81,18 +110,20 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     };
 /*    print('Response status.body.1: ${body}');
     print('Response status.body.rt.1: ${body.runtimeType}');*/
-    var client = new HttpClient();
+    final client = new HttpClient();
+    client.connectionTimeout = Duration(seconds: 2);
     client.postUrl(url)
-        .then((HttpClientRequest request) {
+        .then((request) {
           request.headers.contentType = ContentType.json;
           request.write(packet!.map);
       return request.close();
     })
-        .then((HttpClientResponse response) async{
+        .then((response) async{
       print('Response status: ${response.statusCode}');
       var list = await response.first;
       print('Response body: $list');
     });
+
     /*try {
       var response = await http.post(
           url,
@@ -109,51 +140,51 @@ class DataProviderImpl extends GetConnect implements DataProvider {
         result: CIMErrors.ok,
         description: 'OKOKOK');
 
-    Response res;
-    try {
-      debugPrint(
-          '$now: DataProviderImpl.createFirstUser: ${candidate.login} / ${candidate.password}');
-      final packet = CIMPacket.makePacket();
-      packet?.addInstance(candidate);
-      final _cacheProvider = Get.find<CacheProviderService>();
-      final token = _cacheProvider.fetchToken();
-      final tokenStr = 'Bearer ${token}';
-      final String authKey = 'Authorization';
-      // final authorisation = {authKey: tokenStr};
-      // debugPrint('$now: DataProviderImpl.createFirstUser: authorisation = $authorisation');
-      debugPrint('$now: DataProviderImpl.createFirstUser.000: ${packet?.map}');
-      res = await post(
-        CIMRestApi.prepareFirstUser(),
-        packet?.map,
-      );
-
-      debugPrint(
-          '$now: DataProviderImpl.createFirstUser: '
-              'STATUS: ${res.statusCode} / BODY ${res.body} / '
-              'ALL ${res.status} / ALL2 ${res.status.code}');
-
-      switch (res.status.code) {
-        case HttpStatus.ok:
-          final data = res.body;
-          debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.1 = $data');
-          final packet = CIMPacket.makePacketFromMap(data);
-          debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.2 = $packet');
-          final user = packet?.getInstances()?[0] as CIMUser;
-          debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.3 = $user');
-          return Return(result: CIMErrors.ok, data: user);
-        case HttpStatus.internalServerError:
-          debugPrint('$now: DataProviderImpl.createFirstUser: INTERNAL');
-          return Return(result: CIMErrors.connectionErrorServerDbFault);
-        default:
-          debugPrint('$now: DataProviderImpl.createFirstUser: UNEXPECTED');
-          return Return(result: CIMErrors.unexpectedServerResponse);
-      }
-    } catch (e) {
-      debugPrint('$now: DataProviderImpl.createFirstUser: EEEEEE');
-      return Return(
-          result: CIMErrors.unexpectedServerResponse,
-          description: e.toString());
-    }
+    // Response res;
+    // try {
+    //   debugPrint(
+    //       '$now: DataProviderImpl.createFirstUser: ${candidate.login} / ${candidate.password}');
+    //   final packet = CIMPacket.makePacket();
+    //   packet?.addInstance(candidate);
+    //   final _cacheProvider = Get.find<CacheProviderService>();
+    //   final token = _cacheProvider.fetchToken();
+    //   final tokenStr = 'Bearer ${token}';
+    //   final String authKey = 'Authorization';
+    //   // final authorisation = {authKey: tokenStr};
+    //   // debugPrint('$now: DataProviderImpl.createFirstUser: authorisation = $authorisation');
+    //   debugPrint('$now: DataProviderImpl.createFirstUser.000: ${packet?.map}');
+    //   res = await post(
+    //     CIMRestApi.prepareFirstUser(),
+    //     packet?.map,
+    //   );
+    //
+    //   debugPrint(
+    //       '$now: DataProviderImpl.createFirstUser: '
+    //           'STATUS: ${res.statusCode} / BODY ${res.body} / '
+    //           'ALL ${res.status} / ALL2 ${res.status.code}');
+    //
+    //   switch (res.status.code) {
+    //     case HttpStatus.ok:
+    //       final data = res.body;
+    //       debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.1 = $data');
+    //       final packet = CIMPacket.makePacketFromMap(data);
+    //       debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.2 = $packet');
+    //       final user = packet?.getInstances()?[0] as CIMUser;
+    //       debugPrint('$now: DataProviderImpl.createFirstUser: OK: data.3 = $user');
+    //       return Return(result: CIMErrors.ok, data: user);
+    //     case HttpStatus.internalServerError:
+    //       debugPrint('$now: DataProviderImpl.createFirstUser: INTERNAL');
+    //       return Return(result: CIMErrors.connectionErrorServerDbFault);
+    //     default:
+    //       debugPrint('$now: DataProviderImpl.createFirstUser: UNEXPECTED');
+    //       return Return(result: CIMErrors.unexpectedServerResponse);
+    //   }
+    // } catch (e) {
+    //   debugPrint('$now: DataProviderImpl.createFirstUser: EEEEEE');
+    //   return Return(
+    //       result: CIMErrors.unexpectedServerResponse,
+    //       description: e.toString());
+    // }
   }
 
   @override
@@ -328,11 +359,18 @@ class DataProviderImpl extends GetConnect implements DataProvider {
 
     // var url = Uri.parse('https://torexo-core.apddev.ru/api/code');
     var url = Uri.parse('http://$_address:$_port/debug/clean_db');
-    print('Response status.1: ${url}');
-    var response = await http.post(url, body: {'body': 'shmody'});
-    // var response = await http.post(url, body: {"login": "frostyland@yandex.ru"});
-    print('Response status.1: ${response.statusCode}');
-    print('Response body.1: ${response.body}');
+    var client = new HttpClient();
+    client.postUrl(url)
+        .then((HttpClientRequest request) {
+      request.headers.contentType = ContentType.json;
+      // request.write(packet!.map);
+      return request.close();
+    })
+        .then((HttpClientResponse response) async{
+      print('Response status: ${response.statusCode}');
+      var list = await response.first;
+      print('Response body: $list');
+    });
 
     return CIMErrors.ok;
 

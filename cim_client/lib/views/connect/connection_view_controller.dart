@@ -4,6 +4,7 @@ import 'package:cim_client/data/cache_provider.dart';
 import 'package:cim_client/globals.dart';
 import 'package:cim_client/views/connect/connection_view.dart';
 import 'package:cim_client/views/global_view_service.dart';
+import 'package:cim_client/views/shared/getx_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;

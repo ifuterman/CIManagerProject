@@ -114,7 +114,7 @@ class _MainWidget extends GetView<AuthorizationViewController> {
                       child: Text("user_authorize_title".tr()),
                       onPressed: controller.isValidData$.value
                           ? () {
-                              controller.createNewUser(
+                              controller.authoriseUser(
                                 login: _controllerPassword.text,
                                 password: _controllerLogin.text,
                               );

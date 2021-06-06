@@ -3,6 +3,7 @@ import 'package:cim_client/data/data_provider.dart';
 import 'package:cim_client/views/auth/authorization_view.dart';
 import 'package:cim_client/views/global_view_service.dart';
 import 'package:cim_client/views/main/sub/profile/profile.dart';
+import 'package:cim_client/views/shared/getx_helpers.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Trans;

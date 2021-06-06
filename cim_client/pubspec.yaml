@@ -32,6 +32,7 @@ dependencies:
   rxdart: ^0.26.0
   easy_localization: ^3.0.0
   singleton: ^0.0.2
+  dio: ^4.0.0
 #  cim_model:
 #   path: ../cim_model/
   cim_protocol:
