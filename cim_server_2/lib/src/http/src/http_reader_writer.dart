@@ -229,11 +229,15 @@ class HttpReaderWriter{
           break;
         case BodyTypes.raw:
           httpResponse.headers.contentType = ContentType.binary;
-          httpResponse.write(body.rawBody);
+          httpResponse.write(body.asString());
           break;
         case BodyTypes.empty:
           httpResponse.headers.contentType = ContentType.text;
           break;
+        case BodyTypes.error:
+          httpResponse.headers.contentType = ContentType.text;
+          httpResponse.statusCode = HttpStatus.unprocessableEntity;
+          httpResponse.write(body.asString());
       }
       print('Response sent. StatusCode = ${httpResponse.statusCode}');
       await httpResponse.close();

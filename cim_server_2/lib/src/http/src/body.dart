@@ -1,44 +1,59 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 enum BodyTypes{
   text,
   json,
   raw,
-  empty
+  empty,
+  error
 }
 
 class Body{
   final BodyTypes _type;
-  final charSize;
+//  final charSize;
   BodyTypes get type => _type;
-  late Uint8List rawBody;
-  Body(this.rawBody,[this._type = BodyTypes.raw, this.charSize = 2]);
-  Body.empty():_type = BodyTypes.empty, charSize = 2{
-    rawBody = Uint8List(0);
+  String strBody = '';
+//  late Uint8List rawBody;
+//  Body(this.rawBody,[this._type = BodyTypes.raw, this.charSize = 2]);
+  Body ._(this._type);
+  static Future<Body> makeBody(HttpRequest request) async{
+    if(request.contentLength == 0){
+      return Body._(BodyTypes.empty);
+    }
+    try{
+      var bytes = await request.first;
+      if(bytes.isEmpty){
+        return Body._(BodyTypes.empty);
+      }
+      if(request.headers.contentType == ContentType.text){
+        var body = Body._(BodyTypes.text);
+        body.strBody = Utf8Decoder().convert(bytes);
+        return body;
+      }
+      if(request.headers.contentType == ContentType.json){
+        var body = Body._(BodyTypes.json);
+        body.strBody = Utf8Decoder().convert(bytes);
+        return body;
+      }
+      var body = Body._(BodyTypes.raw);
+      body.strBody = String.fromCharCodes(bytes);
+      return body;
+
+    }catch(e){return Body._(BodyTypes.error);}
   }
-  Body.fromString(String str):_type = BodyTypes.text, charSize = 2{
-    var buf = Uint16List.fromList(str.codeUnits).buffer;
-    rawBody = buf.asUint8List();
-  }
-  Body.fromMap(Map<String, dynamic> map):_type = BodyTypes.json, charSize = 2{
+  Body.empty():_type = BodyTypes.empty;
+  Body.fromString(this.strBody):_type = BodyTypes.text;
+
+  Body.fromMap(Map<String, dynamic> map):_type = BodyTypes.json{
     var codec = JsonCodec();
-    var str = codec.encode(map);
-    var buf = Uint16List.fromList(str.codeUnits).buffer;
-    rawBody = buf.asUint8List();
+    strBody = codec.encode(map);
   }
     String asString() {
-    List<int> list;
-    if(charSize == 2){
-      var offset = rawBody.buffer.lengthInBytes - rawBody.length;
-      list = rawBody.buffer.asUint16List(offset);
-    }
-    else{
-      list = rawBody.sublist(0);
-    }
-    var str = String.fromCharCodes(list);
-    return str;
+    return strBody;
   }
+
   Map<String, dynamic> asJsonMap(){
     var json = asString();
     var codec = JsonCodec();
