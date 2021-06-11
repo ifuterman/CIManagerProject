@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:convert';
 
 import 'http_processor.dart';
 import 'response.dart';
@@ -228,7 +227,7 @@ class HttpReaderWriter{
           httpResponse.write(str);
           break;
         case BodyTypes.raw:
-          httpResponse.headers.contentType = ContentType.binary;
+          httpResponse.headers.contentType ??= ContentType.binary;
           httpResponse.write(body.asString());
           break;
         case BodyTypes.empty:
