@@ -11,6 +11,7 @@ class UserFirstController extends Controller{
   @override
   Future<RequestOrResponse> handle (Request request) async{
     try{
+//      return Response.ok(body: Body.fromString('str'));
       var packet = CIMPacket.makePacketFromMap(request.body.asJsonMap());
       if(packet == null){
         return Response.badRequest(body: Body.fromMap(request.body.asJsonMap()));

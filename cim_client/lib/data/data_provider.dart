@@ -81,7 +81,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     };
 /*    print('Response status.body.1: ${body}');
     print('Response status.body.rt.1: ${body.runtimeType}');*/
-    var client = new HttpClient();
+    /*var client = new HttpClient();
     client.postUrl(url)
         .then((HttpClientRequest request) {
           request.headers.contentType = ContentType.json;
@@ -92,8 +92,8 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       print('Response status: ${response.statusCode}');
       var list = await response.first;
       print('Response body: $list');
-    });
-    /*try {
+    });*/
+    try {
       var response = await http.post(
           url,
           body: jsonEncode(packet!.map),
@@ -103,7 +103,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       print('Response body.2 ${response.body}');
     } catch (e) {
       print('Response body.ERROR ${e}');
-    }*/
+    }
 
     return Return(
         result: CIMErrors.ok,

@@ -1,1 +1,1 @@
-{"connect":1,"cache.token":null,"preference.dark_mode":false}
+{"connect":2,"cache.token":null,"preference.dark_mode":false}

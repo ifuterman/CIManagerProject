@@ -12,16 +12,35 @@ class Request implements RequestOrResponse{
     var requestedUri = request.requestedUri;
     var uri = request.uri;
     Uint8List? rawBody;
-    var charSize = 2;
-    if(request.contentLength > 0){
-      rawBody = await request.first;
-      if(request.contentLength == rawBody.length){
-        charSize = 1;
+    var charSize = 1;
+/*    request.listen((event) {
+      print('$event');});*/
+    if(request.contentLength != 0){
+      try {
+        rawBody = await request.first;
+/*        if (request.contentLength == rawBody.length) {
+          charSize = 1;
+        }*/
+      }catch(e){
+        print('Exception int Request.prepare. Can`t read body');
+        rawBody = null;
       }
     }
-
+    var type = BodyTypes.raw;
+    if(headers.contentType == ContentType.json)
+    {
+      if(headers.contentType == ContentType.json){
+        type = BodyTypes.json;
+      }
+      else if(headers.contentType == ContentType.text){
+        type = BodyTypes.text;
+      }
+      if(rawBody != null && rawBody.isEmpty){
+        type = BodyTypes.empty;
+      }
+    }
     rawBody ??=  Uint8List(0);
-    return Request(headers, method, requestedUri, uri, Body(rawBody, charSize));
+    return Request(headers, method, requestedUri, uri, Body(rawBody,type, charSize));
   }
   HttpHeaders headers;
   String method;

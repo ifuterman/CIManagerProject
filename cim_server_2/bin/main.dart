@@ -12,7 +12,7 @@ void main(List<String> args) async {
   print(userRole.toString());
   var config = ServerConfiguration;
   var server = Server<AppChannel>(config.host, config.port);
-  await server.start(timeout: Duration(seconds: 30));
+  await server.start(timeout: Duration(seconds: 120));
   /*var query = Query<TestTable>(connection)
     ..where((x) => x.id).equalTo(159);
   var r = await query.select();*/

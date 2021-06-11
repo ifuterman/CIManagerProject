@@ -13,7 +13,7 @@ class Body{
   final charSize;
   BodyTypes get type => _type;
   late Uint8List rawBody;
-  Body(this.rawBody,[this.charSize = 2]):_type = BodyTypes.raw;
+  Body(this.rawBody,[this._type = BodyTypes.raw, this.charSize = 2]);
   Body.empty():_type = BodyTypes.empty, charSize = 2{
     rawBody = Uint8List(0);
   }

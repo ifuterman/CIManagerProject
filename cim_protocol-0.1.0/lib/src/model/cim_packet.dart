@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 
 import 'package:cim_protocol/src/mappers/cim_json_mapper.dart';
@@ -42,6 +43,13 @@ class CIMPacket {
     return packet;
   }
 
+  static CIMPacket? fromJson(String json){
+    try {
+      var map = JsonDecoder().convert(json);
+      return makePacketFromMap(map);
+    }catch(e){return null;}
+  }
+
   List<dynamic>? getInstances() {
     var list = _map[CIMJsonMapper.instancesKey];
     if(list == null) {
@@ -57,5 +65,7 @@ class CIMPacket {
     return res;
   }
   String getVersion() => _mapper.getVersion();
-
+  String toJson(){
+    return JsonEncoder().convert(_map);
+  }
 }

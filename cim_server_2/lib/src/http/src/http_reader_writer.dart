@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 
 import 'http_processor.dart';
 import 'response.dart';
@@ -73,7 +74,7 @@ class HttpReaderWriter{
   }*/
 
   static Future requestHandler(HttpRequest httpRequest) async{
-    print('[HttpRequest received: ${httpRequest.uri}]');
+    print('[HttpRequest received: ${httpRequest.uri}], contentLength = ${httpRequest.contentLength}');
     var timer = Timer(requestTimeout, ()=>httpRequestTimeout(httpRequest));
     var entry = MapEntry(httpRequest, timer);
 //    requestQueue.add(httpRequest);
@@ -203,43 +204,39 @@ class HttpReaderWriter{
     await sendResponse(httpRequest.response, response);
   }
   static Future sendResponse(HttpResponse httpResponse, Response response)async{
-    var headers = response.headers;
-    var keys = headers.keys;
-    for(var key in keys){
-      var value = headers[key];
-      if(value == null){
-        continue;
+    try{
+      var headers = response.headers;
+      var keys = headers.keys;
+      for(var key in keys){
+        var value = headers[key];
+        if(value == null){
+          continue;
+        }
+        httpResponse.headers.set(key, value);
       }
-      httpResponse.headers.set(key, value);
-    }
-    httpResponse.statusCode = response.status;
-    var body = response.body;
-
-    switch(response.body.type){
-      case BodyTypes.text:
-        httpResponse.headers.contentType = ContentType.text;
-        var str = body.asString();
-        httpResponse.contentLength = str.length;
-        httpResponse.write(str);
-        break;
-      case BodyTypes.json:
-        httpResponse.headers.contentType = ContentType.json;
-        var str = body.asString();
-        httpResponse.contentLength = str.codeUnits.length;
-        httpResponse.write(str);
-
-        break;
-      case BodyTypes.raw:
-        httpResponse.headers.contentType = ContentType.binary;
-        httpResponse.contentLength = body.rawBody.lengthInBytes + 2;
-        httpResponse.write(body.rawBody);
-        break;
-      case BodyTypes.empty:
-        httpResponse.headers.contentType = ContentType.text;
-        break;
-    }
-    print('httpResponse = ${httpResponse.statusCode} /\n${httpResponse.toString()} / '
-        '\n${httpResponse}');
-    await httpResponse.close();
+      httpResponse.statusCode = response.status;
+      var body = response.body;
+      switch(response.body.type){
+        case BodyTypes.text:
+          httpResponse.headers.contentType = ContentType.text;
+          var str = body.asString();
+          httpResponse.write(str);
+          break;
+        case BodyTypes.json:
+          httpResponse.headers.contentType = ContentType.json;
+          var str = body.asString();
+          httpResponse.write(str);
+          break;
+        case BodyTypes.raw:
+          httpResponse.headers.contentType = ContentType.binary;
+          httpResponse.write(body.rawBody);
+          break;
+        case BodyTypes.empty:
+          httpResponse.headers.contentType = ContentType.text;
+          break;
+      }
+      print('Response sent. StatusCode = ${httpResponse.statusCode}');
+      await httpResponse.close();
+    }catch(e){print('Exception in sendResponse: $e');}
   }
 }

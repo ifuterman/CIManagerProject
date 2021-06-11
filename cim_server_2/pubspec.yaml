@@ -10,7 +10,7 @@ dependencies:
   postgres: ^2.3.2
   yaml: ^3.1.0
   args: ^2.0.0
-  shelf: ^1.1.0
+  shelf: ^1.1.4
   uuid: ^3.0.4
   intl: ^0.17.0
   http_server: ^1.0.0
