@@ -54,60 +54,62 @@ class DataProviderImpl extends GetConnect implements DataProvider {
 
   @override
   void onInit() {
-    // httpClient.baseUrl = "http://$_address:$_port";
-    httpClient.baseUrl = 'https://torexo-core.apddev.ru/api';
+    httpClient.baseUrl = "http://$_address:$_port";
+    // httpClient.baseUrl = 'https://torexo-core.apddev.ru/api';
   }
 
   @override
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate) async {
 
-    var url = Uri.parse('http://$_address:$_port/test');
+//     var url = Uri.parse('http://$_address:$_port/test');
+//
+//     final packet = CIMPacket.makePacket();
+//     packet?.addInstance(candidate);
+//     print('Response status.url.1: ${url}');
+//     // "instances": <Map<String, dynamic>>[
+//     // {
+//     // "instance": "CIMUser",
+//     // "login": "qq",
+//     // "password": "222",
+//     // "id": 0,
+//     // "role": "UserRoles.administrator"
+//     // }
+//     // ]
+//     final body = <String, dynamic>{
+//       "instance": "CIMUser",
+//       "login": "qq",
+//     };
+// /*    print('Response status.body.1: ${body}');
+//     print('Response status.body.rt.1: ${body.runtimeType}');*/
+//     /*var client = new HttpClient();
+//     client.postUrl(url)
+//         .then((HttpClientRequest request) {
+//           request.headers.contentType = ContentType.json;
+//           request.write(packet!.map);
+//       return request.close();
+//     })
+//         .then((HttpClientResponse response) async{
+//       print('Response status: ${response.statusCode}');
+//       var list = await response.first;
+//       print('Response body: $list');
+//     });*/
+//     try {
+//       var response = await http.post(
+//           url,
+//           body: jsonEncode(packet!.map),
+//       );
+//       // var response = await http.post(url, body: {"login": "frostyland@yandex.ru"});
+//       print('Response status.2: ${response.statusCode}');
+//       print('Response body.2 ${response.body}');
+//     } catch (e) {
+//       print('Response body.ERROR ${e}');
+//     }
+//
+//     return Return(
+//         result: CIMErrors.ok,
+//         description: 'OKOKOK');
 
-    final packet = CIMPacket.makePacket();
-    packet?.addInstance(candidate);
-    print('Response status.url.1: ${url}');
-    // "instances": <Map<String, dynamic>>[
-    // {
-    // "instance": "CIMUser",
-    // "login": "qq",
-    // "password": "222",
-    // "id": 0,
-    // "role": "UserRoles.administrator"
-    // }
-    // ]
-    final body = <String, dynamic>{
-      "instance": "CIMUser",
-      "login": "qq",
-    };
-/*    print('Response status.body.1: ${body}');
-    print('Response status.body.rt.1: ${body.runtimeType}');*/
-    /*var client = new HttpClient();
-    client.postUrl(url)
-        .then((HttpClientRequest request) {
-          request.headers.contentType = ContentType.json;
-          request.write(packet!.map);
-      return request.close();
-    })
-        .then((HttpClientResponse response) async{
-      print('Response status: ${response.statusCode}');
-      var list = await response.first;
-      print('Response body: $list');
-    });*/
-    try {
-      var response = await http.post(
-          url,
-          body: jsonEncode(packet!.map),
-      );
-      // var response = await http.post(url, body: {"login": "frostyland@yandex.ru"});
-      print('Response status.2: ${response.statusCode}');
-      print('Response body.2 ${response.body}');
-    } catch (e) {
-      print('Response body.ERROR ${e}');
-    }
 
-    return Return(
-        result: CIMErrors.ok,
-        description: 'OKOKOK');
 
     Response res;
     try {
