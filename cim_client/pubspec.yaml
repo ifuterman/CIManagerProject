@@ -32,6 +32,10 @@ dependencies:
   rxdart: ^0.26.0
   easy_localization: ^3.0.0
   singleton: ^0.0.2
+  freezed_annotation: ^0.14.2
+  fast_immutable_collections: ^5.0.1
+  expandable: ^4.1.4
+
 #  cim_model:
 #   path: ../cim_model/
   cim_protocol:
@@ -58,9 +62,11 @@ dependencies:
 
 dev_dependencies:
 #  flutter_launcher_name: "^0.0.1"
-
   flutter_test:
     sdk: flutter
+  freezed: ^0.14.2
+  build_runner: ^2.0.4
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
