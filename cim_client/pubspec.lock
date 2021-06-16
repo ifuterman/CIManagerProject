@@ -217,7 +217,7 @@ packages:
       name: expandable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.4"
+    version: "5.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -245,7 +245,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.1"
+    version: "6.1.2"
   filepicker_windows:
     dependency: "direct main"
     description:
@@ -510,7 +510,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.26.0"
+    version: "0.27.1"
   shared_preferences:
     dependency: transitive
     description:
@@ -660,8 +660,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "master.test"
-      resolved-ref: "0f1ba46ca6beb7b47f7253f41a8ecde9da9dbc1b"
+      ref: torexo
+      resolved-ref: "74174654ba3b544a4af3b079f6d082e607eb2cda"
       url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
     source: git
     version: "0.0.1"

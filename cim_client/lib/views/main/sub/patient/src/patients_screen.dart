@@ -1,22 +1,153 @@
+import 'package:cim_client/views/shared/extensions.dart';
 import 'package:cim_protocol/cim_protocol.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/utils.dart';
+import 'package:vfx_flutter_common/vfx_flutter_common.dart';
 
 import 'patients_screen_controller.dart';
 
-class PatientScreen extends GetView<PatientsScreenController> {
+class PatientScreenMain extends WithController<PatientsScreenController> {
+  PatientScreenMain() : super(() => PatientsScreenController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => AnimatedSwitcher(
+        transitionBuilder: (child, animation) {
+          debugPrint('$now: PatientScreenMain.build: animation = $animation');
+
+          var begin = Offset(1.0, 0.0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end);
+          var curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: curve,
+          );
+
+          return SlideTransition(
+            position: tween.animate(curvedAnimation),
+            child: child,
+          );
+        },
+        duration: const Duration(milliseconds: 500),
+        // reverseDuration: const Duration(milliseconds: 2),
+        child: c.subWidgetPlacer$(),
+      ),
+    );
+  }
+}
+
+class _TextEditor extends StatelessWidget {
+  const _TextEditor(this.controller, this.label, {Key? key}) : super(key: key);
+
+  final TextEditingController controller;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      key: ValueKey(label),
+      enabled: true,
+      controller: controller,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(10.0),
+        labelText: label,
+      ),
+    );
+  }
+}
+
+class AddNew extends GetViewSim<PatientsScreenController> {
+  const AddNew({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                _TextEditor(c.nameController, 'Фамилия'),
+                _TextEditor(c.nameController, 'Имя'),
+                _TextEditor(c.nameController, 'Отчество'),
+                TextFormField(
+                  key: const ValueKey('name'),
+                  enabled: true,
+                  controller: c.nameController,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    labelText: 'Имя:',
+                  ),
+                ),
+                TextFormField(
+                  key: const ValueKey('surname'),
+                  enabled: true,
+                  controller: c.nameController,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    labelText: 'Фамилия:',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: c.confirmAdding,
+          child: Text('Back'),
+        ),
+        20.h,
+      ],
+    );
+  }
+}
+
+// class AddNew2 extends GetViewSim<PatientsScreenController> {
+//   const AddNew2({Key? key}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       color: Colors.green[300],
+//       child: Center(
+//         child: ElevatedButton(
+//           onPressed: c.confirmAdding,
+//           child: Text('Back2'),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class PatientScreen extends GetViewSim<PatientsScreenController> {
   final scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    final c = controller;
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Obx(() => _buildPanelList(c.updateScreen.value)),
-      ),
+    return Column(
+      children: [
+        20.h,
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Obx(() => _buildPanelList(c.updateScreen.value)),
+            ),
+          ),
+        ),
+        20.h,
+        ElevatedButton(
+          onPressed: c.addNew,
+          child: Text('add'),
+        ),
+        20.h,
+      ],
     );
   }
 
@@ -24,15 +155,15 @@ class PatientScreen extends GetView<PatientsScreenController> {
     return ExpansionPanelList(
       children: getExpansionPanelList(),
       expansionCallback: (int index, bool isExpanded) {
-        controller.patientItems[index].isExpanded = !isExpanded;
-        controller.needUpdate();
+        c.patientItems[index].isExpanded = !isExpanded;
+        c.needUpdate();
       },
     );
   }
 
   List<ExpansionPanel> getExpansionPanelList() {
     List<ExpansionPanel> list = List.empty(growable: true);
-    for (PatientItem item in controller.patientItems)
+    for (PatientItem item in c.patientItems)
       list.add(PatientExpansionPanel.patient(item));
     return list;
   }
@@ -219,7 +350,7 @@ class PatientExpansionPanel implements ExpansionPanel {
 //             ),
 //             clipBehavior: Clip.antiAlias,
 //             elevation: 0,
-//             color: controller.expanded ? AppColors.grayEF : Colors.white,
+//             color: c.expanded ? AppColors.grayEF : Colors.white,
 //             child: ScrollOnExpand(
 //               scrollOnExpand: true,
 //               scrollOnCollapse: false,
