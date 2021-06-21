@@ -91,7 +91,7 @@ packages:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.0.6"
+    version: "8.1.0"
   characters:
     dependency: transitive
     description:
@@ -461,7 +461,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.0"
+    version: "1.11.1"
   platform:
     dependency: transitive
     description:
@@ -661,7 +661,7 @@ packages:
     description:
       path: "."
       ref: torexo
-      resolved-ref: "74174654ba3b544a4af3b079f6d082e607eb2cda"
+      resolved-ref: f639a9f00b5450cfd9740e46f21f95b657484d99
       url: "https://gitlab.com/frostyland/vfx_flutter_common.git"
     source: git
     version: "0.0.1"
@@ -685,7 +685,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.5"
+    version: "2.2.2"
   xdg_directories:
     dependency: transitive
     description:
