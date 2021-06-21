@@ -61,7 +61,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
   @override
   Future<Return<CIMErrors, CIMUser>> createFirstUser(CIMUser candidate) async {
 
-//     var url = Uri.parse('http://$_address:$_port/test');
+//     var url = Uri.parse('http://$_address:$_port/user/first');
 //
 //     final packet = CIMPacket.makePacket();
 //     packet?.addInstance(candidate);
@@ -123,10 +123,11 @@ class DataProviderImpl extends GetConnect implements DataProvider {
       final String authKey = 'Authorization';
       // final authorisation = {authKey: tokenStr};
       // debugPrint('$now: DataProviderImpl.createFirstUser: authorisation = $authorisation');
-      debugPrint('$now: DataProviderImpl.createFirstUser.000: ${packet?.map}');
+      final str = jsonEncode(packet?.map);
+      debugPrint('$now: DataProviderImpl.createFirstUser.STR: ${str}');
       res = await post(
         CIMRestApi.prepareFirstUser(),
-        packet?.map,
+        str,
       );
 
       debugPrint(
@@ -331,7 +332,7 @@ class DataProviderImpl extends GetConnect implements DataProvider {
     // var url = Uri.parse('https://torexo-core.apddev.ru/api/code');
     var url = Uri.parse('http://$_address:$_port/debug/clean_db');
     print('Response status.1: ${url}');
-    var response = await http.post(url, body: {'body': 'shmody'});
+    var response = await http.post(url, body: {});
     // var response = await http.post(url, body: {"login": "frostyland@yandex.ru"});
     print('Response status.1: ${response.statusCode}');
     print('Response body.1: ${response.body}');

@@ -55,7 +55,8 @@ class GlobalViewService extends GetxService {
     debugPrint('$now: GlobalViewService.onReady');
     delayMilli(2000).then((_) {
       // _startTemp();
-      _start();
+      // _start();
+      _startStub();
     });
   }
 
@@ -66,6 +67,10 @@ class GlobalViewService extends GetxService {
           //
           // }
           ));
+  }
+
+  void _startStub() {
+    _toMainForm();
   }
 
   Future _start() async {
