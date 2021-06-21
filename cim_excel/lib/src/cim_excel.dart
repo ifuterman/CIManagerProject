@@ -4,20 +4,20 @@ part of cim_excel;
 abstract class CIMExcelInterface {
   String get path;
 
-  Return<String, ExcelPage> get result;
+  // Return<String, ExcelPage> get result;
 
-  Return<String, ExcelPage> open(String path);
+  Future<Return<String, ExcelPage>> open(String path);
 
-  Return<String, List<ExcelRow>> touchRow({
-    int index,
-    int startColumn,
-    int endColumn,
+  Future<Return<String, List<ExcelRow>>> touchRow({
+    required int index,
+    required int startColumn,
+    required int endColumn,
   });
 
-  Return<String, ExcelDataChunk> retrieveRows({
-    int startRow,
-    int endRow,
-    int startColumn,
-    int endColumn,
+  Future<Return<String, ExcelDataChunk>> retrieveRows({
+    required int startRow,
+    required int endRow,
+    required int startColumn,
+    required int endColumn,
   });
 }

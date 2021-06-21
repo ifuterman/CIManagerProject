@@ -3,13 +3,15 @@ part of cim_excel;
 ///
 class ExcelPage extends Equatable {
   ExcelPage({
-    this.path,
-    this.title,
+    required this.path,
+    required this.title,
     this.startRowIndex = 0,
     this.startColumnIndex = 0,
-    this.width = 10,
-    this.height = 10 + 1,
-  }) : captions = ExcelRow(length: width, index: startRowIndex);
+    this.columnCount = 10,
+    this.rowCount = 11,
+  }) : captions = ExcelRow(length: columnCount, index: startRowIndex);
+
+  static final empty = ExcelPage(path: '', title: '', columnCount: 0, rowCount: 0);
 
   /// File path
   final String path;
@@ -24,10 +26,10 @@ class ExcelPage extends Equatable {
   final int startColumnIndex;
 
   /// Sample width (in columns)
-  final int width;
+  final int columnCount;
 
   /// Sample height (in rows)
-  final int height;
+  final int rowCount;
 
   /// Captions (first row in sample)
   final ExcelRow captions;
@@ -35,22 +37,24 @@ class ExcelPage extends Equatable {
   /// Other rows in sample
   final data = <ExcelRow>[];
 
+  final whole = <ExcelRow>[];
+
   @override
   List<Object> get props => [
         path,
         title,
-        startRowIndex,
-        startColumnIndex,
-        width,
-        height,
-        captions,
-        data
+        'start_row: $startRowIndex',
+        'start_col: $startColumnIndex',
+        'width: $columnCount',
+        'height: $rowCount',
+        'captions: $captions',
+        'data: $data'
       ];
 }
 
 ///
 class ExcelRow extends Equatable {
-  ExcelRow({this.length, this.index});
+  ExcelRow({required this.length, required this.index});
 
   /// row index in Excel
   final int index;
@@ -60,7 +64,7 @@ class ExcelRow extends Equatable {
   final data = <int, dynamic>{};
 
   @override
-  List<Object> get props => [length, data];
+  List<Object> get props => ['length: $length', 'index: $index', 'data: $data'];
 }
 
 ///
@@ -69,5 +73,5 @@ class ExcelDataChunk extends Equatable {
   final invalid = <ExcelRow>[];
 
   @override
-  List<Object> get props => [valid, invalid];
+  List<Object> get props => ['valid: $valid', 'invalid: $invalid'];
 }

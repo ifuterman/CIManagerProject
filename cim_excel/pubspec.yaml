@@ -7,15 +7,20 @@ homepage: 'homepage'
 publish_to: none
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
   equatable: ^2.0.0
-  cim_shared:
-    path: "../cim_shared"
+  rxdart: ^0.26.0
+  vfx_flutter_common:
+    git:
+      url: https://gitlab.com/frostyland/vfx_flutter_common.git
+      ref: "master.test"
+#  cim_shared:
+#    path: "../cim_shared"
 
 dev_dependencies:
   flutter_test:
