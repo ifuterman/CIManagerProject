@@ -22,7 +22,8 @@ class Body{
       return Body._(BodyTypes.empty);
     }
     try{
-      var bytes = await request.first;
+//      var bytes = await request.first;
+      var bytes = await request.last;
       if(bytes.isEmpty){
         return Body._(BodyTypes.empty);
       }
