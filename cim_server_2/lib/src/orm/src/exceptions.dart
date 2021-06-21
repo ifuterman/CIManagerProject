@@ -1,0 +1,1 @@
+class WrongMetadataStructure extends Error{}

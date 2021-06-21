@@ -29,7 +29,7 @@ class PreferenceService extends GetxService {
 
   void setDarkMode(bool value) {
     _cache?.storage?.write(isDarkModeKey, value);
-    isDarkMode$(_cache?.storage?.read(isDarkModeKey) as bool ?? false);
+    isDarkMode$(_cache?.storage?.read(isDarkModeKey) as bool? ?? false);
     print('$now: PreferenceService.setDarkMode: ${isDarkMode$.value}');
   }
 
