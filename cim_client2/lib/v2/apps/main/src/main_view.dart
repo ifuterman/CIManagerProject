@@ -6,6 +6,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:vfx_flutter_common/getx_helpers.dart';
 
 import 'main_view_controller.dart';
+import 'menu.dart';
 
 class MainView extends GetViewSim<MainViewController> {
   static const pageTitle = '/Main';
@@ -18,22 +19,27 @@ class MainView extends GetViewSim<MainViewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: AppColors.mainBG,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'MAIN',
-                style: AppStyles.text70.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+              color: Colors.black,
+              child: MainMenu(),
+            ),
           ),
-        ),
+          Expanded(
+            flex: 4,
+            child: MainPanel(),
+          ),
+        ],
       ),
     );
   }
+}
+
+class MainPanel extends GetViewSim<MainViewController> {
+  @override
+  Widget build(context) => Obx(() => c.panelPlacer$());
 }
