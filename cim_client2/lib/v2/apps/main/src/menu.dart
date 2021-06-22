@@ -44,7 +44,7 @@ class MainMenu extends GetViewSim<MainViewController> {
           ListTileItem(
             selected: selected == MenuItem.messages,
             title: 'Clear User',
-            onTap: () => Get.snackbar('OK', 'CHPOK'),
+            onTap: () {},
           ),
       ],
     );

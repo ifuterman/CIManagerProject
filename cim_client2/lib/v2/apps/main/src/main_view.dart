@@ -41,5 +41,5 @@ class MainView extends GetViewSim<MainViewController> {
 
 class MainPanel extends GetViewSim<MainViewController> {
   @override
-  Widget build(context) => Obx(() => c.panelPlacer$());
+  Widget build(context) => Obx(() => c.subWidgetPlacer$());
 }

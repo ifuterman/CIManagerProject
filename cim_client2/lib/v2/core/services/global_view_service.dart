@@ -12,7 +12,7 @@ class GlobalViewService extends GetxServiceProxy{
   @override
   void onReady() {
     super.onReady();
-    delayMilli(2000).then((_) {
+    delayMilli(1000).then((_) {
       debugPrint('$now: GlobalViewService.onReady');
       Get.offAllNamed(RouteNames.main);
     });
