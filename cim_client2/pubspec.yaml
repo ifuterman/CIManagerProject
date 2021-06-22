@@ -25,11 +25,11 @@ dependencies:
     sdk: flutter
   intl: any
   easy_localization: ^3.0.0
-  equatable: ^2.0.0
+  equatable: ^2.0.3
   # 4.1.2 fails with Chrome
   get: ^4.1.4
   get_storage: ^2.0.2
-  rxdart: ^0.26.0
+  rxdart: ^0.27.1
   excel: ^2.0.0-null-safety
   cim_protocol:
     path: ../cim_protocol-0.1.0/
@@ -43,7 +43,7 @@ dependencies:
   vfx_flutter_common:
     git:
       url: https://gitlab.com/frostyland/vfx_flutter_common.git
-      ref: "master.test"
+      ref: "torexo"
 
 
   # The following adds the Cupertino Icons font to your application.

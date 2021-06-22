@@ -1,14 +1,11 @@
 import 'package:cim_client2/core/styles/colors.dart';
-import 'package:cim_client2/data/provider/data_provider.dart';
+import 'package:cim_client2/v2/core/services/global_view_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
-import 'core/routes.dart';
-import 'core/services/connection_service.dart';
-import 'core/services/global_service.dart';
-import 'data/provider/cache_provider.dart';
+import 'v2/routing/routing.dart';
 
 Future main() async {
   EquatableConfig.stringify = true;
@@ -44,7 +41,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       navigatorKey: Get.key,
-      initialRoute: GlobalService.initialRoute,
+      initialRoute: GlobalViewService.initialRoute,
       getPages: routes,
     );
   }
@@ -52,11 +49,11 @@ class MyApp extends StatelessWidget {
 
 
 Future initServices() async {
-  Get.lazyPut(() => GlobalService());
-  Get.lazyPut<DataProvider>(() => DataProviderImpl());
-  Get.lazyPut<CacheProvider>(() => CacheProviderImpl());
-  Get.lazyPut(() => ConnectionService());
-
-  // immediately
-  Get.find<GlobalService>();
+  Get.put(GlobalViewService());
+  // Get.lazyPut<DataProvider>(() => DataProviderImpl());
+  // Get.lazyPut<CacheProvider>(() => CacheProviderImpl());
+  // Get.lazyPut(() => ConnectionService());
+  //
+  // // immediately
+  // Get.find<GlobalService>();
 }
