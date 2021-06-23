@@ -7,6 +7,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:vfx_flutter_common/utils.dart';
 import 'package:window_size/window_size.dart';
 
+import 'data_stub.dart';
+
 class DataService extends GetxServiceProxy{
 
   @override
@@ -15,6 +17,7 @@ class DataService extends GetxServiceProxy{
   }
 
   Future<Boolean<List<CIMPatient>>> fetchPatients() async {
-    return False(description: 'NRY');
+    await delayMilli(1000);
+    return True(data: patientItemsStub);
   }
 }

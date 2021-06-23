@@ -26,7 +26,6 @@ class PatientsViewController extends AppPageController
 
   Stream<ModelState<PatientItems>> fetchData() async* {
     yield Loading();
-    await delayMilli(1000);
     final res = await _dataService.fetchPatients();
     if(!res.isTrue) {
       yield ErrorDetails(res.description);
