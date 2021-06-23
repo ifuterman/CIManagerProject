@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
+import 'v2/core/services/data_service.dart';
 import 'v2/routing/routing.dart';
 
 Future main() async {
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
 
 Future initServices() async {
   Get.put(GlobalViewService());
-  // Get.lazyPut<DataProvider>(() => DataProviderImpl());
+
+  Get.lazyPut<DataService>(() => DataService());
   // Get.lazyPut<CacheProvider>(() => CacheProviderImpl());
   // Get.lazyPut(() => ConnectionService());
   //

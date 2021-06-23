@@ -6,10 +6,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:vfx_flutter_common/utils.dart';
 import 'package:window_size/window_size.dart';
 
+import 'data_service.dart';
+
 class GlobalViewService extends GetxServiceProxy{
   static const initialRoute = RouteNames.splash;
-  final title$ = ''.obs;
 
+  final title$ = ''.obs;
 
   @override
   void onReady() {
