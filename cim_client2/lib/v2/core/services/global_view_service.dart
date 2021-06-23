@@ -1,8 +1,10 @@
 import 'package:cim_client2/v2/routing/routing.dart';
 import 'package:flutter/foundation.dart';
 import 'package:vfx_flutter_common/getx_helpers.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Trans;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:vfx_flutter_common/utils.dart';
+import 'package:window_size/window_size.dart';
 
 class GlobalViewService extends GetxServiceProxy{
   static const initialRoute = RouteNames.splash;
@@ -12,6 +14,13 @@ class GlobalViewService extends GetxServiceProxy{
   @override
   void onReady() {
     super.onReady();
+    delayMilli(1000).then((_) {
+      title$('title'.tr());
+      if(!GetPlatform.isWeb && !GetPlatform.isMobile){
+        // this way (with delaying) one can change title on Desktops
+        setWindowTitle('title'.tr());
+      }
+    });
     delayMilli(1000).then((_) {
       debugPrint('$now: GlobalViewService.onReady');
       Get.offAllNamed(RouteNames.main);
