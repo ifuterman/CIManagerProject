@@ -4,6 +4,7 @@ import 'package:cim_client2/v2/data/cache_provider.dart';
 import 'package:cim_client2/v2/routing/routing.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:rxdart/rxdart.dart';
 import 'package:vfx_flutter_common/getx_helpers.dart';
@@ -17,34 +18,55 @@ enum ConnectionStates { checking, connected, disconnected, unknown }
 
 class ConnectViewController extends GetxControllerProxy
     with SmartNavigationMixin<ConnectViewController> {
-
   CIMConnection? connection;
 
-  // CIMService service = Get.find();
   String? address;
   int? port;
-  final updateScreenTrigger = false.obs;
+  final updateScreenTrigger$ = false.obs;
 
   final _subs = CompositeSubscription();
 
   @override
   get defaultGetPageBuilder => () => ConnectView();
 
-  void updateScreen() => updateScreenTrigger.value = !updateScreenTrigger.value;
+  void updateScreen() => updateScreenTrigger$.value = !updateScreenTrigger$.value;
 
   final connectionState$ = ConnectionStates.disconnected.obs;
 
   void applyConnection() {
-    if(Get.arguments != null){
+    if (Get.arguments != null) {
       Get.back();
-    }else{
+    } else {
       Get.offAllNamed(RouteNames.main);
     }
   }
 
-  void cancelConnection() {
-    // close(args: NavArgs.simple(false));
-    onCheckConnection();
+  void workOffline() {
+    Get.offAllNamed(RouteNames.main);
+  }
+
+  void quitConnection() {
+    Get.dialog(
+        Material(
+          elevation: 8,
+          shadowColor: Colors.black12,
+          type: MaterialType.transparency,
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: 24, horizontal: 48),
+              color: Colors.green[500],
+              child: Text('BYE!'),
+            ),
+          ),
+        ),
+        barrierDismissible: false,
+        // barrierColor: Colors.red,
+        name: 'BUUU');
+    delayMilli(2000).then((_) {
+      // SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      Get.back();
+    });
   }
 
   void init() {
@@ -108,7 +130,6 @@ class ConnectViewController extends GetxControllerProxy
       }
     });
   }
-
 }
 
 const Map<CIMErrors, String> mapError = {

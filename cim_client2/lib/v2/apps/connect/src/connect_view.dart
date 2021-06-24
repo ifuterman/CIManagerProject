@@ -5,6 +5,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:vfx_flutter_common/getx_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:vfx_flutter_common/utils.dart';
+import 'package:cim_client2/v2/core/extensions.dart';
 
 import 'connect_view_controller.dart';
 
@@ -70,7 +71,7 @@ class ConnectView extends GetViewSim<ConnectViewController> {
               Container(
                 width: 200,
                 child: Obx((){
-                  debugPrint('$now: ConnectionView.getUpdatedView: ${c.updateScreenTrigger}');
+                  debugPrint('$now: ConnectionView.getUpdatedView: ${c.updateScreenTrigger$}');
                   return TextField(
                     controller: _controllerAddress,
                     textAlignVertical: TextAlignVertical.top,
@@ -92,7 +93,7 @@ class ConnectView extends GetViewSim<ConnectViewController> {
               Container(
                 width: 200,
                 child: Obx((){
-                  debugPrint('$now: ConnectionView.getUpdatedView: ${c.updateScreenTrigger}');
+                  debugPrint('$now: ConnectionView.getUpdatedView: ${c.updateScreenTrigger$}');
                   return TextField(
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp("[0-9]"))
@@ -128,24 +129,26 @@ class ConnectView extends GetViewSim<ConnectViewController> {
             ],
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Obx(()=>ElevatedButton(
-                child: Text("ok".tr()),
-                onPressed: c.connectionState$.value
-                    == ConnectionStates.checking  || c.connectionState$.value
-                    == ConnectionStates.disconnected
-                    ? null
-                    : c.applyConnection,
-              )),
-            ),
+            Obx(()=>ElevatedButton(
+              child: Text("ok".tr()),
+              onPressed: c.connectionState$.value
+                  == ConnectionStates.checking  || c.connectionState$.value
+                  == ConnectionStates.disconnected
+                  ? null
+                  : c.applyConnection,
+            )),
             Obx(()=>ElevatedButton(
               child: Text("cancel".tr()),
               onPressed: c.connectionState$.value
                   == ConnectionStates.checking
                   ? null
-                  : c.cancelConnection,
+                  : c.quitConnection,
             )),
+            20.w,
+            ElevatedButton(
+              child: Text("offline".tr()),
+              onPressed: c.workOffline,
+            ),
           ]),
         ],
       ),
@@ -161,7 +164,7 @@ class ConnectView extends GetViewSim<ConnectViewController> {
         body: Container(
           // width: 500,
           child: Obx(
-                  () => getUpdatedView(context, c.updateScreenTrigger.value)),
+                  () => getUpdatedView(context, c.updateScreenTrigger$())),
         ),
       ),
     );
