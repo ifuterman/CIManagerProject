@@ -19,7 +19,9 @@ class MainMenu extends GetViewSim<MainViewController> {
         ListTileItem(
           selected: selected == MenuItem.patients,
           title: 'patient_list'.tr(),
-          onTap: () => c.openSub(MenuItem.patients),
+          onTap: () => c.openSub(MenuItem.patients, args: {
+            'permanent': true,
+          }),
         ),
         ListTileItem(
           selected: selected == MenuItem.schedule,

@@ -9,8 +9,12 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'patients_view_controller.dart';
 
-class PatientsView extends GetViewSim<PatientsViewController> {
+class PatientViewMain extends GetViewSim<PatientsViewController> {
+  @override
+  Widget build(BuildContext context) => Obx(() => c.subWidgetPlacer$());
+}
 
+class PatientsView extends GetViewSim<PatientsViewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,10 +46,12 @@ class PatientsView extends GetViewSim<PatientsViewController> {
         children: _getExpansionPanelList(value),
         expansionCallback: (index, isExpanded) {
           value[index].isExpanded = !isExpanded;
+          c.patientItems$.refresh();
         },
       ),
       initial: () => Container(child: Text('initial')),
-      loading: () => Container(child: CircularProgressIndicator()),
+      loading: () =>
+          Center(child: Container(child: CircularProgressIndicator())),
       error: ([message]) => Container(child: Text(message ?? 'error')),
     );
   }
@@ -55,7 +61,7 @@ class PatientsView extends GetViewSim<PatientsViewController> {
     for (PatientItem item in items)
       list.add(PatientExpansionPanel.patient(item));
     return list;
-  }  
+  }
 }
 
 class PatientExpansionPanel implements ExpansionPanel {
@@ -68,47 +74,47 @@ class PatientExpansionPanel implements ExpansionPanel {
 
   @override
   Widget get body => Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Text('${item.patient.status}'),
-            margin: EdgeInsets.only(right: 2.0),
-          ),
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: Text('${item.patient.status}'),
+                margin: EdgeInsets.only(right: 2.0),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: Text(item.patient.snils ?? 'snils??'),
+                margin: EdgeInsets.only(right: 2.0),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: Text(item.patient.phones ?? 'phones??'),
+                margin: EdgeInsets.only(right: 2.0),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: Text(item.patient.email ?? 'email??'),
+                margin: EdgeInsets.only(right: 2.0),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                child: Text(''),
+                margin: EdgeInsets.only(right: 2.0),
+              ),
+            ),
+          ],
         ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Text(item.patient.snils ?? 'snils??'),
-            margin: EdgeInsets.only(right: 2.0),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Text(item.patient.phones ?? 'phones??'),
-            margin: EdgeInsets.only(right: 2.0),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Text(item.patient.email ?? 'email??'),
-            margin: EdgeInsets.only(right: 2.0),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            child: Text(''),
-            margin: EdgeInsets.only(right: 2.0),
-          ),
-        ),
-      ],
-    ),
-  );
+      );
 
   @override
   // TODO: implement canTapOnHeader
@@ -221,7 +227,6 @@ class PatientExpansionPanel implements ExpansionPanel {
   bool get isExpanded => item.isExpanded;
 }
 
-
 class _TestWidget extends StatefulWidget {
   const _TestWidget({Key? key}) : super(key: key);
 
@@ -230,7 +235,6 @@ class _TestWidget extends StatefulWidget {
 }
 
 class __TestWidgetState extends State<_TestWidget> {
-
   @override
   void initState() {
     super.initState();
@@ -246,5 +250,54 @@ class __TestWidgetState extends State<_TestWidget> {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+}
+
+class AddNew extends GetViewSim<PatientsViewController> {
+  const AddNew({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                _TextEditor(c.surnameController, 'Фамилия'),
+                _TextEditor(c.nameController, 'Имя'),
+                _TextEditor(c.middleController, 'Отчество'),
+              ],
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: c.confirmAdding,
+          child: Text('Back'),
+        ),
+        20.h,
+      ],
+    );
+  }
+}
+
+class _TextEditor extends StatelessWidget {
+  const _TextEditor(this.controller, this.label, {Key? key}) : super(key: key);
+
+  final TextEditingController controller;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      key: ValueKey(label),
+      enabled: true,
+      controller: controller,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(10.0),
+        labelText: label,
+      ),
+    );
   }
 }

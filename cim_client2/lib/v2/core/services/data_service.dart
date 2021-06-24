@@ -20,4 +20,23 @@ class DataService extends GetxServiceProxy{
     await delayMilli(1000);
     return True(data: patientItemsStub);
   }
+
+  /// Пример добавления пациента.
+  /// Пока перехватывает только имя и фамилию,
+  /// чтобы не строгать много на редакторе
+  Future<Boolean<List<CIMPatient>>> addPatient(CIMPatient patient) async {
+    final p = CIMPatient(
+        patientItemsStub.length, patient.lastName, patient.name, Sex.male,
+        status: Participation.free,
+        snils: '222-333-444',
+        phones: '+7(900)333-222-11',
+        email: 'me@ya.ru',
+        birthDate: DateTime(1965),
+        middleName: 'Петрович'
+    );
+    patientItemsStub.add(p);
+    return True(data: patientItemsStub);
+  }
+
+
 }

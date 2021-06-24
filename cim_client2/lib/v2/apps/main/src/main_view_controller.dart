@@ -1,3 +1,4 @@
+import 'package:cim_client2/v2/core/utils.dart';
 import 'package:cim_client2/v2/shared/app_page_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -44,19 +45,19 @@ class MainViewController extends GetxControllerProxy
     switch (item) {
       case MenuItem.patients:
         _lastSmartNavigation =
-            await _put<PatientsViewController>(() => PatientsViewController());
+            await _put<PatientsViewController>(() => PatientsViewController(), args: args);
         break;
       case MenuItem.schedule:
         _lastSmartNavigation =
-        await _put<SheduleViewController>(() => SheduleViewController());
+        await _put<SheduleViewController>(() => SheduleViewController(), args: args);
         break;
       case MenuItem.protocol:
         _lastSmartNavigation =
-        await _put<ProtocolViewController>(() => ProtocolViewController());
+        await _put<ProtocolViewController>(() => ProtocolViewController(), args: args);
         break;
       case MenuItem.profile:
         _lastSmartNavigation =
-        await _put(() => ProfileViewController());
+        await _put(() => ProfileViewController(), args: args);
         break;
       case MenuItem.messages:
         break;
@@ -81,6 +82,8 @@ class MainViewController extends GetxControllerProxy
   }
 
   Future<T> _put<T extends SmartNavigationMixin>(T Function() factory, {args}) async {
+    debugPrint('$now: MainViewController._put: $args');
+
     return SmartNavigation.put<T>(
       factory()
         ..subWidgetNavigate(
@@ -88,6 +91,8 @@ class MainViewController extends GetxControllerProxy
           onClose: _subClose,
           args: args,
         ),
+      tag: fromArgs(args, 'tag'),
+      permanent: fromArgs(args, 'permanent', defValue: false)!,
     );
   }
 
