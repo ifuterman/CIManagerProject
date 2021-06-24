@@ -14,6 +14,7 @@ class PatientViewMain extends GetViewSim<PatientsViewController> {
   Widget build(BuildContext context) => Obx(() => c.subWidgetPlacer$());
 }
 
+/// Все пациенты
 class PatientsView extends GetViewSim<PatientsViewController> {
   @override
   Widget build(BuildContext context) {
@@ -227,32 +228,7 @@ class PatientExpansionPanel implements ExpansionPanel {
   bool get isExpanded => item.isExpanded;
 }
 
-class _TestWidget extends StatefulWidget {
-  const _TestWidget({Key? key}) : super(key: key);
-
-  @override
-  __TestWidgetState createState() => __TestWidgetState();
-}
-
-class __TestWidgetState extends State<_TestWidget> {
-  @override
-  void initState() {
-    super.initState();
-    debugPrint('$now: __TestWidgetState.initState');
-  }
-
-  @override
-  void dispose() {
-    debugPrint('$now: __TestWidgetState.dispose');
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
+/// Добавление
 class AddNew extends GetViewSim<PatientsViewController> {
   const AddNew({Key? key}) : super(key: key);
 
