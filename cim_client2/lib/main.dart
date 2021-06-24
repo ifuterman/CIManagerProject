@@ -1,10 +1,13 @@
 import 'package:cim_client2/core/styles/colors.dart';
 import 'package:cim_client2/v2/core/services/global_view_service.dart';
+import 'package:cim_client2/v2/data/cache_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 
+import 'data/provider/data_provider.dart';
+import 'v2/core/services/cim_service.dart';
 import 'v2/core/services/data_service.dart';
 import 'v2/routing/routing.dart';
 
@@ -53,6 +56,10 @@ Future initServices() async {
   Get.put(GlobalViewService());
 
   Get.lazyPut<DataService>(() => DataService());
+  final cache = await Get.putAsync<CacheProviderService>(() => CacheProviderService().init());
+  Get.put<DataProvider>(DataProviderImpl());
+  await Get.putAsync(() => CIMService().init());
+
   // Get.lazyPut<CacheProvider>(() => CacheProviderImpl());
   // Get.lazyPut(() => ConnectionService());
   //
