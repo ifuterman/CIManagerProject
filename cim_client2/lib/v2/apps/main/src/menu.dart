@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
 import 'package:vfx_flutter_common/getx_helpers.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:cim_client2/v2/core/extensions.dart';
 
 import 'main_view_controller.dart';
 
@@ -33,15 +34,19 @@ class MainMenu extends GetViewSim<MainViewController> {
           title: 'protocols'.tr(),
           onTap: () => c.openSub(MenuItem.protocol),
         ),
-        SizedBox(height: 100),
+        100.h,
         ListTileItem(
           selected: selected == MenuItem.profile,
           title: 'profile'.tr(),
           onTap: () => c.openSub(MenuItem.profile),
         ),
-        Container(
-          height: 100,
+        50.h,
+        ListTileItem(
+          selected: selected == MenuItem.cleanDb,
+          title: 'clean_db'.tr(),
+          onTap: () => c.openSub(MenuItem.cleanDb),
         ),
+        100.h,
         if (kDebugMode)
           ListTileItem(
             selected: selected == MenuItem.messages,

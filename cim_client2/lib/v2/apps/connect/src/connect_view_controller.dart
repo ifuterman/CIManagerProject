@@ -1,9 +1,7 @@
 import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:cim_client2/data/cim_errors.dart';
-import 'package:cim_client2/v2/core/utils.dart';
 import 'package:cim_client2/v2/data/cache_provider.dart';
 import 'package:cim_client2/v2/routing/routing.dart';
-import 'package:cim_client2/v2/shared/app_page_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
@@ -36,19 +34,12 @@ class ConnectViewController extends GetxControllerProxy
 
   final connectionState$ = ConnectionStates.disconnected.obs;
 
-  // ConnectionStates get connectionState => _connectionState;
-  //
-  // set connectionState(ConnectionStates value) {
-  //   _connectionState = value;
-  //   updateScreen();
-  // }
-
   void applyConnection() {
-    close(args: NavArgs.simple(true));
-    Get.offAllNamed(RouteNames.main);
-    // Get.delete<CIMConnection>();
-    // Get.put(connection);
-    // service.currentView.value = CIMViews.authorisationView;
+    if(Get.arguments != null){
+      Get.back();
+    }else{
+      Get.offAllNamed(RouteNames.main);
+    }
   }
 
   void cancelConnection() {
@@ -66,6 +57,8 @@ class ConnectViewController extends GetxControllerProxy
   @override
   void onInit() {
     super.onInit();
+
+    debugPrint('$now: ConnectViewController.onInit: ${Get.arguments}');
     _subs.add(connectionState$.listen((v) {
       Get.find<CacheProviderService>().storage!.write('connect', v.index);
       updateScreen();

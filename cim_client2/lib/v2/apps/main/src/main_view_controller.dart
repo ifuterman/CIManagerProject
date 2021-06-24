@@ -1,4 +1,5 @@
 import 'package:cim_client2/v2/core/utils.dart';
+import 'package:cim_client2/v2/routing/routing.dart';
 import 'package:cim_client2/v2/shared/app_page_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ enum MenuItem {
   schedule,
   protocol,
   profile,
+  cleanDb,
   messages,
 }
 
@@ -59,10 +61,29 @@ class MainViewController extends GetxControllerProxy
         _lastSmartNavigation =
         await _put(() => ProfileViewController(), args: args);
         break;
+      case MenuItem.cleanDb:
+        _cleanDb();
+        break;
       case MenuItem.messages:
         break;
     }
     _processPagingShow();
+  }
+  
+  @override
+  void onInit() {
+    super.onInit();
+    debugPrint('$now: MainViewController.onInit');
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    openSub(MenuItem.schedule);
+  }
+
+  void _cleanDb() {
+    Get.offAllNamed(RouteNames.auth);
   }
 
   /// Управление вызовом колбека открытия страницы
@@ -100,19 +121,6 @@ class MainViewController extends GetxControllerProxy
     debugPrint('$now: MainViewController._subClose');
     _lastSmartNavigation = null;
     subWidgetPlacer$(Container());
-  }
-
-
-  @override
-  void onInit() {
-    super.onInit();
-    debugPrint('$now: MainViewController.onInit');
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    openSub(MenuItem.schedule);
   }
 
 }
