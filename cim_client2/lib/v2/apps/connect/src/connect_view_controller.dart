@@ -2,6 +2,7 @@ import 'package:cim_client2/core/getx_helpers.dart';
 import 'package:cim_client2/data/cim_errors.dart';
 import 'package:cim_client2/v2/data/cache_provider.dart';
 import 'package:cim_client2/v2/routing/routing.dart';
+import 'package:cim_client2/v2/shared/app_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +17,7 @@ import '../connect.dart';
 
 enum ConnectionStates { checking, connected, disconnected, unknown }
 
-class ConnectViewController extends GetxControllerProxy
-    with SmartNavigationMixin<ConnectViewController> {
+class ConnectViewController extends GetxControllerProxy{
   CIMConnection? connection;
 
   String? address;
@@ -119,10 +119,10 @@ class ConnectViewController extends GetxControllerProxy
       } else {
         connectionState$(ConnectionStates.disconnected);
         String message = mapError[value]!.tr();
-        Get.defaultDialog(
+        AppDialog.std(
+          message,
           title: "error".tr(),
-          middleText: message,
-          confirm: RaisedButton(
+          confirm: ElevatedButton(
             child: Text("ok".tr()),
             onPressed: () => Get.back(),
           ),
