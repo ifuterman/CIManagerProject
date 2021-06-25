@@ -1,3 +1,4 @@
+import 'package:cim_client2/core/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Trans;
@@ -21,7 +22,7 @@ class MainMenu extends GetViewSim<MainViewController> {
           selected: selected == MenuItem.patients,
           title: 'patient_list'.tr(),
           onTap: () => c.openSub(MenuItem.patients, args: {
-            'permanent': true,
+            MapKeys.controllerPermanent: true,
           }),
         ),
         ListTileItem(

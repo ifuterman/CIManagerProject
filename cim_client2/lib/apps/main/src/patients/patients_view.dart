@@ -9,11 +9,6 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'patients_view_controller.dart';
 
-class PatientViewMain extends GetViewSim<PatientsViewController> {
-  @override
-  Widget build(BuildContext context) => Obx(() => c.subWidgetPlacer$());
-}
-
 /// Все пациенты
 class PatientsView extends GetViewSim<PatientsViewController> {
   @override

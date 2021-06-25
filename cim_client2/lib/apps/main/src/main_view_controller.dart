@@ -22,23 +22,17 @@ enum MenuItem {
   messages,
 }
 
-
 class MainViewController extends GetxControllerProxy
-    with SmartNavigationMixin<MainViewController>
-
-{
-  MainViewController(){
-    subWidgetPlacer$.value = Container();
-  }
-
+    with SmartNavigationMixin<MainViewController> {
   final selectedItem$ = MenuItem.patients.obs;
 
   SmartNavigationMixin? _lastSmartNavigation;
 
-
   Future openSub(MenuItem item, {args}) async {
     selectedItem$(item);
-    debugPrint('$now: MainViewController.openSub');
+
+    // вызывает метод отслеживания закрытия [AppPageController.onPageHide]
+    // текущего суба
     _processPagingHide();
     _lastSmartNavigation?.close();
     _lastSmartNavigation = null;
@@ -46,20 +40,23 @@ class MainViewController extends GetxControllerProxy
     selectedItem$(item);
     switch (item) {
       case MenuItem.patients:
-        _lastSmartNavigation =
-            await _put<PatientsViewController>(() => PatientsViewController(), args: args);
+        _lastSmartNavigation = await _put<PatientsViewController>(
+            () => PatientsViewController(),
+            args: args);
         break;
       case MenuItem.schedule:
-        _lastSmartNavigation =
-        await _put<SheduleViewController>(() => SheduleViewController(), args: args);
+        _lastSmartNavigation = await _put<SheduleViewController>(
+            () => SheduleViewController(),
+            args: args);
         break;
       case MenuItem.protocol:
-        _lastSmartNavigation =
-        await _put<ProtocolViewController>(() => ProtocolViewController(), args: args);
+        _lastSmartNavigation = await _put<ProtocolViewController>(
+            () => ProtocolViewController(),
+            args: args);
         break;
       case MenuItem.profile:
         _lastSmartNavigation =
-        await _put(() => ProfileViewController(), args: args);
+            await _put(() => ProfileViewController(), args: args);
         break;
       case MenuItem.cleanDb:
         _cleanDb();
@@ -67,9 +64,12 @@ class MainViewController extends GetxControllerProxy
       case MenuItem.messages:
         break;
     }
+
+    // вызывает метод отслеживания открытия [AppPageController.onPageShow]
+    // нового суба
     _processPagingShow();
   }
-  
+
   @override
   void onInit() {
     super.onInit();
@@ -87,24 +87,32 @@ class MainViewController extends GetxControllerProxy
   }
 
   /// Управление вызовом колбека открытия страницы
-  void _processPagingShow(){
-    if(_lastSmartNavigation != null && _lastSmartNavigation is AppPageController){
+  void _processPagingShow() {
+    if (_lastSmartNavigation != null &&
+        _lastSmartNavigation is AppPageController) {
       final c = _lastSmartNavigation as AppPageController;
       c.onPageShow(c);
     }
   }
 
   /// Управление вызовом колбека закрытия страницы
-  void _processPagingHide(){
-    if(_lastSmartNavigation != null && _lastSmartNavigation is AppPageController){
+  void _processPagingHide() {
+    if (_lastSmartNavigation != null &&
+        _lastSmartNavigation is AppPageController) {
       final c = _lastSmartNavigation as AppPageController;
       c.onPageHide(c);
     }
   }
 
-  Future<T> _put<T extends SmartNavigationMixin>(T Function() factory, {args}) async {
-    debugPrint('$now: MainViewController._put: $args');
-
+  /// Хелпер для автоматический постройки субвью в рамках создания ее контроллера.
+  /// [factory] - метод-фабрика создания контроллера.
+  /// [args] набор аргументов, в которых предполагается (необязательное) наличие
+  /// ключей для тегирования и управления временем жизни контроллеров
+  Future<T> _put<T extends SmartNavigationMixin>(T Function() factory,
+      {args}) async {
+    /// Так строится контроллер субнавигации.
+    /// Миксин [SmartNavigationMixin] содержит свойство [subWidgetPlacer$]
+    /// которое следует передавать субам как точку размещения своих вьюх.
     return SmartNavigation.put<T>(
       factory()
         ..subWidgetNavigate(
@@ -112,15 +120,17 @@ class MainViewController extends GetxControllerProxy
           onClose: _subClose,
           args: args,
         ),
-      tag: fromArgs(args, 'tag'),
-      permanent: fromArgs(args, 'permanent', defValue: false)!,
+      tag: castToMapAndFind(args, MapKeys.controllerTag),
+      permanent:
+          castToMapAndFind(args, MapKeys.controllerPermanent, defValue: false)!,
     );
   }
 
+  /// При закрытии суба следует замещать [subWidgetPlacer$]
+  /// как минимум заглушкой.
   void _subClose<T>(T c, {dynamic args}) {
     debugPrint('$now: MainViewController._subClose');
     _lastSmartNavigation = null;
     subWidgetPlacer$(Container());
   }
-
 }

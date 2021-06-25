@@ -16,13 +16,13 @@ class GlobalViewService extends GetxServiceProxy{
   @override
   void onReady() {
     super.onReady();
-    // delayMilli(1000).then((_) {
-    //   title$('title'.tr());
-    //   if(!GetPlatform.isWeb && !GetPlatform.isMobile){
-    //     // this way (with delaying) one can change title on Desktops
-    //     setWindowTitle('title'.tr());
-    //   }
-    // });
+    delayMilli(1000).then((_) {
+      title$('title'.tr());
+      if(!GetPlatform.isWeb && !GetPlatform.isMobile){
+        // this way (with delaying) one can change title on Desktops
+        setWindowTitle('title'.tr());
+      }
+    });
     delayMilli(1000).then((_) {
       debugPrint('$now: GlobalViewService.onReady');
       // _toMain();
