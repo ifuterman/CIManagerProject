@@ -39,13 +39,13 @@ class MainView extends GetView<MainViewController> {
 
 class _ListTileItem extends GetView<MainViewController> {
   _ListTileItem({
-    this.item,
+    // this.item,
     required this.title,
     required this.selected,
     required this.onTap,
   });
 
-  final MainMenuItems? item;
+  // final MainMenuItems? item;
   final String title;
   final bool selected;
   final Function() onTap;

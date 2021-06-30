@@ -13,12 +13,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.0
-  rxdart: ^0.26.0
+  equatable: ^2.0.3
+  rxdart: ^0.27.1
   vfx_flutter_common:
     git:
       url: https://gitlab.com/frostyland/vfx_flutter_common.git
-      ref: "master.test"
+      ref: "torexo"
 #  cim_shared:
 #    path: "../cim_shared"
 
