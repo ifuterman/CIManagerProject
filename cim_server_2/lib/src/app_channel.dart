@@ -1,11 +1,10 @@
 
 import 'package:cim_protocol/cim_protocol.dart';
-import 'package:cim_server_2/src/controllers/controllers.dart';
-import 'package:cim_server_2/src/http/http.dart';
+import 'package:cim_server_2/controllers/controllers.dart';
+import 'package:cim_server_2/http/http.dart';
 
-import 'config/server_configuration.dart';
-import 'controllers/src/test_endpoint_controller.dart';
-import 'orm/orm.dart';
+import 'package:cim_server_2/config/server_configuration.dart';
+import 'package:cim_server_2/orm/orm.dart';
 
 
 class AppChannel extends ApplicationChannel{
@@ -20,7 +19,6 @@ class AppChannel extends ApplicationChannel{
   @override
   Router getEndpoint() {
     var router = Router();
-    router.route('test').link(() => TestEnpointController(dbConnection));
     router.route(CIMRestApi.prepareAuthToken())
         .link(() => GetAuthTokenController(dbConnection));
     router.route(CIMRestApi.prepareCheckConnection())

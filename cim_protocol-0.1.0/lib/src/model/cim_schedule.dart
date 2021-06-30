@@ -8,11 +8,10 @@ class CIMSchedule{
   CIMPatient patient;
   DateTime date;
   int duration;
-  String? note;
+  String note;
 
   CIMSchedule(
-      this.id, this.patient, this.date, {this.doctor, this.duration = 45, this.note}){
-  }
+      this.id, this.patient, this.date, {this.doctor, this.duration = 45, this.note = ''});
 
   @override
   bool operator ==(Object other) =>
